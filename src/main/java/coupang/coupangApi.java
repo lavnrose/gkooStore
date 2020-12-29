@@ -18,11 +18,7 @@ public class coupangApi {
     private static final String HOST = "api-gateway.coupang.com";
     private static final int PORT = 443;
     private static final String SCHEMA = "https";
-    //replace with your own accessKey
-    //private static final String ACCESS_KEY = "847a90a8-92b2-4f1e-925c-e8668af62b45";
     private static String ACCESS_KEY;
-    //replace with your own secretKey
-    //private static final String SECRET_KEY = "3d0b21dec50684acdc500a00fd05c652eb111617";
     private static String SECRET_KEY;
     private static String VENDOR;
     
