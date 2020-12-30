@@ -13,6 +13,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import com.coupang.openapi.sdk.Hmac;
 
 public class coupangApi {
     private static final String HOST = "api-gateway.coupang.com";
@@ -23,15 +24,15 @@ public class coupangApi {
     private static String VENDOR;
     
     private static final String userDir = System.getProperty("user.dir");
-    private static final String configPath = userDir + "/src/main/resources/coupang/config.properties";
+    private static final String configPath = userDir + "/src/main/resources/config.properties";
 
     public static void main(String[] args) {
         initCoupangApi();
         
         coupangApi hmacTest = new coupangApi();
         
-        hmacTest.getDeliveryStartPlace();
-        //hmacTest.getReturnPlace();
+        //hmacTest.getDeliveryStartPlace();
+        hmacTest.getReturnPlace();
         //hmacTest.getCategoryMetas("56163");
     }
     
@@ -70,17 +71,17 @@ public class coupangApi {
 
             /********************************************************/
             //authorize, demonstrate how to generate hmac signature here
-                //String authorization = Hmac.generate(method, uriBuilder.build().toString(), SECRET_KEY, ACCESS_KEY);
+            String authorization = Hmac.generate(method, uriBuilder.build().toString(), SECRET_KEY, ACCESS_KEY);
             //print out the hmac key
             //System.out.println(authorization);
             /********************************************************/
 
-                //uriBuilder.setScheme(SCHEMA).setHost(HOST).setPort(PORT);
+            uriBuilder.setScheme(SCHEMA).setHost(HOST).setPort(PORT);
             uriBuilder.setScheme(SCHEMA).setHost(HOST);
             HttpGet get = new HttpGet(uriBuilder.build().toString());
             /********************************************************/
             // set header, demonstarte how to use hmac signature here
-                //get.addHeader("Authorization", authorization);
+            get.addHeader("Authorization", authorization);
             /********************************************************/
             get.addHeader("content-type", "application/json");
             CloseableHttpResponse response = null;
@@ -133,7 +134,7 @@ public class coupangApi {
 
             /********************************************************/
             //authorize, demonstrate how to generate hmac signature here
-                //String authorization = Hmac.generate(method, uriBuilder.build().toString(), SECRET_KEY, ACCESS_KEY);
+            String authorization = Hmac.generate(method, uriBuilder.build().toString(), SECRET_KEY, ACCESS_KEY);
             //print out the hmac key
             //System.out.println(authorization);
             /********************************************************/
@@ -143,7 +144,7 @@ public class coupangApi {
             HttpGet get = new HttpGet(uriBuilder.build().toString());
             /********************************************************/
             // set header, demonstarte how to use hmac signature here
-                //get.addHeader("Authorization", authorization);
+            get.addHeader("Authorization", authorization);
             /********************************************************/
             get.addHeader("content-type", "application/json");
             CloseableHttpResponse response = null;
@@ -196,7 +197,7 @@ public class coupangApi {
 
             /********************************************************/
             //authorize, demonstrate how to generate hmac signature here
-                //String authorization = Hmac.generate(method, uriBuilder.build().toString(), SECRET_KEY, ACCESS_KEY);
+            String authorization = Hmac.generate(method, uriBuilder.build().toString(), SECRET_KEY, ACCESS_KEY);
             //print out the hmac key
                 //System.out.println(authorization);
             /********************************************************/
@@ -206,7 +207,7 @@ public class coupangApi {
             HttpGet get = new HttpGet(uriBuilder.build().toString());
             /********************************************************/
             // set header, demonstarte how to use hmac signature here
-                //get.addHeader("Authorization", authorization);
+            get.addHeader("Authorization", authorization);
             /********************************************************/
             get.addHeader("content-type", "application/json");
             CloseableHttpResponse response = null;
@@ -260,7 +261,7 @@ public class coupangApi {
 
             /********************************************************/
             //authorize, demonstrate how to generate hmac signature here
-                //String authorization = Hmac.generate(method, uriBuilder.build().toString(), SECRET_KEY, ACCESS_KEY);
+            String authorization = Hmac.generate(method, uriBuilder.build().toString(), SECRET_KEY, ACCESS_KEY);
             //print out the hmac key
                 //System.out.println(authorization);
             /********************************************************/
@@ -272,7 +273,7 @@ public class coupangApi {
             
             /********************************************************/
             // set header, demonstarte how to use hmac signature here
-                //requestPost.addHeader("Authorization", authorization);
+            requestPost.addHeader("Authorization", authorization);
             /********************************************************/
             requestPost.addHeader("content-type", "application/json");
             requestPost.setEntity(params);
