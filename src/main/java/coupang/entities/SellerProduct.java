@@ -2,6 +2,7 @@ package coupang.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import coupang.CoupangApi;
 
 public class SellerProduct {
     private int displayCategoryCode;
@@ -13,27 +14,31 @@ public class SellerProduct {
     private String brand;
     private String generalProductName;
     private String productGroup;
-    private String deliveryMethod;
-    private String deliveryCompanyCode;
-    private String deliveryChargeType;
-    private int deliveryCharge;
+    private final String deliveryMethod = "AGENT_BUY";
+    private final String deliveryCompanyCode = "CJGLS";
+    private String deliveryChargeType = "NOT_FREE";
+    private int deliveryCharge = 8000;
     private int freeShipOverAmount;
     private int deliveryChargeOnReturn;
-    private String remoteAreaDeliverable;
-    private String unionDeliveryType;
-    private String returnCenterCode;
-    private String returnChargeName;
-    private String companyContactNumber;
-    private String returnZipCode;
-    private String returnAddress;
-    private String returnAddressDetail;
-    private int returnCharge;
+    private String remoteAreaDeliverable = "N";
+    private String unionDeliveryType = "UNION_DELIVERY";
+    private String returnCenterCode = "1000723147";
+    private String returnChargeName = "지쿠사무실";
+    private String companyContactNumber = "070-4001-8993";
+    private String returnZipCode = "42454";
+    private String returnAddress = "대구광역시 남구 양지로 16";
+    private String returnAddressDetail = "조영호 내과 3층 (대명 4동)";
+    private int returnCharge = 50000;
     private String returnChargeVendor;
-    private String outboundShippingPlaceCode;
+    private String outboundShippingPlaceCode = "2916379";
+    private String vendorUserId = CoupangApi.VENDOR_USER_ID;
+    private boolean requested = true;
     private List<CoupangItem> items = new ArrayList<>();
     private List<RequiredDocument> requiredDocuments = new ArrayList<>();
     private String extraInfoMessage;
     private String manufacture;
+    
+    public SellerProduct() {}
     
     public int getDisplayCategoryCode() {
         return displayCategoryCode;
@@ -111,16 +116,8 @@ public class SellerProduct {
         return deliveryMethod;
     }
     
-    public void setDeliveryMethod(String deliveryMethod) {
-        this.deliveryMethod = deliveryMethod;
-    }
-    
     public String getDeliveryCompanyCode() {
         return deliveryCompanyCode;
-    }
-    
-    public void setDeliveryCompanyCode(String deliveryCompanyCode) {
-        this.deliveryCompanyCode = deliveryCompanyCode;
     }
     
     public String getDeliveryChargeType() {
@@ -273,5 +270,17 @@ public class SellerProduct {
     
     public void setManufacture(String manufacture) {
         this.manufacture = manufacture;
+    }
+
+    public String getVendorUserId() {
+        return vendorUserId;
+    }
+
+    public boolean isRequested() {
+        return requested;
+    }
+
+    public void setRequested(boolean requested) {
+        this.requested = requested;
     }
 }

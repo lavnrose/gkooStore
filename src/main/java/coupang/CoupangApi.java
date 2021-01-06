@@ -14,14 +14,18 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import com.coupang.openapi.sdk.Hmac;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import coupang.entities.SellerProduct;
 
-public class coupangApi {
+public class CoupangApi {
     private static final String HOST = "api-gateway.coupang.com";
     private static final int PORT = 443;
     private static final String SCHEMA = "https";
     private static String ACCESS_KEY;
     private static String SECRET_KEY;
     private static String VENDOR;
+    public static String VENDOR_USER_ID;
     
     private static final String userDir = System.getProperty("user.dir");
     private static final String configPath = userDir + "/src/main/resources/config.properties";
@@ -29,11 +33,93 @@ public class coupangApi {
     public static void main(String[] args) {
         initCoupangApi();
         
-        coupangApi hmacTest = new coupangApi();
+        CoupangApi coupangApi = new CoupangApi();
         
-        //hmacTest.getDeliveryStartPlace();
-        hmacTest.getReturnPlace();
-        //hmacTest.getCategoryMetas("56163");
+        //coupangApi.getDeliveryStartPlace();
+        //coupangApi.getReturnPlace();
+        //coupangApi.getCategoryMetas("56163");
+       // coupangApi.createProduct();
+        System.out.println(getSellerProductJson());
+    }
+    
+    private static String getSellerProductJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        SellerProduct sellerProduct = new SellerProduct();
+        String sellerProductAsString = "";
+        try {
+            sellerProductAsString = objectMapper.writeValueAsString(sellerProduct);
+        } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return sellerProductAsString;
+    }
+    
+    public void createProduct() {
+        //params
+        String method = "POST";
+        String path = "/v2/providers/seller_api/apis/api/v1/marketplace/seller-products";
+        
+        //replace with your own product registration json data
+        String strjson="{}";
+        
+        CloseableHttpClient client = null;
+        try {
+            //create client
+            client = HttpClients.createDefault();
+            //build uri
+            URIBuilder uriBuilder = new URIBuilder()
+                    .setPath(path);
+
+            /********************************************************/
+            //authorize, demonstrate how to generate hmac signature here
+            String authorization = Hmac.generate(method, uriBuilder.build().toString(), SECRET_KEY, ACCESS_KEY);
+            //print out the hmac key
+            System.out.println(authorization);
+            /********************************************************/
+
+            uriBuilder.setScheme(SCHEMA).setHost(HOST).setPort(PORT);
+            HttpPost requestPost = new HttpPost(uriBuilder.build().toString());
+
+            StringEntity params =new StringEntity(strjson,"UTF-8");
+            
+            /********************************************************/
+            // set header, demonstarte how to use hmac signature here
+            requestPost.addHeader("Authorization", authorization);
+            /********************************************************/
+            requestPost.addHeader("content-type", "application/json");
+            requestPost.setEntity(params);
+            CloseableHttpResponse response = null;
+            try {
+                //execute post request
+                response = client.execute(requestPost);
+                //print result
+                System.out.println("status code:" + response.getStatusLine().getStatusCode());
+                System.out.println("status message:" + response.getStatusLine().getReasonPhrase());
+                HttpEntity entity = response.getEntity();
+                System.out.println("result:" + EntityUtils.toString(entity));
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (response != null) {
+                    try {
+                        response.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (client != null) {
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     
     private static void initCoupangApi() {
@@ -51,6 +137,7 @@ public class coupangApi {
             ACCESS_KEY = prop.getProperty("coupang.accessKey");
             SECRET_KEY = prop.getProperty("coupang.secretKey");
             VENDOR = prop.getProperty("coupang.vendor");
+            VENDOR_USER_ID = prop.getProperty("coupang.vendorUserId");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
