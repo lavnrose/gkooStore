@@ -3,17 +3,18 @@ package coupang.entities;
 import java.util.ArrayList;
 import java.util.List;
 import coupang.CoupangApi;
+import util.DateUtil;
 
 public class SellerProduct {
     private int displayCategoryCode;
     private String sellerProductName;
-    private String vendorId;
+    private String vendorId = CoupangApi.VENDOR;
     private String saleStartedAt;
-    private String saleEndedAt;
+    private String saleEndedAt = "2099-01-01T23:59:59";
     private String displayProductName;
     private String brand;
-    private String generalProductName;
-    private String productGroup;
+    private String generalProductName = "";
+    private String productGroup ="";
     private final String deliveryMethod = "AGENT_BUY";
     private final String deliveryCompanyCode = "CJGLS";
     private String deliveryChargeType = "NOT_FREE";
@@ -29,16 +30,27 @@ public class SellerProduct {
     private String returnAddress = "대구광역시 남구 양지로 16";
     private String returnAddressDetail = "조영호 내과 3층 (대명 4동)";
     private int returnCharge = 50000;
-    private String returnChargeVendor;
     private String outboundShippingPlaceCode = "2916379";
     private String vendorUserId = CoupangApi.VENDOR_USER_ID;
     private boolean requested = true;
     private List<CoupangItem> items = new ArrayList<>();
     private List<RequiredDocument> requiredDocuments = new ArrayList<>();
-    private String extraInfoMessage;
-    private String manufacture;
+    private String extraInfoMessage ="";
+    private String manufacture = "";
     
-    public SellerProduct() {}
+    public SellerProduct(int displayCategoryCode, String sellerProductName, String displayProductName, String brand, String generalProductName, CoupangItem coupangItem) {
+        this.displayCategoryCode = displayCategoryCode;
+        this.sellerProductName = sellerProductName;
+        this.displayProductName = displayProductName;
+        this.brand = brand;
+        this.saleStartedAt = DateUtil.getStartedAt();
+        this.items.add(coupangItem);
+        setRequiredDocument();
+    }
+    
+    private void setRequiredDocument() {
+        this.requiredDocuments.add(new RequiredDocument());
+    }
     
     public int getDisplayCategoryCode() {
         return displayCategoryCode;
@@ -222,14 +234,6 @@ public class SellerProduct {
     
     public void setReturnCharge(int returnCharge) {
         this.returnCharge = returnCharge;
-    }
-    
-    public String getReturnChargeVendor() {
-        return returnChargeVendor;
-    }
-    
-    public void setReturnChargeVendor(String returnChargeVendor) {
-        this.returnChargeVendor = returnChargeVendor;
     }
     
     public String getOutboundShippingPlaceCode() {
