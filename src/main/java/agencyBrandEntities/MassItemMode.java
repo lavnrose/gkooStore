@@ -7,19 +7,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import agencyEntities.BaseItem;
 import agencyEntities.MassItem;
+import util.Formatter;
 import util.GrobalDefined.Gender;
 
-public class MassItemLando extends BaseItem {
-    private static final Logger LOGGER = LogManager.getLogger(MassItemLando.class);
+public class MassItemMode  extends BaseItem {
+    private static final Logger LOGGER = LogManager.getLogger(MassItemMode.class);
 
     private int priceWon;
     private int priceSubstractWon;
     private MassItem massItem;
     private List<String> detailImageUrlList = new ArrayList<>();
     
-    public MassItemLando(MassItem massItem) {
+    public MassItemMode(MassItem massItem) {
         this.massItem = massItem;
-        this.priceWon = super.calculatePriceCommisionWon(massItem.getItemPriceEuro());
+        //this.priceWon = super.calculatePriceCommisionWon(massItem.getItemPriceEuro());
+        this.priceWon = super.calculatePriceCommisionVATWon(massItem.getItemPriceEuro(), massItem.getModeDeiveryFee());
         this.priceSubstractWon = massItem.isItemSale() ? super.calculatePriceNoCommisionWon(massItem.getItemPriceEuro() - massItem.getItemSalePriceEuro()) : 0;
     }
 
@@ -55,6 +57,23 @@ public class MassItemLando extends BaseItem {
     }
 
     @Override
+    public String getDetailPageCafe24() {
+        String imagesCommaSeparated = null;
+        if(massItem.getItemDetailImages() == null) {
+            imagesCommaSeparated = "";
+            LOGGER.warn("ImageLinks are empty");
+            return "";
+        } else {
+            for(String image : massItem.getItemDetailImages()) {
+                detailImageUrlList.add(transformToHtml(image));
+                detailImageUrlList.add(transformToHtmlLogo(getCompanyLogoUrl()));
+            }
+            imagesCommaSeparated = detailImageUrlList.stream().collect(Collectors.joining(""));
+            return addAlignment(addTopBottomInfo(addBuyingInfo(addSizeCheckButton(addProductInfo(imagesCommaSeparated)))));
+        }
+    }
+    
+    @Override
     public String getDetailPageSmart() {
         String imagesCommaSeparated = null;
         if(massItem.getItemDetailImages() == null) {
@@ -67,7 +86,7 @@ public class MassItemLando extends BaseItem {
                 detailImageUrlList.add(transformToHtmlLogo(getCompanyLogoUrl()));
             }
             imagesCommaSeparated = detailImageUrlList.stream().collect(Collectors.joining(""));
-            return addItemUrlHidden(addAlignment(addTopBottomInfo(addBuyingInfo(addSizeInfo(addProductInfo(imagesCommaSeparated))))));
+            return addAlignment(addTopBottomInfo(addBuyingInfo(addSizeStockCheckInfo(addProductInfo(imagesCommaSeparated)))));
         }
     }
     
@@ -96,9 +115,30 @@ public class MassItemLando extends BaseItem {
         bd.append("<p style=\"text-align: center;\"><span style=\"font-size: 12pt;\"><strong>소재</strong></span></p>");
         bd.append(getEmptyLineHtml());
         bd.append("<p style=\"text-align: center;\">");
-        bd.append(massItem.getMaterials());
+        bd.append(Formatter.formatWithoutComma(massItem.getMaterials()));
         bd.append("</p>");
-        //bd.append(getLineHtml("contents"));
+        bd.append(getEmptyLineHtml());
+        return bd.toString();
+    }
+
+    private String addSizeCheckButton(String itemImagesHtml) {
+        StringBuilder bd = new StringBuilder();
+        bd.append(itemImagesHtml);
+        bd.append("<center><form target=\"_blank\" action=\"");
+        bd.append(massItem.getItemUrl() + "\">");
+        bd.append("<input type=\"submit\" value=\"사이즈 및 재고 체크\"></form></center>");
+        return bd.toString();
+    }
+    
+    private String addSizeStockCheckInfo(String itemImagesHtml) {
+        StringBuilder bd = new StringBuilder();
+        bd.append(itemImagesHtml);
+        bd.append("<p style=\"text-align: center;\"><span style=\"font-size: 12pt;\"><strong>사이즈 및 재고 체크</strong></span></p>");
+        bd.append(getEmptyLineHtml());        
+        bd.append("사이즈와 재고는 구매전 사이트에서 한번 셀프 체크 또는 문의주세요<br>");
+        bd.append("uk.maje.com 방문<br>");
+        bd.append("웹사이트 상단 오른족 Search란에 검색해주세요: " + massItem.getItemTitleDE() + "<br>");
+        bd.append(getEmptyLineHtml());        
         return bd.toString();
     }
     
@@ -123,7 +163,6 @@ public class MassItemLando extends BaseItem {
         return imageBuilder.toString();
     }
     
-    //https://moondrive81.cafe24.com/GKoo/gkooStoreInfo.png
     private String addBuyingInfo(String itemImagesHtml) {
         StringBuilder imageBuilder = new StringBuilder();
         imageBuilder.append(itemImagesHtml);
@@ -140,12 +179,8 @@ public class MassItemLando extends BaseItem {
     }
     
     private String transformToHtml(String itemImage) {
-        //String result = itemImage.split(".jpg")[0];
-        //String itemImageFullname = result + ".jpg";
-        
         StringBuilder htmlBulder = new StringBuilder();
         htmlBulder.append("<center><img width=\"800\" style=\"padding-bottom: 5px;\" src=\"");
-        //htmlBulder.append("<img src=\"");
         htmlBulder.append(itemImage);
         htmlBulder.append("\" /></center>");
         return htmlBulder.toString();
@@ -184,10 +219,5 @@ public class MassItemLando extends BaseItem {
     @Override
     public boolean isItemSale() {
         return massItem.isItemSale();
-    }
-
-    @Override
-    public String getDetailPageCafe24() {
-        return "";
     }
 }

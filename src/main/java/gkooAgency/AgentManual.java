@@ -28,9 +28,9 @@ public class AgentManual {
     private final static double PRODUCT_PRICE = 6.3;
     private final static String PRODUCT_VOLUME = "75ml";
     private final static int    PRODUCT_EXTRA_FEE = 100;
-    private final static String PRODUCT_USAGE = "11";
+    private final static String PRODUCT_USAGE = "11"; //GrobalDefined.categoryUsageManual
     private final static String PRODUCT_HIDDEN_URL = "https://www.violey.com/de/fitne-ringelblumen-salbe_p_1010.html";
-    private final static String COUPANG_CATEGORY_CODE = "나이트크림";
+    private final static String COUPANG_CATEGORY_CODE = "나이트크림"; //GrobalDefined.categoryCodeCoopang
     //#####
     //##### Product Input   
     

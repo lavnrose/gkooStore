@@ -31,6 +31,7 @@ public class MassItem {
     private List<String> itemSizesPrice;
     private List<String> itemSizesStock;
     private String materials;
+    private int modeDeiveryFee;
     
     //cosmetic proeprties
     private String itemVolume;
@@ -322,5 +323,13 @@ public class MassItem {
 
     public void setItemSale(boolean isItemSale) {
         this.isItemSale = isItemSale;
+    }
+
+    public int getModeDeiveryFee() {
+        return modeDeiveryFee;
+    }
+
+    public void setModeDeiveryFee(int modeDeiveryFee) {
+        this.modeDeiveryFee = modeDeiveryFee;
     }
 }
