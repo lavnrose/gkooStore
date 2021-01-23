@@ -76,7 +76,35 @@
 	    <artifactId>json</artifactId>
 	    <version>20201115</version>
 	</dependency>
-  
+    
+    <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+	<dependency>
+	    <groupId>org.mockito</groupId>
+	    <artifactId>mockito-core</artifactId>
+	    <version>3.6.28</version>
+	    <scope>test</scope>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+	<dependency>
+	    <groupId>org.seleniumhq.selenium</groupId>
+	    <artifactId>selenium-java</artifactId>
+	    <version>4.0.0-alpha-7</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-firefox-driver -->
+	<dependency>
+	    <groupId>org.seleniumhq.selenium</groupId>
+	    <artifactId>selenium-firefox-driver</artifactId>
+	    <version>4.0.0-alpha-6</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>com.google.guava</groupId>
+	  <artifactId>guava</artifactId>
+	  <version>24.0-jre</version>
+	</dependency>
+	
   	<!-- Logging -->
 	<dependency>
 	    <groupId>org.apache.logging.log4j</groupId>

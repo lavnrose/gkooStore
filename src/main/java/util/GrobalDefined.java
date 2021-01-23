@@ -114,6 +114,14 @@ public class GrobalDefined {
         }
     };
     
+    //smartstore catgory id for mode
+    public static final HashMap<String, Integer> categoryIdSmart = new HashMap<>() {
+        {
+            put("블라우스/셔츠", 50000804);
+            
+        }
+    };
+    
     public static final HashMap<String, String> brandOverview = new HashMap<>() {
         {
             put("Sante", "https://moondrive81.cafe24.com/GKoo/Cosmetic_overview/SanteOverwiew.png");

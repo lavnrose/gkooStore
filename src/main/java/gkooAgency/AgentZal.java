@@ -51,7 +51,7 @@ public class AgentZal {
         LOGGER.info("A mission of agentZal starts ===>>> ");
         
         /**
-         * save manually html in local and gthering urls
+         * save manually html in local and gathering urls
          */
         List<MassItem> massItemList = new ArrayList<>();
         List<String> itemUrlList = getItemUrlList(massItemList);

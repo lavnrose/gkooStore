@@ -11,7 +11,9 @@ public abstract class BaseItem {
 
     private static final String COMPANY_LOGO = "https://moondrive81.cafe24.com/GKoo/gkoo_comany_logo.png";
     private static double excahgeRateEuro = 1400;
-    private static int feePercent = 10;
+    private static final double TAX_LIMIT= 150000;
+    
+    private static int feePercent = 7;
     private static double minimumCommision = 8000;
     //2자리리 내림 ex. 10511원? -> 10500원?
     private final int ROUNDED_DIGIT = 3;
@@ -35,6 +37,33 @@ public abstract class BaseItem {
         int ceiledFeeResult = mathCeilDigit(ROUNDED_DIGIT, commision);
         int ceiledProductResult = mathCeilDigit(ROUNDED_DIGIT, productPriceWon);
         return ceiledFeeResult + ceiledProductResult;
+    }
+    
+    public int calculatePriceCommisionVATWon(double totalPriceEuro, int deliveryFee) {
+        Objects.nonNull(totalPriceEuro);
+        if(totalPriceEuro == 0) {
+            LOGGER.error("Price must not 0");
+        }
+        double commision = 0;
+        double taxVat = 0;
+        double productPriceWon = excahgeRateEuro*totalPriceEuro;
+        
+        if (productPriceWon >= TAX_LIMIT) {
+            //통관시 부가세
+            taxVat = (productPriceWon + deliveryFee)*(0.1);
+        } 
+        
+        if(isMinimumCommision(excahgeRateEuro, totalPriceEuro)) {
+            commision = productPriceWon*(feePercent/100.0);
+        } else {
+            commision = minimumCommision;
+        }
+        
+        int ceiledCommision = mathCeilDigit(ROUNDED_DIGIT, commision);
+        int ceiledProductPriceWon = mathCeilDigit(ROUNDED_DIGIT, productPriceWon);
+        int ceiledTaxVat = taxVat != 0 ? mathCeilDigit(ROUNDED_DIGIT, taxVat) : 0;
+        
+        return (ceiledProductPriceWon + ceiledCommision + ceiledTaxVat + deliveryFee);
     }
     
     public int calculatePriceNoCommisionWon(double totalPriceSaleEuro) {
@@ -66,6 +95,12 @@ public abstract class BaseItem {
         return list.stream().collect(Collectors.joining(","));
     }
     
+    public static String getEmptyLineHtml() {
+        StringBuilder bd = new StringBuilder();
+        bd.append("<p style=\"text-align: center;\">&nbsp;</p>");
+        return bd.toString();
+    }
+    
     public abstract String getSizeListString();
     
     public abstract String getSizeListPriceString();
@@ -90,7 +125,11 @@ public abstract class BaseItem {
     
     public abstract String getMainImageFileName();
     
-    public abstract String getItemImageLinkList();
+    //public abstract String getItemImageLinkList();
+    
+    public abstract String getDetailPageCafe24();
+    
+    public abstract String getDetailPageSmart();
     
     public abstract boolean isItemSale();
 }
