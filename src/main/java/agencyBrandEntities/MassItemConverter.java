@@ -25,7 +25,6 @@ public class MassItemConverter extends BaseItemCosmetic {
     public MassItemConverter(MassItem massItem) {
         this.massItem = massItem;
         this.priceWon = super.calculatePriceWonWithExtraFee(massItem.getItemPriceEuro(), massItem.getExtraDeliveryFee());
-        //invokeTranslateDescriptionApi(massItem);
     }
     
     private void invokeTranslateApi(MassItem massItem) {

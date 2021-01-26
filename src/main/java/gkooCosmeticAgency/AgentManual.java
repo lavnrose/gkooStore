@@ -1,4 +1,4 @@
-package gkooAgency;
+package gkooCosmeticAgency;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,22 +15,35 @@ import factoryExcel.Cafe24;
 import util.Formatter;
 import util.GrobalDefined;
 
+
+/**
+ * 
+ * 1. make image and edit imageName
+ * 2. write ingredients and description(DE)
+ * 3. write below brandInput and productInput
+ * 4. run AgentManualReady -> image upload in cafe24
+ * 5. edit description(Kor)  
+ * 6. run AgentManual
+ * 
+ * @author sanghuncho
+ *
+ */
 public class AgentManual {
-    private static final Logger LOGGER = LogManager.getLogger(AgentEco.class);
+    private static final Logger LOGGER = LogManager.getLogger(AgentManual.class);
 
     //##### Brand Input
-    public final static String BRAND_NAME_KOR = "피트네";
-    public final static String BRAND_NAME_DE = "Fitne";
+    public final static String BRAND_NAME_KOR = "르네휘테르";
+    public final static String BRAND_NAME_DE = "Rene Furterer";
     //##### Product Input
     //#####
-    private final static String PRODUCT_NAME_KOR = "칼렌듈라 잘베크림";
-    private final static String PRODUCT_IMAGE_NAME = "FITNE_Ringelblumen_Salbe";
-    private final static double PRODUCT_PRICE = 6.3;
-    private final static String PRODUCT_VOLUME = "75ml";
-    private final static int    PRODUCT_EXTRA_FEE = 100;
-    private final static String PRODUCT_USAGE = "11"; //GrobalDefined.categoryUsageManual
-    private final static String PRODUCT_HIDDEN_URL = "https://www.violey.com/de/fitne-ringelblumen-salbe_p_1010.html";
-    private final static String COUPANG_CATEGORY_CODE = "나이트크림"; //GrobalDefined.categoryCodeCoopang
+    private final static String PRODUCT_NAME_KOR = "볼륨미아 샴푸";// 용량 X
+    public  final static String PRODUCT_IMAGE_NAME = "volumen_shampoo_600ml"; // name + volume
+    private final static double PRODUCT_PRICE = 17;
+    private final static String PRODUCT_VOLUME = "600ml";
+    private final static int    PRODUCT_EXTRA_FEE = 1000;
+    private final static String PRODUCT_USAGE = "9"; //GrobalDefined.categoryUsageManual
+    private final static String PRODUCT_HIDDEN_URL = "https://www.douglas.de/Sale-Make-Up-Ren%C3%A9-Furterer-Produkte-Volumen-Shampoo-200-ml_product_M1223046.html";
+    private final static String COUPANG_CATEGORY_CODE = ""; //GrobalDefined.categoryCodeCoopang
     //#####
     //##### Product Input   
     
@@ -43,8 +56,8 @@ public class AgentManual {
     public static final String CATEGORY_ID_SMARTSTORE = "";
     public static final String CATEGORY_ID_COOPANG = "";
     private static final String userDir = System.getProperty("user.dir");
-    private static final String descriptionPath = userDir + "/src/main/resources/coupang/descriptionBoard.txt";
-    private static final String ingedientsPath = userDir + "/src/main/resources/coupang/ingredientsBoard.txt";
+    private static final String descriptionPath = userDir + "/src/main/resources/cosmetic/descriptionBoard.txt";
+    private static final String ingedientsPath = userDir + "/src/main/resources/cosmetic/ingredientsBoard.txt";
     
     public static void main(String[] args) throws Exception {
         LOGGER.info("AgentManual starts ===>>> " + BRAND_NAME_KOR);
@@ -59,8 +72,8 @@ public class AgentManual {
         MassItemConverter massItemConverter = new MassItemConverter(massItem);
         baseItemCosmeticList.add(massItemConverter);
         
-        Cafe24 cafe24 = new Cafe24(BRAND_NAME_KOR, baseItemCosmeticList);
-        cafe24.createCsvFileManual(AgentManual.DIR_EXCEL_FILE);
+        Cafe24 cafe24 = new Cafe24(baseItemCosmeticList, BRAND_NAME_KOR);
+        cafe24.createCsvFileManual(AgentManual.DIR_EXCEL_FILE, PRODUCT_NAME_KOR);
         
         //coupang api
         for(BaseItemCosmetic itemCosmetic : baseItemCosmeticList) {
@@ -83,6 +96,7 @@ public class AgentManual {
         String description = ""; 
         try { 
             description = new String(Files.readAllBytes(Paths.get(descriptionPath)));
+            description = description.replace("\n", "").replace("\r", "");
         } catch (IOException e) { 
                 e.printStackTrace(); 
         }
@@ -94,6 +108,7 @@ public class AgentManual {
         String ingedients = ""; 
         try { 
             ingedients = new String(Files.readAllBytes(Paths.get(ingedientsPath)));
+            ingedients = ingedients.replace("\n", "").replace("\r", "");
         } catch (IOException e) { 
                 e.printStackTrace(); 
         }

@@ -190,4 +190,16 @@ public class MassItemLando extends BaseItem {
     public String getDetailPageCafe24() {
         return "";
     }
+
+    @Override
+    public String getSizeOptionCafe24() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getPriceSaleWonString() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

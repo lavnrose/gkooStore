@@ -3,7 +3,7 @@ package agencyEntities;
 import java.util.List;
 import org.apache.commons.lang3.math.NumberUtils;
 import gkooAgency.AgentEco;
-import gkooAgency.AgentManual;
+import gkooCosmeticAgency.AgentManual;
 import util.GrobalDefined;
 import util.GrobalDefined.Gender;
 

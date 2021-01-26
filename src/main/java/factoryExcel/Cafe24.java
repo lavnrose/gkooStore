@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.util.List;
 import agencyEntities.BaseItem;
 import agencyEntities.BaseItemCosmetic;
+import gkooModeAgency.AgentMaje;
 import util.Formatter;
 import util.GrobalDefined;
 
 public class Cafe24 {
-    private String brandName;
+    private String brandNameKor;
     private List<BaseItemCosmetic> massItemCosmeticList;
     private List<BaseItem> massItemList;
     
@@ -26,8 +27,8 @@ public class Cafe24 {
 //        this.massItemList = baseItemList;
 //    }
     
-    public Cafe24(String brandName, List<?> itemList) {
-        this.brandName = brandName;
+    public Cafe24(List<?> itemList, String brandNameKor) {
+        this.brandNameKor = brandNameKor;
         if(itemList.get(0) instanceof BaseItem) {
             this.massItemList = (List<BaseItem>) itemList;
         } else if(itemList.get(0) instanceof BaseItemCosmetic) {
@@ -38,7 +39,7 @@ public class Cafe24 {
     public void createCsvFile(String dirCsvFile) {
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(dirCsvFile + brandName + "_cafe24.csv");
+            fileWriter = new FileWriter(dirCsvFile + brandNameKor + "_cafe24.csv");
             for (int i=0;i<massItemCosmeticList.size();i++) {
                 writerCsv(fileWriter, massItemCosmeticList.get(i));
             }
@@ -54,10 +55,10 @@ public class Cafe24 {
        }
     }
     
-    public void createCsvFileManual(String dirCsvFile) {
+    public void createCsvFileManual(String dirCsvFile, String productName) {
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(dirCsvFile + brandName + "_cafe24.csv");
+            fileWriter = new FileWriter(dirCsvFile + brandNameKor + "_" + productName + "_cafe24.csv");
             fileWriter.append("상품코드,자체 상품코드,진열상태,판매상태,상품분류 번호,상품분류 신상품영역,상품분류 추천상품영역,상품명,영문 상품명,상품명(관리용),공급사 상품명,모델명,상품 요약설명,상품 간략설명,상품 상세설명,모바일 상품 상세설명 설정,모바일 상품 상세설명,검색어설정,과세구분,소비자가,공급가,상품가,판매가,판매가 대체문구 사용,판매가 대체문구,주문수량 제한 기준,최소 주문수량(이상),최대 주문수량(이하),적립금,적립금 구분,공통이벤트 정보,성인인증,옵션사용,품목 구성방식,옵션 표시방식,옵션세트명,옵션입력,옵션 스타일,버튼이미지 설정,색상 설정,필수여부,품절표시 문구,추가입력옵션,추가입력옵션 명칭,추가입력옵션 선택/필수여부,입력글자수(자),이미지등록(상세),이미지등록(목록),이미지등록(작은목록),이미지등록(축소),이미지등록(추가),제조사,공급사,브랜드,트렌드,자체분류 코드,제조일자,출시일자,유효기간 사용여부,유효기간,원산지,상품부피(cm),상품결제안내,상품배송안내,교환/반품안내,서비스문의/안내,배송정보,배송방법,국내/해외배송,배송지역,배송비 선결제 설정,배송기간,배송비 구분,배송비입력,스토어픽업 설정,상품 전체중량(kg),HS코드,상품 구분(해외통관),상품소재,영문 상품소재(해외통관),옷감(해외통관),검색엔진최적화(SEO) 검색엔진 노출 설정,검색엔진최적화(SEO) Title,검색엔진최적화(SEO) Author,검색엔진최적화(SEO) Description,검색엔진최적화(SEO) Keywords,검색엔진최적화(SEO) 상품 이미지 Alt 텍스트,개별결제수단설정,상품배송유형 코드,메모");
             fileWriter.append(NEW_LINE_SEPARATOR);
             for (int i=0;i<massItemCosmeticList.size();i++) {
@@ -79,7 +80,7 @@ public class Cafe24 {
     public void createCsvFileMode(String dirCsvFile) {
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(dirCsvFile + brandName + "_cafe24.csv");
+            fileWriter = new FileWriter(dirCsvFile + brandNameKor + "_cafe24.csv");
             fileWriter.append("상품코드,자체 상품코드,진열상태,판매상태,상품분류 번호,상품분류 신상품영역,상품분류 추천상품영역,상품명,영문 상품명,상품명(관리용),공급사 상품명,모델명,상품 요약설명,상품 간략설명,상품 상세설명,모바일 상품 상세설명 설정,모바일 상품 상세설명,검색어설정,과세구분,소비자가,공급가,상품가,판매가,판매가 대체문구 사용,판매가 대체문구,주문수량 제한 기준,최소 주문수량(이상),최대 주문수량(이하),적립금,적립금 구분,공통이벤트 정보,성인인증,옵션사용,품목 구성방식,옵션 표시방식,옵션세트명,옵션입력,옵션 스타일,버튼이미지 설정,색상 설정,필수여부,품절표시 문구,추가입력옵션,추가입력옵션 명칭,추가입력옵션 선택/필수여부,입력글자수(자),이미지등록(상세),이미지등록(목록),이미지등록(작은목록),이미지등록(축소),이미지등록(추가),제조사,공급사,브랜드,트렌드,자체분류 코드,제조일자,출시일자,유효기간 사용여부,유효기간,원산지,상품부피(cm),상품결제안내,상품배송안내,교환/반품안내,서비스문의/안내,배송정보,배송방법,국내/해외배송,배송지역,배송비 선결제 설정,배송기간,배송비 구분,배송비입력,스토어픽업 설정,상품 전체중량(kg),HS코드,상품 구분(해외통관),상품소재,영문 상품소재(해외통관),옷감(해외통관),검색엔진최적화(SEO) 검색엔진 노출 설정,검색엔진최적화(SEO) Title,검색엔진최적화(SEO) Author,검색엔진최적화(SEO) Description,검색엔진최적화(SEO) Keywords,검색엔진최적화(SEO) 상품 이미지 Alt 텍스트,개별결제수단설정,상품배송유형 코드,메모");
             fileWriter.append(NEW_LINE_SEPARATOR);
             for (int i=0;i<massItemList.size();i++) {
@@ -99,7 +100,7 @@ public class Cafe24 {
     }
     
     //comma caution for register
-    public static void writerCsvMode(FileWriter fileWriter, BaseItem item) throws IOException{
+    public void writerCsvMode(FileWriter fileWriter, BaseItem item) throws IOException{
         //상품코드
         fileWriter.append("");
         fileWriter.append(COMMA_DELIMITER);
@@ -122,7 +123,7 @@ public class Cafe24 {
         fileWriter.append("");
         fileWriter.append(COMMA_DELIMITER);
         //상품명
-        fileWriter.append(item.getItemFullnameDE());
+        fileWriter.append("[" + brandNameKor + "] " + item.getItemFullnameDE());
         fileWriter.append(COMMA_DELIMITER);
         //영문 상품명
         fileWriter.append("");
@@ -161,7 +162,7 @@ public class Cafe24 {
         fileWriter.append("A|10");
         fileWriter.append(COMMA_DELIMITER);
         //소비자가
-        fileWriter.append("");
+        fileWriter.append(item.getPriceWonString());
         fileWriter.append(COMMA_DELIMITER);
         //공급가
         fileWriter.append(Double.toString(item.getMassItem().getItemPriceEuro()));
@@ -170,7 +171,7 @@ public class Cafe24 {
         fileWriter.append("");
         fileWriter.append(COMMA_DELIMITER);
         //판매가
-        fileWriter.append(item.getPriceWonString());
+        fileWriter.append(item.isItemSale() ? item.getPriceSaleWonString() : item.getPriceWonString());
         fileWriter.append(COMMA_DELIMITER);
         //판매가 대체문구 사용
         fileWriter.append("");
@@ -200,19 +201,20 @@ public class Cafe24 {
         fileWriter.append("");
         fileWriter.append(COMMA_DELIMITER);
         //옵션사용
-        fileWriter.append("");
+        fileWriter.append("Y");
         fileWriter.append(COMMA_DELIMITER);
         //품목 구성방식
-        fileWriter.append("");
+        fileWriter.append("T");
         fileWriter.append(COMMA_DELIMITER);
         //옵션 표시방식
-        fileWriter.append("");
+        fileWriter.append("C");
         fileWriter.append(COMMA_DELIMITER);
         //옵션세트명
         fileWriter.append("");
         fileWriter.append(COMMA_DELIMITER);
         //옵션입력
-        fileWriter.append("");
+        //fileWriter.append("");
+        fileWriter.append(item.getSizeOptionCafe24());
         fileWriter.append(COMMA_DELIMITER);
         //옵션 스타일
         fileWriter.append("");
@@ -243,7 +245,7 @@ public class Cafe24 {
         fileWriter.append(COMMA_DELIMITER);
         
         //before csv file upload, mainImage should be uploaded on the fileUploader in cafe24.
-        String mainImageUrl = Formatter.convertMainImageUrl(item.getMassItem().getMainImageName(), "mode/" + item.getMassItem().getBrandNameDE());
+        String mainImageUrl = Formatter.convertMainImageUrl( "mode/" + AgentMaje.DIR_FILEUPLOADER, item.getMassItem().getMainImageName());
         //String mainImageUrl = "";
         //이미지등록(상세)
         fileWriter.append(mainImageUrl);
@@ -956,14 +958,6 @@ public class Cafe24 {
 
     public void setMassItemList(List<BaseItem> massItemList) {
         this.massItemList = massItemList;
-    }
-    
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
     }
 
     public List<BaseItemCosmetic> getMassItemCosmeticList() {

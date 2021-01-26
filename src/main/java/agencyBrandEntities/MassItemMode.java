@@ -14,6 +14,7 @@ public class MassItemMode  extends BaseItem {
     private static final Logger LOGGER = LogManager.getLogger(MassItemMode.class);
 
     private int priceWon;
+    private int priceSaleWon;
     private int priceSubstractWon;
     private MassItem massItem;
     private List<String> detailImageUrlList = new ArrayList<>();
@@ -21,8 +22,12 @@ public class MassItemMode  extends BaseItem {
     public MassItemMode(MassItem massItem) {
         this.massItem = massItem;
         //this.priceWon = super.calculatePriceCommisionWon(massItem.getItemPriceEuro());
+        //this.priceSubstractWon = massItem.isItemSale() ? super.calculatePriceNoCommisionWon(massItem.getItemPriceEuro() - massItem.getItemSalePriceEuro()) : 0;
         this.priceWon = super.calculatePriceCommisionVATWon(massItem.getItemPriceEuro(), massItem.getModeDeiveryFee());
-        this.priceSubstractWon = massItem.isItemSale() ? super.calculatePriceNoCommisionWon(massItem.getItemPriceEuro() - massItem.getItemSalePriceEuro()) : 0;
+        if(massItem.isItemSale()) {
+            this.priceSaleWon = super.calculatePriceCommisionVATWon(massItem.getItemSalePriceEuro(), massItem.getModeDeiveryFee());
+            this.priceSubstractWon = priceWon - priceSaleWon;
+        }
     }
 
     @Override
@@ -191,6 +196,11 @@ public class MassItemMode  extends BaseItem {
     public String getSizeListString() {
         return getListToString(massItem.getItemSizes());
     }
+    
+    @Override
+    public String getSizeOptionCafe24() {
+        return "사이즈{" + massItem.getItemSizes().stream().collect(Collectors.joining("|")) + "}";
+    }
 
     @Override
     public String getSizeListPriceString() {
@@ -220,5 +230,10 @@ public class MassItemMode  extends BaseItem {
     @Override
     public boolean isItemSale() {
         return massItem.isItemSale();
+    }
+
+    @Override
+    public String getPriceSaleWonString() {
+        return String.valueOf(priceSaleWon);
     }
 }

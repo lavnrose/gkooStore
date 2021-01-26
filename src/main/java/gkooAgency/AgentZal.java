@@ -44,7 +44,7 @@ public class AgentZal {
     public static final String CATEGORY_ID_SMARTSTORE = "50000805";
     public static final String CATEGORY_ID_COOPANG = "";
     public static final String DELIVERY_FEE= "10000";
-    
+
     private final String googleTranslateWeb = "https://translate.google.com/";
     
     public static void main(String[] args) throws Exception {
@@ -211,7 +211,7 @@ public class AgentZal {
             return true;
         }
     }
-
+    
     /**
      * extract the sale price, orig price
      * 

@@ -12,9 +12,10 @@ public class Formatter {
     }
     
     //1.550,00
+    // £129.5 point deleteted!
     public static String deleteNonDigits(String priceEuro) {
         Objects.nonNull(priceEuro);
-        String editedPrice1 = priceEuro.replaceAll("[^0-9\\,]","");
+        String editedPrice1 = priceEuro.replaceAll("[^0-9\\,\\.]","");
         String editedPrice2  = editedPrice1.replaceAll("[\\,]",".");
         return editedPrice2;
     }
@@ -54,7 +55,7 @@ public class Formatter {
     }
     
     public static String convertMainImageUrl(String mainaImageName) {
-        return "https://moondrive81.cafe24.com/GKoo/main_image/" + mainaImageName + ".jpg";
+        return "https://moondrive81.cafe24.com/GKoo/cosmetic/main_images/" + mainaImageName + ".jpg";
     }
     
     /**
@@ -62,8 +63,8 @@ public class Formatter {
      * @param dirName cafe24 directory of main images
      * @return
      */
-    public static String convertMainImageUrl(String mainaImageName, String dirName) {
-        return "https://moondrive81.cafe24.com/GKoo/" + dirName + "/main_image/" + mainaImageName + ".jpg";
+    public static String convertMainImageUrl(String dirName, String mainaImageName) {
+        return "https://moondrive81.cafe24.com/GKoo/" + dirName + mainaImageName + ".jpg";
     }
     
     public static String getFormattedJpgUrl(String rawUrl) {

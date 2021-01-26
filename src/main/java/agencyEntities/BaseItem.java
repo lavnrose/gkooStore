@@ -119,13 +119,15 @@ public abstract class BaseItem {
     
     public abstract String getPriceWonString();
     
+    public abstract String getPriceSaleWonString();
+    
     public abstract String getPriceSubstractWonString();
 
     public abstract String getColorListString();
     
     public abstract String getMainImageFileName();
     
-    //public abstract String getItemImageLinkList();
+    public abstract String getSizeOptionCafe24();
     
     public abstract String getDetailPageCafe24();
     

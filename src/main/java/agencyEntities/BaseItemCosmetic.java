@@ -8,7 +8,7 @@ public abstract class BaseItemCosmetic {
     private static final String COMPANY_LOGO = "https://moondrive81.cafe24.com/GKoo/gkoo_comany_logo.png";
     private static final String ITEM_BRAND_INFO = "https://moondrive81.cafe24.com/GKoo/product_brand_name.png";
     private static double excahgeRateEuro = 1400;
-    private static int feePercent = 7;
+    private static int feePercent = 15;
     private static double minimumCommision = 3000;
     //2자리리 내림 ex. 10511원? -> 10500원?
     private final int ROUNDED_DIGIT = 2;
