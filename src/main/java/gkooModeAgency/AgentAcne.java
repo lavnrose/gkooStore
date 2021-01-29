@@ -18,14 +18,14 @@ import agencyEntities.MassItem;
 import factoryExcel.Cafe24;
 import factoryExcel.SmartStore;
 import util.Formatter;
-import util.GrobalDefined.Gender;
 import util.ImageDownloader;
+import util.GrobalDefined.Gender;
 
-public class AgentMaje {
-    private static final Logger LOGGER = LogManager.getLogger(AgentMaje.class);
-    public final static String BRAND_HOMEPAGE_URL = "";
-    public final static String BRAND_NAME_KOR = "마쥬";
-    public final static String BRAND_NAME_DE = "maje";
+public class AgentAcne {
+    private static final Logger LOGGER = LogManager.getLogger(AgentAcne.class);
+    public final static String BRAND_HOMEPAGE_URL = "https://www.acnestudios.com";
+    public final static String BRAND_NAME_KOR = "아크네";
+    public final static String BRAND_NAME_DE = "acne";
     public final static String ITEM_CATETOTY = "/t-shirt/";
     public static String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/의류/" + BRAND_NAME_DE;
     public static String DIR_BRAND_CATEGORY = DIR_BRAND + ITEM_CATETOTY;
@@ -40,21 +40,21 @@ public class AgentMaje {
     public static final String CATEGORY_ID_SMARTSTORE = "50000803";
     public static final String CATEGORY_NUMBER_CAFE24 = "273";
 
-    private static final String [] ITEM_SIZE_US = {"XS", "S", "M", "L", "XL"};
+    private static final String [] ITEM_SIZE_US = {"XXS","XS", "S", "M", "L"};
     private static final String [] ITEM_SIZE_UK = {"UK8", "UK10", "UK12", "UK14", "UK16"};
     private static final String [] ITEM_SIZE_FR = {"0(UK6)", "1(UK8)", "2(UK10)", "3(UK12)", "4(UK14)"};
     
     private static final String [] ITEM_SIZE_PRICE = {"0", "0", "0", "0", "0"};
     private static final String [] ITEM_SIZE_STOCK = {"10", "10", "10", "10", "10"};
     
-    public static final List<String> ITEM_SIZE_LIST = Arrays.asList(ITEM_SIZE_UK);
+    public static final List<String> ITEM_SIZE_LIST = Arrays.asList(ITEM_SIZE_US);
     public static final List<String> ITEM_SIZE_PRICE_LIST = Arrays.asList(ITEM_SIZE_PRICE);
     public static final List<String> ITEM_SIZE_STOCK_LIST = Arrays.asList(ITEM_SIZE_STOCK);
 
     public static List<String> itemSameTitleTester = new ArrayList<>();
     
     public static void main(String[] args) throws Exception {
-        LOGGER.info("A mission of agentMaje starts ===>>> ");
+        LOGGER.info("A mission of " + BRAND_NAME_DE + " starts ===>>> ");
         
         /**
          * save manually html in local and gathering urls, item titles, downloading main images
@@ -79,10 +79,10 @@ public class AgentMaje {
         }
         
         Cafe24 cafe24 = new Cafe24(baseItemList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24);
-        cafe24.createCsvFileMode(AgentMaje.DIR_EXCEL_FILE);
+        cafe24.createCsvFileMode(DIR_EXCEL_FILE);
         
         SmartStore smartStore = new SmartStore(baseItemList, CATEGORY_ID_SMARTSTORE, BRAND_NAME_KOR);
-        smartStore.createExcelMode(AgentMaje.DIR_EXCEL_FILE);
+        smartStore.createExcelMode(DIR_EXCEL_FILE);
         
         LOGGER.info("A mission end <<<=== ");
     }
@@ -130,20 +130,20 @@ public class AgentMaje {
         }
         
         String materials = getMaterials(elementsMaterials);
-        
+
+        LOGGER.info("itemMaterials: " + materials);
         item.setMaterials(materials);
     }
     
     private static Elements extractMaterialsElements(Element body) {
         
-        Elements materialsElements = body.getElementsByClass("tabs-menu");
+        Elements materialsElements = body.getElementsByClass("custom-composition");
         
         return materialsElements;
     }
     
     private static String getMaterials(Elements elementsMaterials) {
-        String materials = elementsMaterials.get(0).child(1).getElementsByClass("block-content").text();
-        
+        String materials = elementsMaterials.get(0).text();        
         return materials;
     }
     
@@ -162,36 +162,14 @@ public class AgentMaje {
             return;
         }
         
-        if(hasSalePrice(elementsPrices)){
-            setSalesPrice(elementsPrices, item);
-        } else {
-            setOriginPrice(elementsPrices, item);
-        }
+        setOriginPrice(elementsPrices, item);
     }
     
     private static void setOriginPrice(Elements elementsPrices, MassItem item) {
         String formatOrgPrice = Formatter.deleteNonDigits(elementsPrices.get(0).text());
         
+        LOGGER.info("itemPrice: " + formatOrgPrice);
         item.setItemPriceEuro(Double.valueOf(formatOrgPrice));
-    }
-
-    private static void setSalesPrice(Elements elementsPrices, MassItem item) {
-        Elements prices = elementsPrices.get(0).getAllElements();
-        String orgPrice = prices.get(0).getElementsByClass("price-standard ").text();
-        String salesPrice = prices.get(0).getElementsByClass("price-sales ").text();
-        System.out.println(Formatter.deleteNonDigits(orgPrice));
-        System.out.println(Formatter.deleteNonDigits(salesPrice));
-        item.setItemSale(true);
-        item.setItemPriceEuro(Double.valueOf(Formatter.deleteNonDigits(orgPrice)));
-        item.setItemSalePriceEuro(Double.valueOf(Formatter.deleteNonDigits(salesPrice)));
-    }
-    
-    private static boolean hasSalePrice(Elements elementsPrices) {
-        
-        Elements prices = elementsPrices.get(0).getAllElements();
-        boolean hasSalesPrice = prices.hasClass("price-sales ");
-        
-        return hasSalesPrice;
     }
     
     private static Elements extractPriceElements(Element body) {
@@ -206,27 +184,31 @@ public class AgentMaje {
         Element body = doc.body();
         Elements elementsDetaiImage = extractDetailElements(body);
         
+        //inclusive homepage url
         List<String> formattedImageList = new ArrayList<>();
         
         for(int i=0; i<elementsDetaiImage.size(); i++) {
             Element detailImageElement = elementsDetaiImage.get(i);
             String imageUrl = extractDetailImageUrl(detailImageElement);
-            formattedImageList.add(imageUrl);
+            formattedImageList.add(BRAND_HOMEPAGE_URL + imageUrl);
         }
         item.setItemDetailImages(formattedImageList);
     }
     
     private static String extractDetailImageUrl(Element detailImageElement) {
         
-        String detailImageUrl = detailImageElement.getElementsByTag("img").attr("data-src");
+        //not include homepage url
+        String detailImageUrl = detailImageElement.attr("data-zoom-src");
         
+        LOGGER.info("itemDetailImageUrl: " + detailImageUrl);
         return detailImageUrl;
     }
     
     private static Elements extractDetailElements(Element body) {
         
-        Elements detailImageElements = body.getElementsByClass("img-container");
-        
+        Elements galleryElements = body.getElementsByClass("product-item__gallery-container");
+        Elements detailImageElements = galleryElements.get(0).getElementsByTag("img");
+
         return detailImageElements;
     }
 
@@ -237,10 +219,10 @@ public class AgentMaje {
         Document doc = Jsoup.parse(input, "UTF-8", "");
         Element body = doc.body();
         
-        Elements urlElements = getUrlElements(body);
+        Elements unitElements = getUnitElements(body);
         
-        for (int i=0; i<urlElements.size(); i++) {
-            String url = extractUrl(urlElements.get(i));
+        for (int i=0; i<unitElements.size(); i++) {
+            String url = extractUrl(unitElements.get(i));
             
             boolean validUrl = true;
             try {
@@ -260,32 +242,40 @@ public class AgentMaje {
                 
                 setItemUrl(massItem, itemUrls, massItemList, url);
                 
-                setItemTitle(massItem, urlElements.get(i));
+                extractItemTitle(massItem, unitElements.get(i));
                 
                 setBrandName(massItem);
                 
                 setMainImageName(massItem);
                 
-                downloadingMainImage(massItem, urlElements.get(i));
+                extractMainImage(massItem, unitElements.get(i));
             }
         }
         return itemUrls;
     }
     
-    private static Elements getUrlElements(Element body) {
+    private static Elements getUnitElements(Element body) {
         
-        Element result = body.getElementsByClass("search-result-content visible").get(0);
-        Elements urlElements = result.getElementsByClass("product-tile ");
+        Element result = body.getElementsByClass("search-result-container").get(0);
+        Element element = result.child(0);
+        Elements rawUnitElements = element.getElementsByTag("li");
+        Elements unitElements = new Elements();
+        for (int i=0; i<rawUnitElements.size(); i++) {
+            Element unit = rawUnitElements.get(i);
+            if(unit.className().contains("grid-tile product-list__item-tile")) {
+                unitElements.add(unit);
+            }
+        }
         
-        return urlElements;
+        return unitElements;
     }
     
     private static String extractUrl(Element urlElement) {
         
-        Elements items = urlElement.getElementsByClass("product-image");
-        Elements thumbLink = items.get(0).getElementsByClass("thumb-link");
-        String url = thumbLink.attr("href");
+        Elements urlElements = urlElement.getElementsByClass("product-image ");
+        String url = BRAND_HOMEPAGE_URL + urlElements.get(0).getElementsByClass("thumb-link").get(0).attr("href");
         
+        LOGGER.info("itemUrl:" + url);
         return url;
     }
     
@@ -295,18 +285,23 @@ public class AgentMaje {
         massItem.setItemUrl(validUrl);
     }
     
-    private static void setItemTitle(MassItem massItem, Element element) {
+    private static void extractItemTitle(MassItem massItem, Element element) {
         
-        Element infos = element.getElementsByClass("infosProduct").get(0);
-        String itemTitle = Formatter.formatWithoutComma(infos.getElementsByClass("product-name").get(0).getElementsByClass("name-link").text());
+        Elements productInfoElements = element.getElementsByClass("product-info product-list__item-info");
+        Elements productNameElements = productInfoElements.get(0).getElementsByClass("product-name");
+        Elements itemTitleElements = productNameElements.get(0).getElementsByTag("a");
+        String itemTitle = itemTitleElements.text();
         
         String validItemTitle = getValidItemTitle(itemTitle);
+
+        LOGGER.info("itemTitle:" + validItemTitle);
         massItem.setItemTitleDE(validItemTitle);
     }
     
     private static void setBrandName(MassItem massItem) {
-        massItem.setBrandNameDE(AgentMaje.BRAND_NAME_DE);
-        massItem.setBrandNameKor(AgentMaje.BRAND_NAME_KOR);
+        massItem.setBrandNameDE(BRAND_NAME_DE);
+        massItem.setBrandNameKor(BRAND_NAME_KOR);
+        massItem.setBrandHomepageUrl(BRAND_HOMEPAGE_URL);
     }
     
     private static void setMainImageName(MassItem massItem) {
@@ -314,10 +309,13 @@ public class AgentMaje {
         massItem.setMainImageName(mainImageName);
     }
     
-    public static void downloadingMainImage(MassItem item,Element urlElement) throws IOException {
-        Elements items = urlElement.getElementsByClass("product-image").get(0).getElementsByClass("thumb-link");
-        String imageUrl = items.get(0).getAllElements().get(0).getElementsByTag("img").attr("data-src");
-        savingMainImage(item.getMainImageName(), DIR_MAIN_IMAGES, imageUrl);
+    public static void extractMainImage(MassItem item,Element urlElement) throws IOException {
+        Elements productImageElements = urlElement.getElementsByClass("product-image ").get(0).getElementsByClass("thumb-link");
+        String imageUrls = productImageElements.get(0).getElementsByTag("img").attr("srcset");
+        String rawImageUrl = Formatter.splitAfterWord(imageUrls, ".jpg").get(0);
+        String mainImageUrl = BRAND_HOMEPAGE_URL + Formatter.removeEmptySymbol(rawImageUrl) + ".jpg";
+        
+        savingMainImage(item.getMainImageName(), DIR_MAIN_IMAGES, mainImageUrl);
     }
      
     private static void savingMainImage(final String imageName, String directory, final String imageUrl) {

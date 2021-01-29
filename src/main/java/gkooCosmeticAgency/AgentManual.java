@@ -44,6 +44,8 @@ public class AgentManual {
     private final static String PRODUCT_USAGE = "9"; //GrobalDefined.categoryUsageManual
     private final static String PRODUCT_HIDDEN_URL = "https://www.douglas.de/Sale-Make-Up-Ren%C3%A9-Furterer-Produkte-Volumen-Shampoo-200-ml_product_M1223046.html";
     private final static String COUPANG_CATEGORY_CODE = ""; //GrobalDefined.categoryCodeCoopang
+    public static final String CATEGORY_NUMBER_CAFE24 = "";
+
     //#####
     //##### Product Input   
     
@@ -72,7 +74,7 @@ public class AgentManual {
         MassItemConverter massItemConverter = new MassItemConverter(massItem);
         baseItemCosmeticList.add(massItemConverter);
         
-        Cafe24 cafe24 = new Cafe24(baseItemCosmeticList, BRAND_NAME_KOR);
+        Cafe24 cafe24 = new Cafe24(baseItemCosmeticList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24);
         cafe24.createCsvFileManual(AgentManual.DIR_EXCEL_FILE, PRODUCT_NAME_KOR);
         
         //coupang api

@@ -142,7 +142,7 @@ public class MassItemMode  extends BaseItem {
         bd.append("<p style=\"text-align: center;\"><span style=\"font-size: 12pt;\"><strong>사이즈 및 재고 체크</strong></span></p>");
         bd.append(getEmptyLineHtml());        
         bd.append("1.) 사이즈와 재고는 구매전 사이트에서 한번 셀프 체크 또는 지쿠스토어에 문의주세요<br>");
-        bd.append("2.) uk.maje.com 방문<br>");
+        bd.append("2.) " + massItem.getBrandHomepageUrl() + " 방문<br>");
         bd.append("3.) 웹사이트 상단 오른쪽 Search 란에 검색해주세요: " + massItem.getItemTitleDE() + "<br>");
         bd.append(getEmptyLineHtml());        
         return bd.toString();

@@ -118,7 +118,7 @@ public class GrobalDefined {
     public static final HashMap<String, Integer> categoryIdSmart = new HashMap<>() {
         {
             put("블라우스/셔츠", 50000804);
-            
+            put("티셔츠", 50000803);
         }
     };
     

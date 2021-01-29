@@ -9,6 +9,7 @@ import util.GrobalDefined.Gender;
 
 public class MassItem {
     private String itemUrl;
+    private String brandHomepageUrl;
     private String brandNameDE;
     private String brandNameKor;
     private String itemCategory;
@@ -331,5 +332,13 @@ public class MassItem {
 
     public void setModeDeiveryFee(int modeDeiveryFee) {
         this.modeDeiveryFee = modeDeiveryFee;
+    }
+
+    public String getBrandHomepageUrl() {
+        return brandHomepageUrl;
+    }
+
+    public void setBrandHomepageUrl(String brandHomepageUrl) {
+        this.brandHomepageUrl = brandHomepageUrl;
     }
 }

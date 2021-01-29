@@ -54,6 +54,10 @@ public class Formatter {
         return str.replace(" ", "_");
     }
     
+    public static String removeEmptySymbol(String str) {
+        return str.replace(" ", "");
+    }
+    
     public static String convertMainImageUrl(String mainaImageName) {
         return "https://moondrive81.cafe24.com/GKoo/cosmetic/main_images/" + mainaImageName + ".jpg";
     }

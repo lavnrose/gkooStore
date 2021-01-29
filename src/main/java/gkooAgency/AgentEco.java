@@ -88,7 +88,7 @@ public class AgentEco {
         }
         
         //cafe24
-        Cafe24 cafe24 = new Cafe24(baseItemCosmeticList, BRAND_NAME_KOR);
+        Cafe24 cafe24 = new Cafe24(baseItemCosmeticList, BRAND_NAME_KOR, "");
         cafe24.createCsvFile(AgentEco.DIR_EXCEL_FILE);
         
         SmartStore smartStore = new SmartStore(BRAND_NAME_KOR, baseItemCosmeticList);

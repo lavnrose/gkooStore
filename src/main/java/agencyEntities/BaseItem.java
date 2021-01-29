@@ -134,4 +134,5 @@ public abstract class BaseItem {
     public abstract String getDetailPageSmart();
     
     public abstract boolean isItemSale();
+    
 }

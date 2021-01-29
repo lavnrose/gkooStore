@@ -11,6 +11,7 @@ import util.GrobalDefined;
 
 public class Cafe24 {
     private String brandNameKor;
+    private String categoryNumber;
     private List<BaseItemCosmetic> massItemCosmeticList;
     private List<BaseItem> massItemList;
     
@@ -27,8 +28,10 @@ public class Cafe24 {
 //        this.massItemList = baseItemList;
 //    }
     
-    public Cafe24(List<?> itemList, String brandNameKor) {
+    public Cafe24(List<?> itemList, String brandNameKor, String categoryNumber) {
         this.brandNameKor = brandNameKor;
+        this.categoryNumber = categoryNumber;
+        
         if(itemList.get(0) instanceof BaseItem) {
             this.massItemList = (List<BaseItem>) itemList;
         } else if(itemList.get(0) instanceof BaseItemCosmetic) {
@@ -114,7 +117,7 @@ public class Cafe24 {
         fileWriter.append("Y");
         fileWriter.append(COMMA_DELIMITER);
         //상품분류 번호
-        fileWriter.append("");
+        fileWriter.append(categoryNumber);
         fileWriter.append(COMMA_DELIMITER);
         //상품분류 신상품영역
         fileWriter.append("Y");
