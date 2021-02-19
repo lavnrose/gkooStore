@@ -2,7 +2,6 @@ package agencyEntities;
 
 import java.util.List;
 import org.apache.commons.lang3.math.NumberUtils;
-import gkooAgency.AgentEco;
 import gkooCosmeticAgency.AgentManual;
 import util.GrobalDefined;
 import util.GrobalDefined.Gender;
@@ -31,6 +30,7 @@ public class MassItem {
     private List<String> itemSizes;
     private List<String> itemSizesPrice;
     private List<String> itemSizesStock;
+    private List<String> itemOptions;
     private String materials;
     private int modeDeiveryFee;
     
@@ -340,5 +340,13 @@ public class MassItem {
 
     public void setBrandHomepageUrl(String brandHomepageUrl) {
         this.brandHomepageUrl = brandHomepageUrl;
+    }
+
+    public List<String> getItemOptions() {
+        return itemOptions;
+    }
+
+    public void setItemOptions(List<String> itemOptions) {
+        this.itemOptions = itemOptions;
     }
 }

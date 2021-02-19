@@ -3,8 +3,6 @@ package coupang;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,16 +15,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import com.coupang.openapi.sdk.Hmac;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import coupang.entities.CategoryPredict;
-import coupang.entities.CategoryPredictResponse;
 import coupang.entities.CoupangItem;
 import coupang.entities.SellerProduct;
-import gkooAgency.AgentEco;
 
 public class CoupangApi {
     private static final Logger LOGGER = LogManager.getLogger(CoupangApi.class);

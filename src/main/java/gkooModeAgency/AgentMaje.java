@@ -23,22 +23,22 @@ import util.ImageDownloader;
 
 public class AgentMaje {
     private static final Logger LOGGER = LogManager.getLogger(AgentMaje.class);
-    public final static String BRAND_HOMEPAGE_URL = "";
+    public final static String BRAND_HOMEPAGE_URL = "https://eu.maje.com/";
     public final static String BRAND_NAME_KOR = "마쥬";
     public final static String BRAND_NAME_DE = "maje";
-    public final static String ITEM_CATETOTY = "/t-shirt/";
+    public final static String ITEM_CATETOTY = "/trouser/";
     public static String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/의류/" + BRAND_NAME_DE;
     public static String DIR_BRAND_CATEGORY = DIR_BRAND + ITEM_CATETOTY;
-    public static String HTML_BRAND = DIR_BRAND_CATEGORY + "/women_t-shirt.html";
+    public static String HTML_BRAND = DIR_BRAND_CATEGORY + "/women_trouser.html";
     
     public static String DIR_FILEUPLOADER = BRAND_NAME_DE + ITEM_CATETOTY + "main_images/";
     public static String DIR_MAIN_IMAGES = DIR_BRAND_CATEGORY + "main_images/";
     public static String DIR_EXCEL_FILE = DIR_BRAND_CATEGORY;
     
-    public static final int DELIVERY_FEE= 8000;
+    public static final int DELIVERY_FEE= 12000;
     public static Gender CATEGORY_GENDER = Gender.FEMALE;
-    public static final String CATEGORY_ID_SMARTSTORE = "50000803";
-    public static final String CATEGORY_NUMBER_CAFE24 = "273";
+    public static final String CATEGORY_ID_SMARTSTORE = "50000810";
+    public static final String CATEGORY_NUMBER_CAFE24 = "281";
 
     private static final String [] ITEM_SIZE_US = {"XS", "S", "M", "L", "XL"};
     private static final String [] ITEM_SIZE_UK = {"UK8", "UK10", "UK12", "UK14", "UK16"};
@@ -78,11 +78,11 @@ public class AgentMaje {
             baseItemList.add(massItemLando);
         }
         
-        Cafe24 cafe24 = new Cafe24(baseItemList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24);
-        cafe24.createCsvFileMode(AgentMaje.DIR_EXCEL_FILE);
+        Cafe24 cafe24 = new Cafe24(baseItemList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24, DIR_FILEUPLOADER);
+        cafe24.createCsvFileMode(DIR_EXCEL_FILE);
         
         SmartStore smartStore = new SmartStore(baseItemList, CATEGORY_ID_SMARTSTORE, BRAND_NAME_KOR);
-        smartStore.createExcelMode(AgentMaje.DIR_EXCEL_FILE);
+        smartStore.createExcelMode(DIR_EXCEL_FILE);
         
         LOGGER.info("A mission end <<<=== ");
     }
@@ -99,15 +99,18 @@ public class AgentMaje {
         //1. extract the detailed images
         try {
             extractDetailImages(doc, item);
+            LOGGER.info("extractDetailImages starts...");
         } catch (IOException e) {
             LOGGER.error("Error extracting detailImages:" + itemUrl);
         }
         
         //2. extract the price
         extractItemPrice(doc, item);
+        LOGGER.info("extractItemPrice starts...");
         
         //3. extract the materials
         extractItemMaterials(doc, item);
+        LOGGER.info("extractItemMaterials starts...");
         
         //4. Options: setitemSize, setitemSizePrice, setitemSizeStock
         setOptions(item);
@@ -179,8 +182,8 @@ public class AgentMaje {
         Elements prices = elementsPrices.get(0).getAllElements();
         String orgPrice = prices.get(0).getElementsByClass("price-standard ").text();
         String salesPrice = prices.get(0).getElementsByClass("price-sales ").text();
-        System.out.println(Formatter.deleteNonDigits(orgPrice));
-        System.out.println(Formatter.deleteNonDigits(salesPrice));
+        //System.out.println(Formatter.deleteNonDigits(orgPrice));
+        //System.out.println(Formatter.deleteNonDigits(salesPrice));
         item.setItemSale(true);
         item.setItemPriceEuro(Double.valueOf(Formatter.deleteNonDigits(orgPrice)));
         item.setItemSalePriceEuro(Double.valueOf(Formatter.deleteNonDigits(salesPrice)));
@@ -300,17 +303,24 @@ public class AgentMaje {
         Element infos = element.getElementsByClass("infosProduct").get(0);
         String itemTitle = Formatter.formatWithoutComma(infos.getElementsByClass("product-name").get(0).getElementsByClass("name-link").text());
         
-        String validItemTitle = getValidItemTitle(itemTitle);
+        //format title
+        String formattedItemTitle = Formatter.replaceUmlaut(itemTitle);
+        
+        String validItemTitle = getValidItemTitle(formattedItemTitle);
+        
         massItem.setItemTitleDE(validItemTitle);
     }
     
     private static void setBrandName(MassItem massItem) {
-        massItem.setBrandNameDE(AgentMaje.BRAND_NAME_DE);
-        massItem.setBrandNameKor(AgentMaje.BRAND_NAME_KOR);
+        massItem.setBrandNameDE(BRAND_NAME_DE);
+        massItem.setBrandNameKor(BRAND_NAME_KOR);
+        massItem.setBrandHomepageUrl(BRAND_HOMEPAGE_URL);
     }
     
     private static void setMainImageName(MassItem massItem) {
-        String mainImageName = Formatter.replaceUmlaut(Formatter.replaceEmptySymbol(massItem.getItemTitleDE()));
+        String mainImageName = Formatter.replaceEmptySymbol(massItem.getItemTitleDE());
+        
+        LOGGER.info("mainImageName: " + mainImageName);
         massItem.setMainImageName(mainImageName);
     }
     

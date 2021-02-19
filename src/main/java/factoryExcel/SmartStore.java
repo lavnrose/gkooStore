@@ -125,6 +125,10 @@ public class SmartStore {
     
     //Mode
     public void createExcelMode(String dirExcelFile) {
+        //for test excel file
+        LOGGER.info("Creating the test excel for smartstore starts...");
+        createExcelModeTest(dirExcelFile);
+        
         LOGGER.info("Creating the excel for smartstore starts...");
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("maje");
@@ -153,8 +157,47 @@ public class SmartStore {
         }
 
         try {
-            FileOutputStream outputStream = new FileOutputStream(dirExcelFile + itemTitlePrefix + "_smartstore_ready.xlsx");
-            //FileOutputStream outputStream = new FileOutputStream(dirExcelFile + "_smartstore_ready.xls");
+            FileOutputStream outputStream = new FileOutputStream(dirExcelFile + itemTitlePrefix + "_smartstore.xlsx");
+            workbook.write(outputStream);
+            workbook.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LOGGER.info("the excel for smartstore is created");
+    }
+    
+    //one item for test
+    private void createExcelModeTest(String dirExcelFile) {
+        LOGGER.info("Creating the excel for smartstore starts...");
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("maje");
+        
+        Map<String, Object[]> data = new TreeMap<String, Object[]>();
+        int i = 0;
+        Object createdItemRow[] = createItemRowMode(massItemList.get(i));
+        data.put(String.valueOf(i+1), createdItemRow);
+
+        Set<String> keyset = data.keySet();
+        int rownum = 1;
+        for (String key : keyset)
+        {
+            Row row = sheet.createRow(rownum++);
+            Object [] objArr = data.get(key);
+            int cellnum = 0;
+            for (Object obj : objArr)
+            {
+               Cell cell = row.createCell(cellnum++);
+               if(obj instanceof String)
+                    cell.setCellValue((String)obj);
+                else if(obj instanceof Integer)
+                    cell.setCellValue((Integer)obj);
+            }
+        }
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream(dirExcelFile + itemTitlePrefix + "_smartstore_test.xlsx");
             workbook.write(outputStream);
             workbook.close();
         } catch (FileNotFoundException e) {
@@ -788,9 +831,9 @@ public class SmartStore {
         //옵션형태
         itemRow[49] = "조합형";
         //옵션명
-        itemRow[50] = "사이즈";
+        itemRow[50] = "사이즈\n발 넓이";
         //옵션값
-        itemRow[51] = item.getSizeListString();
+        itemRow[51] = item.getSizeListString() + "\n보통발, 좁은발";
         //옵션가
         itemRow[52] = item.getSizeListPriceString();
         //옵션 재고수량

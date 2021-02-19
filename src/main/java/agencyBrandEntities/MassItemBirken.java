@@ -11,8 +11,8 @@ import agencyEntities.MassItem;
 import util.Formatter;
 import util.GrobalDefined.Gender;
 
-public class MassItemMode extends BaseItem {
-    private static final Logger LOGGER = LogManager.getLogger(MassItemMode.class);
+public class MassItemBirken extends BaseItem  {
+    private static final Logger LOGGER = LogManager.getLogger(MassItemBirken.class);
 
     private int priceWon;
     private int priceSaleWon;
@@ -20,10 +20,8 @@ public class MassItemMode extends BaseItem {
     private MassItem massItem;
     private List<String> detailImageUrlList = new ArrayList<>();
     
-    public MassItemMode(MassItem massItem) {
+    public MassItemBirken(MassItem massItem) {
         this.massItem = massItem;
-        //this.priceWon = super.calculatePriceCommisionWon(massItem.getItemPriceEuro());
-        //this.priceSubstractWon = massItem.isItemSale() ? super.calculatePriceNoCommisionWon(massItem.getItemPriceEuro() - massItem.getItemSalePriceEuro()) : 0;
         this.priceWon = super.calculatePriceCommisionVATWon(massItem.getItemPriceEuro(), massItem.getModeDeiveryFee());
         if(massItem.isItemSale()) {
             this.priceSaleWon = super.calculatePriceCommisionVATWon(massItem.getItemSalePriceEuro(), massItem.getModeDeiveryFee());
@@ -75,7 +73,7 @@ public class MassItemMode extends BaseItem {
                 detailImageUrlList.add(transformToHtmlLogo(getCompanyLogoUrl()));
             }
             imagesCommaSeparated = detailImageUrlList.stream().collect(Collectors.joining(""));
-            return addAlignment(addTopBottomInfo(addBuyingInfo(addSizeCheckButton(addProductInfo(imagesCommaSeparated)))));
+            return addAlignment(addTopBottomInfo(addBuyingInfo(addWidthGuideInfo(addSizeInfo(imagesCommaSeparated)))));
         }
     }
     
@@ -92,7 +90,7 @@ public class MassItemMode extends BaseItem {
                 detailImageUrlList.add(transformToHtmlLogo(getCompanyLogoUrl()));
             }
             imagesCommaSeparated = detailImageUrlList.stream().collect(Collectors.joining(""));
-            return addAlignment(addTopBottomInfo(addBuyingInfo(addSizeStockCheckInfo(addProductInfo(imagesCommaSeparated)))));
+            return addAlignment(addTopBottomInfo(addBuyingInfo(addWidthGuideInfo(addSizeInfo(imagesCommaSeparated)))));
         }
     }
     
@@ -138,15 +136,16 @@ public class MassItemMode extends BaseItem {
         return bd.toString();
     }
     
-    private String addSizeStockCheckInfo(String itemImagesHtml) {
+    private String addWidthGuideInfo(String itemImagesHtml) {
         Objects.requireNonNull(massItem.getBrandHomepageUrl());
         StringBuilder bd = new StringBuilder();
         bd.append(itemImagesHtml);
-        bd.append("<p style=\"text-align: center;\"><span style=\"font-size: 12pt;\"><strong>사이즈 및 재고 체크</strong></span></p>");
+        bd.append("<p style=\"text-align: center;\"><span style=\"font-size: 12pt;\"><strong>발 넓이 선택</strong></span></p>");
         bd.append(getEmptyLineHtml());        
-        bd.append("1.) 사이즈와 재고는 구매전 사이트에서 한번 셀프 체크 또는 지쿠스토어에 문의주세요<br>");
-        bd.append("2.) " + massItem.getBrandHomepageUrl() + " 방문<br>");
-        bd.append("3.) 웹사이트 상단 오른쪽 Search 란에 검색해주세요: " + massItem.getItemTitleDE() + "<br>");
+        bd.append("<p style=\"text-align: center;\">");
+        bd.append("1.) 상품에 따라  보통발 또는 좁은발로 발넓이 선택이 가능합니다. <br>");
+        bd.append("2.) 대부분 보통발 넓이를 주문하셔서 좁은발을 주문하실려면 안내문 보시고 주문 가능여부 문의주시길 부탁드립니다.<br>");
+        bd.append("<</p>");
         bd.append(getEmptyLineHtml());        
         return bd.toString();
     }
@@ -154,12 +153,8 @@ public class MassItemMode extends BaseItem {
     private String addSizeInfo(String itemImagesHtml) {
         StringBuilder imageBuilder = new StringBuilder();
         imageBuilder.append(itemImagesHtml);
-        if (massItem.getGender().equals(Gender.MALE)) {
-            imageBuilder.append("<center><img style=\"padding-bottom: 10px;\" src=\"https://moondrive81.cafe24.com/GKoo/size_guide/men_size_guide_zal.jpg\"/></center>");
-            imageBuilder.append("<center><img style=\"padding-bottom: 10px;\" src=\"https://moondrive81.cafe24.com/GKoo/size_guide/men_body_guide_zal.jpg\"/></center>");
-        } else if (massItem.getGender().equals(Gender.FEMALE)){
-            imageBuilder.append("<center><img style=\"padding-bottom: 10px;\" src=\"https://moondrive81.cafe24.com/GKoo/size_guide/women_size_guide_zal.jpg\"/></center>");
-        }
+        imageBuilder.append("<center><img style=\"padding-bottom: 10px;\" src=\"https://moondrive81.cafe24.com/GKoo/mode/birkenstock/birkenstock_size_guide.jpg\"/></center>");
+        imageBuilder.append("<center><img style=\"padding-bottom: 10px;\" src=\"https://moondrive81.cafe24.com/GKoo/mode/birkenstock/birkenstock_width_guide.jpg\"/></center>");
         imageBuilder.append(transformToHtmlLogo(getCompanyLogoUrl()));
         return imageBuilder.toString();
     }

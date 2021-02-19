@@ -95,4 +95,9 @@ public class Formatter {
     
         return output;
     }
+    
+    public static String keepOnlyAlphabet(String sentence) {
+        String newstr = sentence.replaceAll("[^A-Za-z]+", "");
+        return newstr;
+    }
 }

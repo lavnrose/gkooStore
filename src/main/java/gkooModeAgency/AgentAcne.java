@@ -38,7 +38,7 @@ public class AgentAcne {
     public static final int DELIVERY_FEE= 8000;
     public static Gender CATEGORY_GENDER = Gender.FEMALE;
     public static final String CATEGORY_ID_SMARTSTORE = "50000803";
-    public static final String CATEGORY_NUMBER_CAFE24 = "273";
+    public static final String CATEGORY_NUMBER_CAFE24 = "275";
 
     private static final String [] ITEM_SIZE_US = {"XXS","XS", "S", "M", "L"};
     private static final String [] ITEM_SIZE_UK = {"UK8", "UK10", "UK12", "UK14", "UK16"};
@@ -78,7 +78,7 @@ public class AgentAcne {
             baseItemList.add(massItemLando);
         }
         
-        Cafe24 cafe24 = new Cafe24(baseItemList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24);
+        Cafe24 cafe24 = new Cafe24(baseItemList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24, DIR_FILEUPLOADER);
         cafe24.createCsvFileMode(DIR_EXCEL_FILE);
         
         SmartStore smartStore = new SmartStore(baseItemList, CATEGORY_ID_SMARTSTORE, BRAND_NAME_KOR);

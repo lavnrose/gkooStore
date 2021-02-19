@@ -9,11 +9,11 @@ public interface IAgentModeExtractor {
     
     public void getUnitElements(Element body);
     
-    public void extractUrl(Element urlElement);
+    public void extractUrl(Element unitElement);
     
-    public void extractItemTitle(Element element);
+    public void extractItemTitle(Element unitElement);
     
-    public void extractMainImage(Element element);
+    public void extractMainImage(Element unitElement);
     
     public void createMassItemTest();
     
@@ -27,9 +27,9 @@ public interface IAgentModeExtractor {
     //price
     public void extractItemPrice(Document doc);
     
-    public void setOriginPrice(Elements elementsPrices);
-    
     public Elements extractPriceElements(Element body);
+    
+    public void setOriginPrice(Elements elementsPrices);
     
     //materials
     public void extractItemMaterials(Document doc);
