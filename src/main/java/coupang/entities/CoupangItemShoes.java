@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import util.Formatter;
 
-public class CoupangItem extends Item {
+public class CoupangItemShoes extends Item {
     private String itemName = "item";
     private int originalPrice;
     private int salePrice;
@@ -28,21 +28,28 @@ public class CoupangItem extends Item {
     private boolean emptyBarcode = true;
     private String emptyBarcodeReason = "";
     private String modelNo = "";
+    private String dirFileUploader = "";
+    private String itemSizeList = "";
+    private String color = "";
     private Map<String, String> extraProperties = new HashMap<>();
     private List<Certification> certifications = new ArrayList<>();
     private List<String> searchTags = new ArrayList<>();
     private List<CoupangImage> images = new ArrayList<>();
     private List<CoupangNotice> notices = new ArrayList<>();
-    private final String NOTICE_CATEGORY_NAME = "화장품";
+    private final String NOTICE_CATEGORY_NAME = "구두/신발";
     private List<CoupangAttribute> attributes = new ArrayList<>();
     private List<CoupangContent> contents = new ArrayList<>();
     
-    public CoupangItem(int originalPrice, int salePrice, String contentHtml, String sellerProductName) {
+    public CoupangItemShoes(int originalPrice, int salePrice, String contentHtml,
+            String sellerProductName, String dirFileUploader, String itemSizeList, String color) {
         this.originalPrice = originalPrice;
         this.salePrice = salePrice;
+        this.dirFileUploader = dirFileUploader;
+        this.itemSizeList = itemSizeList;
+        this.color = color;
         setExtraProperties();
         setCertifications();
-        setNotices();
+        setNoticesShoes();
         setAttributes();
         setContents(contentHtml);
         setMainImage(sellerProductName);
@@ -52,7 +59,7 @@ public class CoupangItem extends Item {
         CoupangImage coupangImage = new CoupangImage();
         coupangImage.setImageOrder(0);
         coupangImage.setImageType("REPRESENTATION");
-        coupangImage.setVendorPath(Formatter.convertMainImageUrl(sellerProductName));
+        coupangImage.setVendorPath("https://moondrive81.cafe24.com/GKoo/mode/" + dirFileUploader + sellerProductName);
         this.images.add(coupangImage);
     }
     
@@ -65,35 +72,53 @@ public class CoupangItem extends Item {
     }
     
     private void setAttributes() {
-        CoupangAttribute coupangAttribute = new CoupangAttribute();
-        coupangAttribute.setAttributeTypeName("수량");
-        coupangAttribute.setAttributeValueName("개");
-        this.attributes.add(coupangAttribute);
+//        CoupangAttribute coupangAttribute = new CoupangAttribute();
+//        coupangAttribute.setAttributeTypeName("수량");
+//        coupangAttribute.setAttributeValueName("개");
+        
+        CoupangAttribute attributeColor = new CoupangAttribute();
+        attributeColor.setAttributeTypeName("색상");
+        attributeColor.setAttributeValueName(color);
+        
+        CoupangAttribute attributeSize = new CoupangAttribute();
+        attributeSize.setAttributeTypeName("신발사이즈(mm)");
+        attributeSize.setAttributeValueName(itemSizeList);
+        
+        //this.attributes.add(coupangAttribute);
+        this.attributes.add(attributeColor);
+        this.attributes.add(attributeSize);
     }
     
     private void setNotices() {
-        CoupangNotice CoupangNotice1 = new CoupangNotice(NOTICE_CATEGORY_NAME, "용량(중량)", "100ml");
-        //CoupangNotice CoupangNotice2 = new CoupangNotice(NOTICE_CATEGORY_NAME, "제품 주요 사양", "");
-        CoupangNotice CoupangNotice3 = new CoupangNotice(NOTICE_CATEGORY_NAME, "사용기한 또는 개봉 후 사용기간", "상품상세페이지참조");
-        CoupangNotice CoupangNotice4 = new CoupangNotice(NOTICE_CATEGORY_NAME, "사용방법", "상품상세페이지참조");
-        CoupangNotice CoupangNotice5 = new CoupangNotice(NOTICE_CATEGORY_NAME, "화장품제조업자 및 화장품책임판매업자", "상품상세페이지참조");
-        CoupangNotice CoupangNotice6 = new CoupangNotice(NOTICE_CATEGORY_NAME, "제조국", "상품상세페이지참조");
-        CoupangNotice CoupangNotice7 = new CoupangNotice(NOTICE_CATEGORY_NAME, "화장품법에 따라 기재, 표시하여야 하는 모든 성분", "상품상세페이지참조");
-        CoupangNotice CoupangNotice8 = new CoupangNotice(NOTICE_CATEGORY_NAME, "식품의약품안전처 심사 필 유무", "상품상세페이지참조");
-        CoupangNotice CoupangNotice9 = new CoupangNotice(NOTICE_CATEGORY_NAME, "사용할 때 주의사항", "상품상세페이지참조");
-        CoupangNotice CoupangNotice10 = new CoupangNotice(NOTICE_CATEGORY_NAME, "품질보증기준", "상품상세페이지참조");
-        CoupangNotice CoupangNotice11 = new CoupangNotice(NOTICE_CATEGORY_NAME, "소비자상담관련 전화번호", "070-4001-8993");
+        CoupangNotice CoupangNotice1 = new CoupangNotice(NOTICE_CATEGORY_NAME, "품명 및 모델명", "상품상세페이지참조");
+        CoupangNotice CoupangNotice2 = new CoupangNotice(NOTICE_CATEGORY_NAME, "인증사항", "상품상세페이지참조");
+        CoupangNotice CoupangNotice3 = new CoupangNotice(NOTICE_CATEGORY_NAME, "제조국(원산지)", "상품상세페이지참조");
+        CoupangNotice CoupangNotice4 = new CoupangNotice(NOTICE_CATEGORY_NAME, "제조사(수입자)", "상품상세페이지참조");
+        CoupangNotice CoupangNotice5 = new CoupangNotice(NOTICE_CATEGORY_NAME, "소비자상담관련 전화번호", "070-4001-8993");
         notices.add(CoupangNotice1);
-        //notices.add(CoupangNotice2);
+        notices.add(CoupangNotice2);
         notices.add(CoupangNotice3);
         notices.add(CoupangNotice4);
+        notices.add(CoupangNotice5);
+    }
+    
+    private void setNoticesShoes() {
+        CoupangNotice CoupangNotice1 = new CoupangNotice(NOTICE_CATEGORY_NAME, "제품의 주소재(운동화인 경우에는 겉감,안감을 구분하여 표시)", "상세페이지 참조");
+        CoupangNotice CoupangNotice2 = new CoupangNotice(NOTICE_CATEGORY_NAME, "색상", "상세페이지 참조");
+        CoupangNotice CoupangNotice3 = new CoupangNotice(NOTICE_CATEGORY_NAME, "치수", "상세페이지 참조");
+        //CoupangNotice CoupangNotice4 = new CoupangNotice(NOTICE_CATEGORY_NAME, "제조사(수입자)", "상세페이지 참조");
+        CoupangNotice CoupangNotice5 = new CoupangNotice(NOTICE_CATEGORY_NAME, "제조국", "상세페이지 참조");
+        CoupangNotice CoupangNotice6 = new CoupangNotice(NOTICE_CATEGORY_NAME, "취급시 주의사항", "상세페이지 참조");
+        CoupangNotice CoupangNotice7 = new CoupangNotice(NOTICE_CATEGORY_NAME, "품질보증기준", "상세페이지 참조");
+        CoupangNotice CoupangNotice8 = new CoupangNotice(NOTICE_CATEGORY_NAME, "A/S 책임자와 전화번호", "070-4001-8993");
+        notices.add(CoupangNotice1);
+        notices.add(CoupangNotice2);
+        notices.add(CoupangNotice3);
+        //notices.add(CoupangNotice4);
         notices.add(CoupangNotice5);
         notices.add(CoupangNotice6);
         notices.add(CoupangNotice7);
         notices.add(CoupangNotice8);
-        notices.add(CoupangNotice9);
-        notices.add(CoupangNotice10);
-        notices.add(CoupangNotice11);
     }
     
     private void setCertifications() {

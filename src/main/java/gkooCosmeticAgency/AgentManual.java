@@ -86,7 +86,7 @@ public class AgentManual {
             String displayProductName = itemCosmetic.getItemFullnameWithPrefix();
             String brand = itemCosmetic.getMassItem().getBrandNameDE();
             
-            CoupangApi.createProduct(GrobalDefined.categoryCodeCoopang.get(COUPANG_CATEGORY_CODE), 
+            CoupangApi.createProductCosmetic(GrobalDefined.categoryCodeCoopang.get(COUPANG_CATEGORY_CODE), 
                     originalPrice, salePrice, contentHtml, mainImageName, displayProductName, brand);
             LOGGER.info("product is create by coupang api:" + displayProductName);
         }

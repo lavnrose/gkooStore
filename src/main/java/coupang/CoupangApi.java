@@ -3,6 +3,7 @@ package coupang;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -19,9 +20,15 @@ import org.json.JSONObject;
 import com.coupang.openapi.sdk.Hmac;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import agencyEntities.BaseItem;
+import agencyEntities.BaseItemCosmetic;
 import coupang.entities.CategoryPredict;
 import coupang.entities.CoupangItem;
+import coupang.entities.CoupangItemShoes;
 import coupang.entities.SellerProduct;
+import coupang.entities.SellerProductShoes;
+import util.Formatter;
+import util.GrobalDefined;
 
 public class CoupangApi {
     private static final Logger LOGGER = LogManager.getLogger(CoupangApi.class);
@@ -48,7 +55,38 @@ public class CoupangApi {
         //coupangApi.predictCategory(getCategoryPredictJson("산테 밸런스 바디로션 150ml"));
     }
     
-    public static void createProduct(int categoryCode, int originalPrice, int salePrice, String contentHtml, String sellerProductName, String displayProductName, String brand) {
+    public void createProducts(List<BaseItem> baseItemList, int categoryCode, String dirFileUploader, String itemSizeList) {
+        for(BaseItem baseItem : baseItemList) {
+            int originalPrice = Integer.valueOf(baseItem.getPriceWonString());
+            int salePrice = Integer.valueOf(baseItem.getPriceWonString());
+            String contentHtml = baseItem.getDetailPageSmart();
+            String mainImageName = baseItem.getMainImageFileName();
+            String displayProductName = "[" + baseItem.getMassItem().getBrandNameKor() + "] " + baseItem.getMassItem().getItemTitleDE();
+            String brand = baseItem.getMassItem().getBrandNameDE();
+            String color = baseItem.getMassItem().getItemColors().get(0);
+            readyCreatProduct(categoryCode, originalPrice, salePrice, 
+                    contentHtml, mainImageName, displayProductName, brand, dirFileUploader, itemSizeList, color);
+            LOGGER.info("product is create by coupang api:" + displayProductName);
+        }
+    }
+    
+    private void readyCreatProduct(int categoryCode, int originalPrice, int salePrice, String contentHtml, 
+            String sellerProductName, String displayProductName, String brand, String dirFileUploader, String itemSizeList, String color) {
+        initCoupangApi();
+        int categoryCodeCoupang;
+        CoupangItemShoes coupangItem = new CoupangItemShoes(originalPrice, salePrice, contentHtml, sellerProductName, dirFileUploader, itemSizeList, color);
+        if(categoryCode == 0) {
+            String displayCategoryCodeStr = predictCategory(getCategoryPredictJson(displayProductName));
+            categoryCodeCoupang = Integer.valueOf(displayCategoryCodeStr);
+        } else {
+            categoryCodeCoupang = categoryCode;
+        }
+        SellerProductShoes sellerProduct = new SellerProductShoes(categoryCodeCoupang, sellerProductName, displayProductName, brand, displayProductName, coupangItem);
+        String sellerProductJjsonStr = getSellerProductShoesJson(sellerProduct);
+        createProduct(sellerProductJjsonStr);
+    }
+    
+    public static void createProductCosmetic(int categoryCode, int originalPrice, int salePrice, String contentHtml, String sellerProductName, String displayProductName, String brand) {
         initCoupangApi();
         CoupangApi coupangApi = new CoupangApi();
         int categoryCodeCoupang;
@@ -76,6 +114,17 @@ public class CoupangApi {
     }
     
     private static String getSellerProductJson(SellerProduct sellerProduct) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String sellerProductAsString = "";
+        try {
+            sellerProductAsString = objectMapper.writeValueAsString(sellerProduct);
+        } catch (JsonProcessingException e) {
+            
+        }
+        return sellerProductAsString;
+    }
+    
+    private static String getSellerProductShoesJson(SellerProductShoes sellerProduct) {
         ObjectMapper objectMapper = new ObjectMapper();
         String sellerProductAsString = "";
         try {

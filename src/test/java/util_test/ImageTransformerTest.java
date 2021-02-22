@@ -8,6 +8,6 @@ public class ImageTransformerTest {
     
     @Test
     public void createRectangleImage() {
-        ImageTransformer.runWithResizingFile("René Furterer Keratin shampoo 600ml", DIR_MAIN_IMAGES, 500, 500);
+        ImageTransformer.runWithResizingFile("herbacin kamille hautstraffende Body Lotion", DIR_MAIN_IMAGES, 500, 500);
     }
 }

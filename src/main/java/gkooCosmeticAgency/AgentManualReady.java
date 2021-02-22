@@ -16,9 +16,9 @@ public class AgentManualReady {
     private static final String descriptionPath = userDir + "/src/main/resources/cosmetic/descriptionBoard_DE.txt";
     
     public static void main(String[] args) {
-        doResizeImage();
+        //doResizeImage();
         
-        //showTranslatedDescription();
+        showTranslatedDescription();
     }
     
     private static void doResizeImage() {

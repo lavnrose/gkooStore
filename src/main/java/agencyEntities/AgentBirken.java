@@ -42,6 +42,11 @@ public class AgentBirken extends Agent implements IModeAgent {
         String colorName = unitElement.getElementsByClass("product-colorname").get(0).text();
         
         String itemTitle = modelName + " " + shortName + " " + colorName;
+        
+        List<String> itemColors = new ArrayList<>();
+        itemColors.add(colorName);
+        massItem.setItemColors(itemColors);
+        
         return itemTitle;
     }
 

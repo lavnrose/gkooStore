@@ -110,7 +110,7 @@ public class GrobalDefined {
         {
             put("", 0);
             put("나이트크림", 56166);
-            
+            put("여성샌들", 69471);
         }
     };
     

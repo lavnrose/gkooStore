@@ -14,7 +14,7 @@ public abstract class BaseItem {
     private static final double TAX_LIMIT= 150000;
     
     private static int feePercent = 7;
-    private static double minimumCommision = 8000;
+    private static double minimumCommision = 13000;
     //2자리리 내림 ex. 10511원? -> 10500원?
     private final int ROUNDED_DIGIT = 3;
     

@@ -145,7 +145,7 @@ public class MassItemBirken extends BaseItem  {
         bd.append("<p style=\"text-align: center;\">");
         bd.append("1.) 상품에 따라  보통발 또는 좁은발로 발넓이 선택이 가능합니다. <br>");
         bd.append("2.) 대부분 보통발 넓이를 주문하셔서 좁은발을 주문하실려면 안내문 보시고 주문 가능여부 문의주시길 부탁드립니다.<br>");
-        bd.append("<</p>");
+        bd.append("</p>");
         bd.append(getEmptyLineHtml());        
         return bd.toString();
     }
@@ -197,7 +197,7 @@ public class MassItemBirken extends BaseItem  {
     
     @Override
     public String getSizeOptionCafe24() {
-        return "사이즈{" + massItem.getItemSizes().stream().collect(Collectors.joining("|")) + "}";
+        return "사이즈{" + massItem.getItemSizes().stream().collect(Collectors.joining("|")) + "}" + "//발넓이{보통발|좁은발}";
     }
 
     @Override
