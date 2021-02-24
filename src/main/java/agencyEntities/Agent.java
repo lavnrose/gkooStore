@@ -3,6 +3,10 @@ package agencyEntities;
 import java.util.List;
 import util.GrobalDefined.Gender;
 
+/**
+ * @author sanghuncho
+ *
+ */
 public class Agent {
     public String brandNameDe;
     public String brandNameKor;
@@ -13,6 +17,7 @@ public class Agent {
     List<String> itemSizeStockist;
     public Gender gender;
     public int deliveryFee;
+    public String dirFileUploader;
     
     public Agent(String brandNameDe, String brandNameKor, String homepageUrl, String dirMainImages,
             List<String> itemSizeList, List<String> itemSizePriceList, List<String> itemSizeStockist, Gender gender, int deliveryFee) {
@@ -25,6 +30,13 @@ public class Agent {
         this.itemSizeStockist = itemSizeStockist;
         this.gender = gender;
         this.deliveryFee = deliveryFee;
+    }
+    
+    public Agent(String brandNameDe, String brandNameKor, String dirMainImages, String dirFileUploader) {
+        this.brandNameDe = brandNameDe;
+        this.brandNameKor = brandNameKor;
+        this.dirMainImages = dirMainImages;
+        this.dirFileUploader = dirFileUploader;
     }
 
     public String getBrandNameDe() {
@@ -97,5 +109,13 @@ public class Agent {
 
     public void setDeliveryFee(int deliveryFee) {
         this.deliveryFee = deliveryFee;
+    }
+
+    public String getDirFileUploader() {
+        return dirFileUploader;
+    }
+
+    public void setDirFileUploader(String dirFileUploader) {
+        this.dirFileUploader = dirFileUploader;
     }
 }

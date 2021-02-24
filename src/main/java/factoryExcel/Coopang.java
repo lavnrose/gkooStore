@@ -173,7 +173,7 @@ public class Coopang {
         //카테고리
         itemRow[0] = "";
         //등록상품명 -- 상품노출명은 브랜드 + 아이템이름
-        itemRow[1] = item.getItemFullname();
+        //itemRow[1] = item.getMassItem().getItemFullname();
         
         //판매시작일
         itemRow[2] = "";

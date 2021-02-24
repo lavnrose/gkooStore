@@ -7,13 +7,15 @@ import util.GrobalDefined;
 import util.GrobalDefined.Gender;
 
 public class MassItem {
+    /** common proeprties */
     private String itemUrl;
     private String brandHomepageUrl;
     private String brandNameDE;
     private String brandNameKor;
     private String itemCategory;
     private String categoryId;
-    private String itemTitle;
+    //private String itemTitle;
+    private String itemTitleKor;
     private String itemTitleDE;
     private String itemTitleEN;
     private Gender gender;
@@ -22,10 +24,11 @@ public class MassItem {
     private boolean isItemSale = false;
     private double itemPriceWon;
     private String mainImageName;
+    private String dirFileUploader;
     private List<String> itemDetailImages;
     private List<String> baseImages;
     
-    //clothes proeprties
+    /** mode proeprties */
     private List<String> itemColors;
     private List<String> itemSizes;
     private List<String> itemSizesPrice;
@@ -34,7 +37,7 @@ public class MassItem {
     private String materials;
     private int modeDeiveryFee;
     
-    //cosmetic proeprties
+    /** cosmetic proeprties */
     private String itemVolume;
     private String itemDescription;
     private String itemUsage;
@@ -87,7 +90,7 @@ public class MassItem {
      */
     public MassItem(String pureItemTitle, String itemTitleDE, String itemVolume, int extraDeliveryFee, String usage) {
         this.brandNameDE =  AgentManual.BRAND_NAME_DE;
-        this.itemTitle = AgentManual.BRAND_NAME_KOR + " " + pureItemTitle;
+        //this.itemTitle = AgentManual.BRAND_NAME_KOR + " " + pureItemTitle;
         this.itemVolume = itemVolume;
         this.extraDeliveryFee = extraDeliveryFee;
         this.itemUsage = NumberUtils.isParsable(usage) ? GrobalDefined.categoryUsageManual.get(usage).getUsage() : usage;
@@ -116,12 +119,12 @@ public class MassItem {
         this.itemCategory = itemCategory;
     }
 
-    public String getItemTitle() {
-        return itemTitle;
+    public String getItemTitleKor() {
+        return itemTitleKor;
     }
 
-    public void setItemTitle(String itemTitle) {
-        this.itemTitle = itemTitle;
+    public void setItemTitleKor(String itemTitleKor) {
+        this.itemTitleKor = itemTitleKor;
     }
 
     public double getItemPriceEuro() {
@@ -348,5 +351,13 @@ public class MassItem {
 
     public void setItemOptions(List<String> itemOptions) {
         this.itemOptions = itemOptions;
+    }
+
+    public String getDirFileUploader() {
+        return dirFileUploader;
+    }
+
+    public void setDirFileUploader(String dirFileUploader) {
+        this.dirFileUploader = dirFileUploader;
     }
 }

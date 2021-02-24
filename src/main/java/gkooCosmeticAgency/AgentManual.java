@@ -55,6 +55,7 @@ public class AgentManual {
     public static String DIR_EXCEL_FILE = DIR_BRAND_CATEGORY;
 
     public static final String ITEM_CATEGORY = "";
+    public static String DIR_FILEUPLOADER = BRAND_NAME_DE + ITEM_CATEGORY;
     public static final String CATEGORY_ID_SMARTSTORE = "";
     public static final String CATEGORY_ID_COOPANG = "";
     private static final String userDir = System.getProperty("user.dir");
@@ -74,8 +75,8 @@ public class AgentManual {
         MassItemConverter massItemConverter = new MassItemConverter(massItem);
         baseItemCosmeticList.add(massItemConverter);
         
-        Cafe24 cafe24 = new Cafe24(baseItemCosmeticList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24);
-        cafe24.createCsvFileManual(AgentManual.DIR_EXCEL_FILE, PRODUCT_NAME_KOR);
+//        Cafe24 cafe24 = new Cafe24(baseItemCosmeticList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24);
+//        cafe24.createCsvFileManual(AgentManual.DIR_EXCEL_FILE, PRODUCT_NAME_KOR);
         
         //coupang api
         for(BaseItemCosmetic itemCosmetic : baseItemCosmeticList) {
@@ -87,7 +88,7 @@ public class AgentManual {
             String brand = itemCosmetic.getMassItem().getBrandNameDE();
             
             CoupangApi.createProductCosmetic(GrobalDefined.categoryCodeCoopang.get(COUPANG_CATEGORY_CODE), 
-                    originalPrice, salePrice, contentHtml, mainImageName, displayProductName, brand);
+                    originalPrice, salePrice, contentHtml, mainImageName, displayProductName, brand, DIR_FILEUPLOADER);
             LOGGER.info("product is create by coupang api:" + displayProductName);
         }
         LOGGER.info("Image file: " + massItem.getItemTitleDE() + ".jpg");

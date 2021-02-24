@@ -21,14 +21,11 @@ import com.coupang.openapi.sdk.Hmac;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import agencyEntities.BaseItem;
-import agencyEntities.BaseItemCosmetic;
 import coupang.entities.CategoryPredict;
 import coupang.entities.CoupangItem;
 import coupang.entities.CoupangItemShoes;
 import coupang.entities.SellerProduct;
 import coupang.entities.SellerProductShoes;
-import util.Formatter;
-import util.GrobalDefined;
 
 public class CoupangApi {
     private static final Logger LOGGER = LogManager.getLogger(CoupangApi.class);
@@ -86,11 +83,11 @@ public class CoupangApi {
         createProduct(sellerProductJjsonStr);
     }
     
-    public static void createProductCosmetic(int categoryCode, int originalPrice, int salePrice, String contentHtml, String sellerProductName, String displayProductName, String brand) {
+    public static void createProductCosmetic(int categoryCode, int originalPrice, int salePrice, String contentHtml, String sellerProductName, String displayProductName, String brand, String dirFileUploader) {
         initCoupangApi();
         CoupangApi coupangApi = new CoupangApi();
         int categoryCodeCoupang;
-        CoupangItem coupangItem = new CoupangItem(originalPrice, salePrice, contentHtml, sellerProductName);
+        CoupangItem coupangItem = new CoupangItem(originalPrice, salePrice, contentHtml, sellerProductName, dirFileUploader);
         if(categoryCode == 0) {
             String displayCategoryCodeStr = coupangApi.predictCategory(getCategoryPredictJson(displayProductName));
             categoryCodeCoupang = Integer.valueOf(displayCategoryCodeStr);

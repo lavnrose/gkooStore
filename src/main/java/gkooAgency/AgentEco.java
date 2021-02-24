@@ -23,29 +23,60 @@ import util.ImageDownloader;
 
 public class AgentEco {
     private static final Logger LOGGER = LogManager.getLogger(AgentEco.class);
-    public static String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/화장품/ecoverde";
-    public final static String BRAND_NAME_KOR = "라베라";
-    public final static String BRAND_NAME_DE = "Lavera";
-    public static String DIR_BRAND_CATEGORY = DIR_BRAND + "/" + BRAND_NAME_KOR + "/";
+    
+    public static final String BRAND_NAME_KOR = "스파이크";
+    public static final String BRAND_NAME_DE = "Speik";
+    public static final String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/화장품/ecoverde/" + BRAND_NAME_DE;
+    public final static String ITEM_CATETOTY = "/";
+    public static final String DIR_BRAND_CATEGORY = DIR_BRAND + ITEM_CATETOTY;
+    public static final String HTML_BRAND = DIR_BRAND_CATEGORY + "/speik.html";
+    
+    public static String DIR_FILEUPLOADER = BRAND_NAME_DE + ITEM_CATETOTY;
     public static String DIR_MAIN_IMAGES = DIR_BRAND_CATEGORY + "main_images/";
     public static String DIR_EXCEL_FILE = DIR_BRAND_CATEGORY;
 
     public static final String ITEM_CATEGORY = "";
-    public static final String CATEGORY_ID_SMARTSTORE = "";
     public static final String CATEGORY_ID_COOPANG = "";
-    private final String googleTranslateWeb = "https://translate.google.com/";
+    public static final String CATEGORY_NUMBER_CAFE24 = "300";
     
     public static void main(String[] args) throws Exception {
         LOGGER.info("AgentEco starts ===>>> " + BRAND_NAME_KOR);
         
-        /** To test create block massItem */
-        createBlockMassItemReady();
-
         /** crawler */
-        //createAllMassItem();
+        createAllMassItem();
+
+        /** To test create block massItem */
+        //createBlockMassItemReady();
         
         /** To test create one massItem */
         //createEachMassItem();
+    }
+    
+    private static void createAllMassItem() throws Exception {
+        String categotyUrl = "https://www.ecco-verde.de/gesicht/augen?";
+        List<String> itemUrlList = getItemUrlList(categotyUrl);
+        
+        List<MassItem> massItemList = new ArrayList<>();
+        int number = 1;
+        for(String itemUrl : itemUrlList) {
+            //MassItem massItem = createMassItem(itemUrl, new MassItem("", ITEM_CATEGORY, CATEGORY_ID));
+            MassItem massItem = createMassItem(itemUrl, new MassItem(ITEM_CATEGORY));
+            massItemList.add(massItem);
+            LOGGER.info("MassItem is created:" + number);
+            number++;
+            //break;
+        }
+        
+        List<BaseItemCosmetic> baseItemCosmeticList = new ArrayList<>();
+        for(MassItem massItem : massItemList) {
+            MassItemConverter massItemEcoverde = new MassItemConverter(massItem);
+            baseItemCosmeticList.add(massItemEcoverde);
+        }
+        
+        Coopang coopang = new Coopang(CATEGORY_ID_COOPANG, ITEM_CATEGORY, baseItemCosmeticList);
+        coopang.createExcelEcoverde();
+        
+        LOGGER.info("CrawlerEcoverde is end <<<=== "  + ITEM_CATEGORY);
     }
     
     private static void createBlockMassItemReady() throws Exception {
@@ -88,8 +119,8 @@ public class AgentEco {
         }
         
         //cafe24
-        Cafe24 cafe24 = new Cafe24(baseItemCosmeticList, BRAND_NAME_KOR, "");
-        cafe24.createCsvFile(AgentEco.DIR_EXCEL_FILE);
+//        Cafe24 cafe24 = new Cafe24(baseItemCosmeticList, BRAND_NAME_KOR, "");
+//        cafe24.createCsvFile(AgentEco.DIR_EXCEL_FILE);
         
         SmartStore smartStore = new SmartStore(BRAND_NAME_KOR, baseItemCosmeticList);
         smartStore.createExcelBlock(AgentEco.DIR_EXCEL_FILE);
@@ -141,40 +172,10 @@ public class AgentEco {
 
         //5. downloading main image
         try {
-            downloadingMainImage(item.getItemTitle(), itemUrl, item);
+            downloadingMainImage(item.getItemTitleDE(), itemUrl, item);
         } catch (IOException e) {
             LOGGER.error("Error downloadingMainImage:" + itemUrl);
         }
-    }
-    
-    private static void createAllMassItem() throws Exception {
-        String categotyUrl = "https://www.ecco-verde.de/gesicht/augen?";
-        List<String> itemUrlList = getItemUrlList(categotyUrl);
-        
-        List<MassItem> massItemList = new ArrayList<>();
-        int number = 1;
-        for(String itemUrl : itemUrlList) {
-            //MassItem massItem = createMassItem(itemUrl, new MassItem("", ITEM_CATEGORY, CATEGORY_ID));
-            MassItem massItem = createMassItem(itemUrl, new MassItem(ITEM_CATEGORY));
-            massItemList.add(massItem);
-            LOGGER.info("MassItem is created:" + number);
-            number++;
-            //break;
-        }
-        
-        List<BaseItemCosmetic> baseItemCosmeticList = new ArrayList<>();
-        for(MassItem massItem : massItemList) {
-            MassItemConverter massItemEcoverde = new MassItemConverter(massItem);
-            baseItemCosmeticList.add(massItemEcoverde);
-        }
-        
-        SmartStore smartStore = new SmartStore(CATEGORY_ID_SMARTSTORE, ITEM_CATEGORY, baseItemCosmeticList);
-        smartStore.createExcelEcoverde();
-        
-        Coopang coopang = new Coopang(CATEGORY_ID_COOPANG, ITEM_CATEGORY, baseItemCosmeticList);
-        coopang.createExcelEcoverde();
-        
-        LOGGER.info("CrawlerEcoverde is end <<<=== "  + ITEM_CATEGORY);
     }
     
     private static void createEachMassItem() throws Exception {
@@ -363,7 +364,7 @@ public class AgentEco {
         
         //System.out.println(validItemTitle);
         
-        item.setItemTitle(validItemTitle);
+        item.setItemTitleDE(validItemTitle);
         return validItemTitle;
     }
     

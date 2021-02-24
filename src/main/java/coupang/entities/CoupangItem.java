@@ -36,10 +36,12 @@ public class CoupangItem extends Item {
     private final String NOTICE_CATEGORY_NAME = "화장품";
     private List<CoupangAttribute> attributes = new ArrayList<>();
     private List<CoupangContent> contents = new ArrayList<>();
+    private String dirFileUploader;
     
-    public CoupangItem(int originalPrice, int salePrice, String contentHtml, String sellerProductName) {
+    public CoupangItem(int originalPrice, int salePrice, String contentHtml, String sellerProductName, String dirFileUploader) {
         this.originalPrice = originalPrice;
         this.salePrice = salePrice;
+        this.dirFileUploader = dirFileUploader;
         setExtraProperties();
         setCertifications();
         setNotices();
@@ -52,7 +54,7 @@ public class CoupangItem extends Item {
         CoupangImage coupangImage = new CoupangImage();
         coupangImage.setImageOrder(0);
         coupangImage.setImageType("REPRESENTATION");
-        coupangImage.setVendorPath(Formatter.convertMainImageUrl(sellerProductName));
+        coupangImage.setVendorPath(Formatter.convertMainImageUrlCosmetic(dirFileUploader, sellerProductName));
         this.images.add(coupangImage);
     }
     
@@ -72,8 +74,8 @@ public class CoupangItem extends Item {
     }
     
     private void setNotices() {
-        CoupangNotice CoupangNotice1 = new CoupangNotice(NOTICE_CATEGORY_NAME, "용량(중량)", "100ml");
-        //CoupangNotice CoupangNotice2 = new CoupangNotice(NOTICE_CATEGORY_NAME, "제품 주요 사양", "");
+        CoupangNotice CoupangNotice1 = new CoupangNotice(NOTICE_CATEGORY_NAME, "용량(중량)", "상품상세페이지참조");
+        CoupangNotice CoupangNotice2 = new CoupangNotice(NOTICE_CATEGORY_NAME, "제품 주요 사양", "상품상세페이지참조");
         CoupangNotice CoupangNotice3 = new CoupangNotice(NOTICE_CATEGORY_NAME, "사용기한 또는 개봉 후 사용기간", "상품상세페이지참조");
         CoupangNotice CoupangNotice4 = new CoupangNotice(NOTICE_CATEGORY_NAME, "사용방법", "상품상세페이지참조");
         CoupangNotice CoupangNotice5 = new CoupangNotice(NOTICE_CATEGORY_NAME, "화장품제조업자 및 화장품책임판매업자", "상품상세페이지참조");
@@ -84,7 +86,7 @@ public class CoupangItem extends Item {
         CoupangNotice CoupangNotice10 = new CoupangNotice(NOTICE_CATEGORY_NAME, "품질보증기준", "상품상세페이지참조");
         CoupangNotice CoupangNotice11 = new CoupangNotice(NOTICE_CATEGORY_NAME, "소비자상담관련 전화번호", "070-4001-8993");
         notices.add(CoupangNotice1);
-        //notices.add(CoupangNotice2);
+        notices.add(CoupangNotice2);
         notices.add(CoupangNotice3);
         notices.add(CoupangNotice4);
         notices.add(CoupangNotice5);

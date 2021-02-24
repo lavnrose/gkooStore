@@ -41,7 +41,7 @@ public class MassItemConverter extends BaseItemCosmetic {
             setItemDescriptionKor(translatedDescription);
         } else {
             setItemDescriptionKor("");
-            LOGGER.error("Description is not found! No transation:" + massItem.getItemTitle());
+            LOGGER.error("Description is not found! No transation:" + massItem.getItemTitleDE());
         }
         
         String usage = massItem.getItemUsage();
@@ -59,7 +59,7 @@ public class MassItemConverter extends BaseItemCosmetic {
             setItemUsageKor(translatedUsage);
         } else {
             setItemUsageKor("");
-            LOGGER.error("Usage is not found! No transation:" + massItem.getItemTitle());
+            LOGGER.error("Usage is not found! No transation:" + massItem.getItemTitleDE());
         }
     }
     
@@ -77,7 +77,7 @@ public class MassItemConverter extends BaseItemCosmetic {
             setItemDescriptionKor(translatedDescription);
         } else {
             setItemDescriptionKor("");
-            LOGGER.error("Description is not found! No transation:" + massItem.getItemTitle());
+            LOGGER.error("Description is not found! No transation:" + massItem.getItemTitleDE());
         }
     }
     
@@ -86,11 +86,11 @@ public class MassItemConverter extends BaseItemCosmetic {
         return massItem.getCategoryId();
     }
 
-    @Override
+    //@Override
     public String getItemFullname() {
         StringBuilder fullnameBd = new StringBuilder();
         //fullnameBd.append(massItem.getBrandName());
-        fullnameBd.append(massItem.getItemTitle());
+        fullnameBd.append(massItem.getItemTitleDE());
         fullnameBd.append(" ");
         fullnameBd.append(massItem.getItemVolume());
         return fullnameBd.toString();
@@ -130,7 +130,6 @@ public class MassItemConverter extends BaseItemCosmetic {
     public void setPriceWon(int priceWon) {
         this.priceWon = priceWon;
     }
-    
     
     /**
      * raw german description and usage
@@ -231,8 +230,26 @@ public class MassItemConverter extends BaseItemCosmetic {
         this.itemUsageKor = itemUsageKor;
     }
 
-    @Override
+    //@Override
     public String getItemTitleDE() {
         return massItem.getItemTitleDE();
+    }
+
+    @Override
+    public String getItemFullnameDE() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getItemFullnameKor() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getPriceSaleWonString() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

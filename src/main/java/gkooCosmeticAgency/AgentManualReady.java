@@ -37,7 +37,8 @@ public class AgentManualReady {
         
         String translatedResult = "";
         try {
-            translatedResult = TranslateApi.doTranslateDEtoKor(description);
+            //translatedResult = TranslateApi.doTranslateDEtoKor(description);
+            translatedResult = TranslateApi.translateTextWithGlossary(description);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -45,6 +46,7 @@ public class AgentManualReady {
         }
         
         String formattedResult = Formatter.setLinebreakAfterPunct(translatedResult);
-        System.out.println(formattedResult);
+        //System.out.println(formattedResult);
+        System.out.println(translatedResult);
     }
 }

@@ -54,21 +54,34 @@ public class Formatter {
         return str.replace(" ", "_");
     }
     
+    public static String replaceSymbols(String str) {
+        return str.replaceAll("[\\,\\.]", "_");
+    }
+    
     public static String removeEmptySymbol(String str) {
         return str.replace(" ", "");
     }
     
-    public static String convertMainImageUrl(String mainaImageName) {
-        return "https://moondrive81.cafe24.com/GKoo/cosmetic/main_images/" + mainaImageName + ".jpg";
-    }
+//    public static String convertMainImageUrl(String mainaImageName) {
+//        return "https://moondrive81.cafe24.com/GKoo/cosmetic/main_images/" + mainaImageName + ".jpg";
+//    }
     
     /**
      * @param mainaImageName
      * @param dirName cafe24 directory of main images
      * @return
      */
-    public static String convertMainImageUrl(String dirName, String mainaImageName) {
-        return "https://moondrive81.cafe24.com/GKoo/" + dirName + mainaImageName + ".jpg";
+    public static String convertMainImageUrlMode(String dirName, String mainaImageName) {
+        return "https://moondrive81.cafe24.com/GKoo/mode/" + dirName + "main_images/" + mainaImageName + ".jpg";
+    }
+    
+    //use CosmeticUtil
+    public static String convertMainImageUrlCosmetic(String dirName, String mainaImageName) {
+        return "https://moondrive81.cafe24.com/GKoo/cosmetic/" + dirName + "main_images/" +  mainaImageName + ".jpg";
+    }
+    
+    public static String convertItemOverviewCosmetic(String dirName, String brandName) {
+        return "https://moondrive81.cafe24.com/GKoo/cosmetic/" + dirName  +  brandName + "_overview.jpg";
     }
     
     public static String getFormattedJpgUrl(String rawUrl) {

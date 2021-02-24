@@ -21,12 +21,12 @@ public class AgentBirkenStarter {
     public final static String BRAND_HOMEPAGE_URL = "https://www.birkenstock.com/";
     public final static String BRAND_NAME_KOR = "버켄스탁";
     public final static String BRAND_NAME_DE = "birkenstock";
-    public static String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/의류/" + BRAND_NAME_DE;
-    public final static String ITEM_CATETOTY = "/men/strappy-sandals/";
-    public static String DIR_BRAND_CATEGORY = DIR_BRAND + ITEM_CATETOTY;
-    public static String HTML_BRAND = DIR_BRAND_CATEGORY + "/men_strappy-sandals.html";
+    public final static String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/의류/" + BRAND_NAME_DE;
+    public final static String ITEM_CATEGORY = "/men/strappy-sandals/";
+    public static final String DIR_BRAND_CATEGORY = DIR_BRAND + ITEM_CATEGORY;
+    public static final String HTML_BRAND = DIR_BRAND_CATEGORY + "/men_strappy-sandals.html";
     
-    public static String DIR_FILEUPLOADER = BRAND_NAME_DE + ITEM_CATETOTY;
+    public static String DIR_FILEUPLOADER = BRAND_NAME_DE + ITEM_CATEGORY;
     public static String DIR_MAIN_IMAGES = DIR_BRAND_CATEGORY + "main_images/";
     public static String DIR_EXCEL_FILE = DIR_BRAND_CATEGORY;
     

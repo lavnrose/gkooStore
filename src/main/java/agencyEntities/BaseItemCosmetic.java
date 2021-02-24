@@ -3,25 +3,67 @@ package agencyEntities;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class BaseItemCosmetic {
+    private static final Logger LOGGER = LogManager.getLogger(BaseItemCosmetic.class);
+
     private static final String COMPANY_LOGO = "https://moondrive81.cafe24.com/GKoo/gkoo_comany_logo.png";
-    private static final String ITEM_BRAND_INFO = "https://moondrive81.cafe24.com/GKoo/product_brand_name.png";
     private static double excahgeRateEuro = 1400;
-    private static int feePercent = 15;
-    private static double minimumCommision = 3000;
+    private static final double TAX_LIMIT= 150000;
+    
+    private static int feePercent = 10;
+    private static double minimumCommision = 4000;
     //2자리리 내림 ex. 10511원? -> 10500원?
-    private final int ROUNDED_DIGIT = 2;
+    private final int ROUNDED_DIGIT = 3;
     
     protected String getCompanyLogoUrl() {
         return COMPANY_LOGO;
     }
     
-    /**
-     * @return 브랜드소개 이미지
-     */
-    protected String getItemBrandInfoUrl() {
-        return ITEM_BRAND_INFO;
+    public int calculatePriceCommisionWon(double totalPriceEuro) {
+        Objects.nonNull(totalPriceEuro);
+        if(totalPriceEuro == 0) {
+            LOGGER.error("Price must not 0");
+        }
+        double commision = 0;
+        double productPriceWon = excahgeRateEuro*totalPriceEuro;
+        if(isMinimumCommision(excahgeRateEuro, totalPriceEuro)) {
+            commision = productPriceWon*(feePercent/100.0);
+        } else {
+            commision = minimumCommision;
+        }
+        int ceiledFeeResult = mathCeilDigit(ROUNDED_DIGIT, commision);
+        int ceiledProductResult = mathCeilDigit(ROUNDED_DIGIT, productPriceWon);
+        return ceiledFeeResult + ceiledProductResult;
+    }
+    
+    public int calculatePriceCommisionVATWon(double totalPriceEuro, int deliveryFee) {
+        Objects.nonNull(totalPriceEuro);
+        if(totalPriceEuro == 0) {
+            LOGGER.error("Price must not 0");
+        }
+        double commision = 0;
+        double taxVat = 0;
+        double productPriceWon = excahgeRateEuro*totalPriceEuro;
+        
+        if (productPriceWon >= TAX_LIMIT) {
+            //통관시 부가세
+            taxVat = (productPriceWon + deliveryFee)*(0.1);
+        } 
+        
+        if(isMinimumCommision(excahgeRateEuro, totalPriceEuro)) {
+            commision = productPriceWon*(feePercent/100.0);
+        } else {
+            commision = minimumCommision;
+        }
+        
+        int ceiledCommision = mathCeilDigit(ROUNDED_DIGIT, commision);
+        int ceiledProductPriceWon = mathCeilDigit(ROUNDED_DIGIT, productPriceWon);
+        int ceiledTaxVat = taxVat != 0 ? mathCeilDigit(ROUNDED_DIGIT, taxVat) : 0;
+        
+        return (ceiledProductPriceWon + ceiledCommision + ceiledTaxVat + deliveryFee);
     }
     
     public int calculatePriceWon(double totalPriceEuro) {
@@ -82,9 +124,7 @@ public abstract class BaseItemCosmetic {
     public String addTopBottomInfo(String itemImagesHtml) {
         StringBuilder imageBuilder = new StringBuilder();
         imageBuilder.append("<p style=\"text-align:center;\"><img style=\"padding-bottom: 30px;\" src=\"https://moondrive81.cafe24.com/GKoo/gkoo_info_top.png\"/></p>");
-        //imageBuilder.append(", ");
         imageBuilder.append(itemImagesHtml);
-        //imageBuilder.append(", ");
         imageBuilder.append("<p style=\"text-align:center;\"><img src=\"https://moondrive81.cafe24.com/GKoo/gkoo_info_bottom.jpg\"/></p>");
         return imageBuilder.toString();
     }
@@ -124,7 +164,6 @@ public abstract class BaseItemCosmetic {
         bd.append("<p style=\"text-align: center;\">");
         bd.append(description);
         bd.append("</p>");
-        //bd.append(getLineHtml("contents"));
         return bd.toString();
     }
     
@@ -135,7 +174,6 @@ public abstract class BaseItemCosmetic {
         bd.append("<p style=\"text-align: center;\">");
         bd.append(usage);
         bd.append("</p>");
-        //bd.append(getLineHtml("contents"));
         return bd.toString();
     }
     
@@ -146,7 +184,14 @@ public abstract class BaseItemCosmetic {
         bd.append("<p style=\"text-align: center;\">");
         bd.append(ingredient);
         bd.append("</p>");
-        //bd.append(getLineHtml("contents"));
+        return bd.toString();
+    }
+    
+    public static String getTranslateInfoHtml() {
+        StringBuilder bd = new StringBuilder();
+        bd.append("<p style=\"text-align: center;\">");
+        bd.append("지쿠스토어에서 번역한 상품설명이나 상품사용법중에는 오류를 포함할수 있습니다.");
+        bd.append("</p>");
         return bd.toString();
     }
     
@@ -160,7 +205,9 @@ public abstract class BaseItemCosmetic {
     
     public abstract String getCategoryId();
     
-    public abstract String getItemFullname();
+    public abstract String getItemFullnameDE();
+    
+    public abstract String getItemFullnameKor();
     
     public abstract String getItemFullnameWithPrefix();
     
@@ -174,7 +221,8 @@ public abstract class BaseItemCosmetic {
     
     public abstract String getItemFullDescriptionKOR();
     
-    public abstract String getItemTitleDE();
-    
     public abstract MassItem getMassItem();
+    
+    public abstract String getPriceSaleWonString();
+    
 }
