@@ -17,12 +17,12 @@ public class AgentEccoStarter {
 private static final Logger LOGGER = LogManager.getLogger(AgentEccoStarter.class);
     
     public final static String BRAND_HOMEPAGE_URL = "https://www.ecco-verde.de/";
-    public static final String BRAND_NAME_KOR = "스파이크";
-    public static final String BRAND_NAME_DE = "speick";
+    public static final String BRAND_NAME_KOR = "벨레다";
+    public static final String BRAND_NAME_DE = "weleda";
     public static final String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/화장품/ecoverde/" + BRAND_NAME_DE;
     public final static String ITEM_CATETOTY = "/";
     public static final String DIR_BRAND_CATEGORY = DIR_BRAND + ITEM_CATETOTY;
-    public static final String HTML_BRAND = DIR_BRAND_CATEGORY + "/speick.html";
+    public static final String HTML_BRAND = DIR_BRAND_CATEGORY + "/weleda_p2.html";
     
     public static String DIR_FILEUPLOADER = BRAND_NAME_DE + ITEM_CATETOTY;
     public static String DIR_MAIN_IMAGES = DIR_BRAND_CATEGORY + "main_images/";
@@ -30,7 +30,7 @@ private static final Logger LOGGER = LogManager.getLogger(AgentEccoStarter.class
 
     public static final String ITEM_CATEGORY = "";
     public static final String CATEGORY_ID_COOPANG = "";
-    public static final String CATEGORY_NUMBER_CAFE24 = "301";
+    public static final String CATEGORY_NUMBER_CAFE24 = "153";
     
     public static void main(String[] args) throws Exception {
         LOGGER.info("AgentEccoStarter ===>>> " + BRAND_NAME_KOR);
@@ -42,8 +42,8 @@ private static final Logger LOGGER = LogManager.getLogger(AgentEccoStarter.class
         List<MassItem> massItemList = new ArrayList<>();
         List<String> itemUrlList = agent.preprocessing(massItemList, HTML_BRAND);
         
-        //int size = itemUrlList.size();
-        int size = 1;
+        int size = itemUrlList.size();
+        //int size = 1;
         
         for(int i=0; i<size; i++) { 
             agent.createMassItem(itemUrlList.get(i), massItemList.get(i));

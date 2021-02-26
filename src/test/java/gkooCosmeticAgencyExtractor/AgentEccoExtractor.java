@@ -85,7 +85,7 @@ public class AgentEccoExtractor implements IAgentCosmeticExtractor {
     @Test
     @Override
     public void createMassItemTest() {
-        String itemUrl = "https://www.ecco-verde.de/speick/thermalsensitiv-regulierende-nachtcreme";
+        String itemUrl = "https://www.ecco-verde.de/weleda/hautcreme-skin-food";
         Document doc = null;
         try {
             doc = Jsoup.connect(itemUrl).userAgent("Chrome").get();
@@ -95,7 +95,7 @@ public class AgentEccoExtractor implements IAgentCosmeticExtractor {
                 
         extractItemPrice(doc);
         
-        extractItemDescription(doc);
+        //extractItemDescription(doc);
         
         extractItemIngredients(doc);
     }
@@ -111,7 +111,9 @@ public class AgentEccoExtractor implements IAgentCosmeticExtractor {
     public Elements extractPriceElements(Element body) {
         Elements priceElements = body.getElementsByClass("main-price");
         
-        System.out.println(priceElements.get(0).getElementsByClass("price").text());
+        boolean saledPrice = priceElements.get(0).getElementsByClass("price").get(0).hasClass("price instead-price");
+        System.out.println(priceElements.get(0).getElementsByClass("price").size());
+        System.out.println(priceElements.get(0).getElementsByClass("price").get(1).text());
         
         //not formatted euro, comma
         String price = priceElements.get(0).getElementsByClass("price").text();

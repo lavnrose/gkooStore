@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import translator.TranslateApi;
+import translator.TranslateGlossary;
 import util.Formatter;
 import util.ImageTransformer;
 
@@ -38,7 +38,7 @@ public class AgentManualReady {
         String translatedResult = "";
         try {
             //translatedResult = TranslateApi.doTranslateDEtoKor(description);
-            translatedResult = TranslateApi.translateTextWithGlossary(description);
+            translatedResult = TranslateGlossary.translateTextWithGlossary(description);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

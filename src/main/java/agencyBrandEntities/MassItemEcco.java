@@ -7,8 +7,10 @@ import org.apache.logging.log4j.Logger;
 import agencyEntities.BaseItemCosmetic;
 import agencyEntities.MassItem;
 import translator.TranslateApi;
+import translator.TranslateGlossary;
 import util.CosmeticUtil;
 import util.Formatter;
+import util.GrobalDefined;
 
 public class MassItemEcco extends BaseItemCosmetic {
     private static final Logger LOGGER = LogManager.getLogger(MassItemBirken.class);
@@ -26,8 +28,10 @@ public class MassItemEcco extends BaseItemCosmetic {
             this.priceSaleWon = super.calculatePriceCommisionVATWon(massItem.getItemSalePriceEuro(), massItem.getModeDeiveryFee());
             this.priceSubstractWon = priceWon - priceSaleWon;
         }
-        invokeTranslateDescription(massItem);
-        invokeTranslateItemTitleKor(massItem);
+        if(GrobalDefined.TRANSLATE) {
+            invokeTranslateDescription(massItem);
+            invokeTranslateItemTitleKor(massItem);
+        }
     }
     
     private void invokeTranslateDescription(MassItem massItem) {
@@ -35,7 +39,7 @@ public class MassItemEcco extends BaseItemCosmetic {
         if (description != null) {
             String translatedDescription = "";
             try {
-                translatedDescription = TranslateApi.doTranslateDEtoKor(description);
+                translatedDescription = TranslateGlossary.translateTextWithGlossary(description);
             } catch (FileNotFoundException e) {
                 LOGGER.error("TranslatedDescription has error:" + description, e);
             } catch (IOException e) {
@@ -53,7 +57,7 @@ public class MassItemEcco extends BaseItemCosmetic {
         if (itemTitleDe != null) {
             String translatedItemTiteKor = "";
             try {
-                translatedItemTiteKor = TranslateApi.doTranslateDEtoKor(itemTitleDe);
+                translatedItemTiteKor = TranslateGlossary.translateTextWithGlossary(itemTitleDe);
             } catch (FileNotFoundException e) {
                 LOGGER.error("TranslatedDescription has error:" + itemTitleDe, e);
             } catch (IOException e) {
@@ -82,7 +86,7 @@ public class MassItemEcco extends BaseItemCosmetic {
 
     @Override
     public String getItemFullnameKor() {
-        return massItem.getBrandNameKor() + " " + massItem.getItemTitleKor() + " " + massItem.getItemVolume();
+        return massItem.getItemTitleKor() + " " + massItem.getItemVolume();
     }
 
     @Override

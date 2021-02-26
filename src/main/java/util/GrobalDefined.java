@@ -4,7 +4,7 @@ import java.util.HashMap;
 import agencyEntities.CategoryUsage;
 
 public class GrobalDefined {
- public static final boolean TRANSLATE = false;
+ public static final boolean TRANSLATE = true;
     
     public static final HashMap<String, String> grobalDefinedUsage = new HashMap<>() {
         {

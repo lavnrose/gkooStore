@@ -38,6 +38,8 @@ public class AgentEcco extends Agent implements ICosmeticAgent {
         if(itemVolumeElement.getAllElements().hasClass("productVariants")) {
             String itemVolume = itemVolumeElement.getElementsByClass("productVariants").text();
             massItem.setItemVolume(itemVolume);
+        } else {
+            massItem.setItemVolume("");
         }
         
         return itemTitleDe;
@@ -70,8 +72,14 @@ public class AgentEcco extends Agent implements ICosmeticAgent {
 
     @Override
     public void setOriginPrice(Elements elementsPrices, MassItem item) {
-        String formatOrgPrice = Formatter.deleteNonDigits(elementsPrices.get(0).getElementsByClass("price").text());
-        item.setItemPriceEuro(Double.valueOf(formatOrgPrice));
+        int priceSize = elementsPrices.get(0).getElementsByClass("price").size();
+        if(priceSize == 2) {
+            String formatOrgPrice = Formatter.deleteNonDigits(elementsPrices.get(0).getElementsByClass("price").get(1).text());
+            item.setItemPriceEuro(Double.valueOf(formatOrgPrice));
+        } else {
+            String formatOrgPrice = Formatter.deleteNonDigits(elementsPrices.get(0).getElementsByClass("price").text());
+            item.setItemPriceEuro(Double.valueOf(formatOrgPrice));
+        }
     }
     
 //    @Override

@@ -22,23 +22,36 @@ public class GlossaryManager {
         
         TranslationServiceSettings translationServiceSettings =
                      TranslationServiceSettings.newBuilder()
-                         .setCredentialsProvider(FixedCredentialsProvider.create(TranslatorUtil.getCredentials()))
+                         .setCredentialsProvider(FixedCredentialsProvider.create(TranslatorConfig.getCredentials()))
                          .build();
         TranslationServiceClient translationServiceClient = TranslationServiceClient.create(translationServiceSettings);
         
-        String projectId = "crucial-raceway-297401";
-        String glossaryId = "glossary-cosmetic";
+        ConfigGlossary config = TranslatorConfig.getConfigureGlossary();
+        
         List<String> languageCodes = new ArrayList<>();
-        languageCodes.add("de");
-        languageCodes.add("ko");
-        String inputUri = "gs://glossar-bucket/glossary-cosmetic.csv";
+        languageCodes.add(config.getSourceLanguage());
+        languageCodes.add(config.getTargetLanguage());
         
-        //createGlossary(translationServiceClient, projectId, glossaryId, languageCodes, inputUri);
+        createGlossary(translationServiceClient, config.getProjectId(), config.getGlossaryId(), languageCodes, config.getInputUrl());
         
-        listGlossaries(translationServiceClient, projectId);
+        //listGlossaries(translationServiceClient, projectId);
    }
+   
     
-   public static void createGlossary(TranslationServiceClient translationServiceClient, String projectId, String glossaryId, List<String> languageCodes, String inputUri)
+    /**
+     * 
+     * adding new glossary to the csv file -> upload in cloud with new glossaryId -> run this method
+     * 
+     * @param translationServiceClient
+     * @param projectId
+     * @param glossaryId
+     * @param languageCodes
+     * @param inputUri
+     * @throws IOException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public static void createGlossary(TranslationServiceClient translationServiceClient, String projectId, String glossaryId, List<String> languageCodes, String inputUri)
            throws IOException, ExecutionException, InterruptedException {
 
        // Initialize client that will be used to send requests. This client only needs to be created
@@ -87,7 +100,7 @@ public class GlossaryManager {
        }
    }
 
-      // List all the glossaries in a specified location
+   // List all the glossaries in a specified location
    public static void listGlossaries(TranslationServiceClient translationServiceClient, String projectId) throws IOException {
         // Initialize client that will be used to send requests. This client only needs to be created
         // once, and can be reused for multiple requests. After completing all of your requests, call
@@ -103,6 +116,7 @@ public class GlossaryManager {
           for (com.google.cloud.translate.v3.Glossary responseItem : client.listGlossaries(request).iterateAll()) {
             System.out.printf("Glossary name: %s\n", responseItem.getName());
             System.out.printf("Entry count: %s\n", responseItem.getEntryCount());
+            System.out.printf("LanguageCodesSet: %s\n", responseItem.getLanguageCodesSet());
             System.out.printf(
                 "Input URI: %s\n", responseItem.getInputConfig().getGcsSource().getInputUri());
           }
