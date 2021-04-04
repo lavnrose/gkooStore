@@ -239,4 +239,10 @@ public class MassItemMode extends BaseItem {
     public String getPriceSaleWonString() {
         return String.valueOf(priceSaleWon);
     }
+
+    @Override
+    public String getPriceWonCoupangString() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

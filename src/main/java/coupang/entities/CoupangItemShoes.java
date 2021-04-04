@@ -80,13 +80,18 @@ public class CoupangItemShoes extends Item {
         attributeColor.setAttributeTypeName("색상");
         attributeColor.setAttributeValueName(color);
         
+        CoupangAttribute attributeWidth = new CoupangAttribute();
+        attributeWidth.setAttributeTypeName("발넓이");
+        attributeWidth.setAttributeValueName("좁은발, 보통발");
+        
         CoupangAttribute attributeSize = new CoupangAttribute();
         attributeSize.setAttributeTypeName("신발사이즈(mm)");
         attributeSize.setAttributeValueName(itemSizeList);
-        
+
         //this.attributes.add(coupangAttribute);
-        this.attributes.add(attributeColor);
         this.attributes.add(attributeSize);
+        this.attributes.add(attributeWidth);
+        this.attributes.add(attributeColor);
     }
     
     private void setNotices() {

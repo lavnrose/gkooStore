@@ -31,11 +31,18 @@ public class Formatter {
     }
     
     public static String setLinebreakAfterPunctHtml(String sentences) {
+        if (sentences == null) {
+            return "";
+        }
         return sentences.replaceAll("\\.\\s?","\\.<br>");
     }
     
     public static String formatWithoutComma(String sentences) {
         return sentences.replaceAll(",","");
+    }
+    
+    public static String formatWithoutCommaBar(String sentences) {
+        return sentences.replaceAll("[\\|\\,]","");
     }
     
     public static String abbreviateStringLeft(String str, int left) {

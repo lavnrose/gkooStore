@@ -25,7 +25,7 @@ public class ImageDownloader {
             URL url =new URL(imageUrl);
             imageFullname = imageName + ".jpg";
             image = ImageIO.read(url);
-            imageAddr = imageDir + imageFullname;
+            imageAddr = imageDir + "/" + imageFullname;
             ImageIO.write(image, "jpg", new File(imageAddr));
             // check whether it was downloaded!
         } catch(IOException e){
@@ -63,15 +63,18 @@ public class ImageDownloader {
     public static void resizeImageScalr(final String imageName, final String imageDir, final String imageUrl, int width) {
         
         BufferedImage resizeMe = null;
-        String imageFullnameResized = imageName + ".jpg";
-        String imageAddrResized = imageDir + imageFullnameResized;
+        String imageFullnameResizedJpg = imageName + ".jpg";
+        String imageFullnameResizedPng = imageName + ".png";
+        String imageAddrResizedJpg = imageDir + imageFullnameResizedJpg;
+        String imageAddrResizedPng = imageDir + imageFullnameResizedPng;
         try {
             URL url = new URL(imageUrl);
             resizeMe = ImageIO.read(url);
             //resizeMe = ImageIO.read(new File(imageAddrResized));
         } catch (IOException e) {
-            
+            LOGGER.error("url of image could not read:" + imageUrl);
         }
+        
         //Dimension newMaxSize = new Dimension(width, height);
         if (resizeMe == null) {
             LOGGER.error("Error image is not downloaded:" + imageUrl);
@@ -80,10 +83,40 @@ public class ImageDownloader {
             //BufferedImage resizedImgPadding = Scalr.pad(resizedImg, 50, Color.WHITE);
             //BufferedImage rectangleImg = resizeImage(resizedImgPadding, 500, 500);
             try {
-                ImageIO.write(resizedImg, "jpg", new File(imageAddrResized));
+                if(imageUrl.contains("jpg")) {
+                    ImageIO.write(resizedImg, "jpg", new File(imageAddrResizedJpg));
+                } else {
+                    ImageIO.write(resizedImg, "png", new File(imageAddrResizedPng));
+                }
             } catch (IOException e) {
                 LOGGER.error("Error resizing of ImageDownloader:" + imageUrl);
             }
+        }
+        
+        if(!imageUrl.contains("jpg")) {
+            File input = new File(imageAddrResizedPng);
+            File output = new File(imageAddrResizedJpg);
+
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(input);
+            } catch (IOException e) {
+            }
+            BufferedImage result = new BufferedImage(
+                    image.getWidth(),
+                    image.getHeight(),
+                    BufferedImage.TYPE_INT_RGB);
+            result.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
+            try {
+                ImageIO.write(result, "jpg", output);
+            } catch (IOException e) {
+            }
+            
+            File pngFile = new File(imageAddrResizedPng); 
+            
+            if(!pngFile.delete()) { 
+                System.out.println("Failed to delete the file"); 
+            } 
         }
     }
     

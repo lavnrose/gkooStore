@@ -10,4 +10,8 @@ public class CosmeticUtil {
     public static String convertItemOverviewCosmetic(String dirName, String brandName) {
         return FILE_UPLOADER_COSMETIC_URL + dirName  +  brandName + "_overview.jpg";
     }
+    
+    public static String convertItemOverviewCosmetic(String brandName) {
+        return FILE_UPLOADER_COSMETIC_URL + brandName + "/"  +  brandName + "_overview.jpg";
+    }
 }

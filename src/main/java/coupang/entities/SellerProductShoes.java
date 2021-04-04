@@ -40,7 +40,7 @@ public class SellerProductShoes {
     
     public SellerProductShoes(int displayCategoryCode, String sellerProductName, String displayProductName, String brand, String generalProductName, CoupangItemShoes coupangItem) {
         this.displayCategoryCode = displayCategoryCode;
-        this.sellerProductName = sellerProductName;
+        this.sellerProductName = displayProductName;
         this.displayProductName = displayProductName;
         this.brand = brand;
         this.saleStartedAt = DateUtil.getStartedAt();

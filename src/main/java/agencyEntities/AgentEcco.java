@@ -1,18 +1,20 @@
 package agencyEntities;
 
+import java.io.IOException;
 import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import translator.TranslateGlossary;
 import util.Formatter;
 
 public class AgentEcco extends Agent implements ICosmeticAgent {
     static final Logger LOGGER = LogManager.getLogger(AgentEcco.class);
 
-    public AgentEcco(String brandNameDe, String brandNameKor, String dirMainImages, String dirFileUploader) {
-        super(brandNameDe, brandNameKor, dirMainImages, dirFileUploader);
+    public AgentEcco(String brandNameDe, String brandNameKor, String itemCategory, String dirMainImages, String dirFileUploader) {
+        super(brandNameDe, brandNameKor, itemCategory, dirMainImages, dirFileUploader);
     }
 
     @Override
@@ -37,7 +39,8 @@ public class AgentEcco extends Agent implements ICosmeticAgent {
         
         if(itemVolumeElement.getAllElements().hasClass("productVariants")) {
             String itemVolume = itemVolumeElement.getElementsByClass("productVariants").text();
-            massItem.setItemVolume(itemVolume);
+            String formattedVolume = Formatter.formatWithoutComma(itemVolume);
+            massItem.setItemVolume(formattedVolume);
         } else {
             massItem.setItemVolume("");
         }
@@ -47,6 +50,7 @@ public class AgentEcco extends Agent implements ICosmeticAgent {
 
     @Override
     public void downloadingMainImage(MassItem massItem, Element unitElement) {
+        //String imageUrl = unitElement.getElementsByClass("product__image").get(0).attr("data-src");
         String imageUrl = unitElement.getElementsByClass("product__image").get(0).attr("src");
         savingMainImage(massItem.getMainImageName(), getDirMainImages(), imageUrl);
     }
@@ -100,6 +104,15 @@ public class AgentEcco extends Agent implements ICosmeticAgent {
         if(elementDescription.size() != 0) {
             String description = elementDescription.get(0).getElementsByTag("p").text();
             item.setItemDescription(description);
+            
+            String translatedDescription = "";
+            try {
+                translatedDescription = TranslateGlossary.translateTextWithGlossary(description);
+            } catch (IOException e) {
+                LOGGER.info("TranslateGlossary: " + e);
+            }
+            item.setItemDescriptionKor(translatedDescription);
+            
         } else {
             LOGGER.error(item.getItemTitleDE() + ": no description");
             item.setItemDescription("");
@@ -135,5 +148,6 @@ public class AgentEcco extends Agent implements ICosmeticAgent {
         massItem.setBrandNameDE(getBrandNameDe());
         massItem.setBrandNameKor(getBrandNameKor());
         massItem.setDirFileUploader(getDirFileUploader());
+        massItem.setItemCategory(getItemCategory());
     }
 }

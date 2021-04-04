@@ -14,7 +14,8 @@ public abstract class BaseItem {
     private static final double TAX_LIMIT= 150000;
     
     private static int feePercent = 7;
-    private static double minimumCommision = 13000;
+    private static int commisionCoupangPercent = 11;
+    private static double minimumCommision = 8000;
     //2자리리 내림 ex. 10511원? -> 10500원?
     private final int ROUNDED_DIGIT = 3;
     
@@ -64,6 +65,28 @@ public abstract class BaseItem {
         int ceiledTaxVat = taxVat != 0 ? mathCeilDigit(ROUNDED_DIGIT, taxVat) : 0;
         
         return (ceiledProductPriceWon + ceiledCommision + ceiledTaxVat + deliveryFee);
+    }
+    
+    public int calculatePriceCommisionVATWonCoupang(double totalPriceEuro) {
+        Objects.nonNull(totalPriceEuro);
+        if(totalPriceEuro == 0) {
+            LOGGER.error("Price must not 0");
+        }
+        
+        double taxVat = 0;
+        double productPriceWon = excahgeRateEuro*totalPriceEuro;
+        
+        if (productPriceWon >= TAX_LIMIT) {
+            //통관시 부가세
+            taxVat = (productPriceWon)*(0.1);
+        }
+        
+        double productPriceWonWithCoupangCommision = productPriceWon*(1+ (commisionCoupangPercent/100.0)); 
+        
+        int ceiledProductPriceWon = mathCeilDigit(ROUNDED_DIGIT, productPriceWonWithCoupangCommision);
+        int ceiledTaxVat = taxVat != 0 ? mathCeilDigit(ROUNDED_DIGIT, taxVat) : 0;
+        
+        return (int) (ceiledProductPriceWon + minimumCommision + ceiledTaxVat);
     }
     
     public int calculatePriceNoCommisionWon(double totalPriceSaleEuro) {
@@ -117,8 +140,10 @@ public abstract class BaseItem {
     
     public abstract MassItem getMassItem();
     
-    public abstract String getPriceWonString();
+    public abstract String getPriceWonString(); 
     
+    public abstract String getPriceWonCoupangString(); 
+
     public abstract String getPriceSaleWonString();
     
     public abstract String getPriceSubstractWonString();

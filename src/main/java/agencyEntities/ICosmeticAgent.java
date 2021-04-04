@@ -11,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import translator.TranslateGlossary;
 import util.Formatter;
 import util.ImageDownloader;
 import util.ImageTransformer;
@@ -76,6 +77,15 @@ public interface ICosmeticAgent {
         String formattedItemTitle = Formatter.replaceUmlaut(rawItemTitle);
         String validItemTitle = getValidItemTitle(formattedItemTitle);
         massItem.setItemTitleDE(validItemTitle);
+        
+        String translatedItemTitle = "";
+        try {
+            translatedItemTitle = TranslateGlossary.translateTextWithGlossary(rawItemTitle);
+        } catch (IOException e) {
+            LOGGER.info("TranslateGlossary: " + e);
+        }
+        
+        massItem.setItemTitleKor(translatedItemTitle);
     };
     
     void setCommonProperties(MassItem massItem);;
@@ -123,7 +133,6 @@ public interface ICosmeticAgent {
     Elements extractPriceElements(Element body);
     void setOriginPrice(Elements elementsPrices, MassItem item);
     
-    //public void extractItemDescription(Document doc, MassItem item);
     public default void extractItemDescription(Document doc, MassItem item) {
         Element body = doc.body();
         Elements elementDescription = extractDescriptionElements(body);
@@ -133,7 +142,6 @@ public interface ICosmeticAgent {
     public Elements extractDescriptionElements(Element body);
     void setDescription(Elements elementDescription, MassItem item);
     
-    //public void extractItemIngredients(Document doc, MassItem item);
     public default void extractItemIngredients(Document doc, MassItem item) {
         Element body = doc.body();
         Elements elementIngredients = extractIngredientsElements(body);
@@ -155,7 +163,7 @@ public interface ICosmeticAgent {
         }
         int matchedItemSize = matchedItems.size();
         if(matchedItemSize>0) {
-            validTitle = itemTitle + "_" + String.valueOf(matchedItemSize+1);
+            validTitle = itemTitle + " " + String.valueOf(matchedItemSize+1);
         } else {
             validTitle = itemTitle;
         }

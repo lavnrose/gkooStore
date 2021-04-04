@@ -1,11 +1,21 @@
 package factoryExcel;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import agencyEntities.BaseItem;
 import agencyEntities.BaseItemCosmetic;
 import util.Formatter;
+import util.GrobalDefined;
 
 public class Cafe24 {
     private String brandNameKor;
@@ -53,7 +63,7 @@ public class Cafe24 {
     public void createCsvFileManual(String dirCsvFile, String productName) {
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(dirCsvFile + brandNameKor + "_" + productName + "_cafe24.csv");
+            fileWriter = new FileWriter(dirCsvFile + productName + "_cafe24.csv");
             fileWriter.append("상품코드,자체 상품코드,진열상태,판매상태,상품분류 번호,상품분류 신상품영역,상품분류 추천상품영역,상품명,영문 상품명,상품명(관리용),공급사 상품명,모델명,상품 요약설명,상품 간략설명,상품 상세설명,모바일 상품 상세설명 설정,모바일 상품 상세설명,검색어설정,과세구분,소비자가,공급가,상품가,판매가,판매가 대체문구 사용,판매가 대체문구,주문수량 제한 기준,최소 주문수량(이상),최대 주문수량(이하),적립금,적립금 구분,공통이벤트 정보,성인인증,옵션사용,품목 구성방식,옵션 표시방식,옵션세트명,옵션입력,옵션 스타일,버튼이미지 설정,색상 설정,필수여부,품절표시 문구,추가입력옵션,추가입력옵션 명칭,추가입력옵션 선택/필수여부,입력글자수(자),이미지등록(상세),이미지등록(목록),이미지등록(작은목록),이미지등록(축소),이미지등록(추가),제조사,공급사,브랜드,트렌드,자체분류 코드,제조일자,출시일자,유효기간 사용여부,유효기간,원산지,상품부피(cm),상품결제안내,상품배송안내,교환/반품안내,서비스문의/안내,배송정보,배송방법,국내/해외배송,배송지역,배송비 선결제 설정,배송기간,배송비 구분,배송비입력,스토어픽업 설정,상품 전체중량(kg),HS코드,상품 구분(해외통관),상품소재,영문 상품소재(해외통관),옷감(해외통관),검색엔진최적화(SEO) 검색엔진 노출 설정,검색엔진최적화(SEO) Title,검색엔진최적화(SEO) Author,검색엔진최적화(SEO) Description,검색엔진최적화(SEO) Keywords,검색엔진최적화(SEO) 상품 이미지 Alt 텍스트,개별결제수단설정,상품배송유형 코드,메모");
             fileWriter.append(NEW_LINE_SEPARATOR);
             for (int i=0;i<massItemCosmeticList.size();i++) {
@@ -101,7 +111,7 @@ public class Cafe24 {
     public void createCsvFileCosmetic(String dirCsvFile) {
         
         //for test
-        createCsvFileCosmeticTest(dirCsvFile);
+        //createCsvFileCosmeticTest(dirCsvFile);
         
         FileWriter fileWriter = null;
         try {
@@ -481,7 +491,8 @@ public class Cafe24 {
         fileWriter.append(item.getItemFullnameWithPrefix());
         fileWriter.append(COMMA_DELIMITER);
         //영문 상품명
-        fileWriter.append("");
+        //fileWriter.append("");
+        fileWriter.append(Formatter.abbreviateStringLeft(item.getMassItem().getItemUrl(), 250));
         fileWriter.append(COMMA_DELIMITER);
         //상품명(관리용)
         fileWriter.append("");
@@ -519,9 +530,11 @@ public class Cafe24 {
         //과세구분
         fileWriter.append("A|10");
         fileWriter.append(COMMA_DELIMITER);
+        
         //소비자가
-        fileWriter.append("");
+        fileWriter.append(item.getPriceWonString());
         fileWriter.append(COMMA_DELIMITER);
+        
         //공급가
         fileWriter.append(Double.toString(item.getMassItem().getItemPriceEuro()));
         fileWriter.append(COMMA_DELIMITER);
@@ -529,7 +542,7 @@ public class Cafe24 {
         fileWriter.append("");
         fileWriter.append(COMMA_DELIMITER);
         //판매가
-        fileWriter.append(item.getPriceWonString());
+        fileWriter.append(item.getMassItem().isItemSale() ? item.getPriceSaleWonString() : item.getPriceWonString());
         fileWriter.append(COMMA_DELIMITER);
         //판매가 대체문구 사용
         fileWriter.append("");
@@ -785,7 +798,7 @@ public class Cafe24 {
         //상품 상세설명
         // comma in description bring error 
         //String description = GrobalDefined.TRANSLATE ? item.getItemFullDescriptionKOR() : item.getItemFullDescriptionDE();
-        String description = item.getItemFullDescriptionDE();
+        String description = item.getItemFullDescriptionManual();
         fileWriter.append(Formatter.formatWithoutComma(description));
         //fileWriter.append(Formatter.formatWithoutComma(item.getMassItem().getItemDescription()));
 

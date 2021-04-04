@@ -22,11 +22,12 @@ public class AgentBirkenStarter {
     public final static String BRAND_NAME_KOR = "버켄스탁";
     public final static String BRAND_NAME_DE = "birkenstock";
     public final static String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/의류/" + BRAND_NAME_DE;
-    public final static String ITEM_CATEGORY = "/men/strappy-sandals/";
-    public static final String DIR_BRAND_CATEGORY = DIR_BRAND + ITEM_CATEGORY;
+    public final static String ITEM_CATEGORY = "strappy-sandals";
+    public final static String DIR_ITEM_CATEGORY = "/men/" + ITEM_CATEGORY + "/";
+    public static final String DIR_BRAND_CATEGORY = DIR_BRAND + DIR_ITEM_CATEGORY;
     public static final String HTML_BRAND = DIR_BRAND_CATEGORY + "/men_strappy-sandals.html";
     
-    public static String DIR_FILEUPLOADER = BRAND_NAME_DE + ITEM_CATEGORY;
+    public static String DIR_FILEUPLOADER = BRAND_NAME_DE + DIR_ITEM_CATEGORY;
     public static String DIR_MAIN_IMAGES = DIR_BRAND_CATEGORY + "main_images/";
     public static String DIR_EXCEL_FILE = DIR_BRAND_CATEGORY;
     
@@ -34,11 +35,13 @@ public class AgentBirkenStarter {
     public static Gender CATEGORY_GENDER = Gender.MALE;
     public static final String CATEGORY_ID_SMARTSTORE = "50000789";
     public static final String CATEGORY_NUMBER_CAFE24 = "300";
-    private final static String COUPANG_CATEGORY_CODE = "샌들"; //GrobalDefined.categoryCodeCoopang
+    private final static String COUPANG_CATEGORY_CODE = "남성샌들"; //GrobalDefined.categoryCodeCoopang
 
     private static final String [] ITEM_SIZE_WIDTH = {"regular", "narrow"};
     private static final String [] ITEM_SIZE_EU_WOMEN = {"35(225mm)", "36(230mm)", "37(240mm)", "38(245mm)", "39(250mm)","40(260mm)","41(265mm)","42(270mm)","43(280mm)"};
     private static final String [] ITEM_SIZE_EU_MEN = {"39(250mm)","40(260mm)","41(265mm)","42(270mm)","43(280mm)","44(285mm)","45(290mm)","46(300mm)","47(305mm)"};
+    private static final String ITEM_SIZE_EU_MEN_LIST_COUPANG = "250,260,265,270,280,285,290";
+    private static final String ITEM_SIZE_EU_WOMEN_LIST = "225,230,240,245,250,260,265";
     private static final String ITEM_SIZE_COUPANG_WOMEN = "250";
     
     private static final String [] ITEM_SIZE_PRICE = {"0", "0", "0", "0", "0"};
@@ -60,7 +63,7 @@ public class AgentBirkenStarter {
         List<String> itemUrlList = agent.preprocessing(massItemList, HTML_BRAND);
         
         for(int i=0; i<itemUrlList.size(); i++) { 
-        //for(int i=0; i<1; i++) {
+       // for(int i=0; i<1; i++) {
             agent.createMassItem(itemUrlList.get(i), massItemList.get(i));
             //LOGGER.info("MassItem is created:" + i);
         }
@@ -73,14 +76,14 @@ public class AgentBirkenStarter {
             baseItemList.add(massItemLando);
         }
         
-        Cafe24 cafe24 = new Cafe24(baseItemList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24, DIR_FILEUPLOADER);
-        cafe24.createCsvFileMode(DIR_EXCEL_FILE);
+        //Cafe24 cafe24 = new Cafe24(baseItemList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24, DIR_FILEUPLOADER);
+        //cafe24.createCsvFileMode(DIR_EXCEL_FILE);
         
-        SmartStore smartStore = new SmartStore(baseItemList, CATEGORY_ID_SMARTSTORE, BRAND_NAME_KOR);
-        smartStore.createExcelMode(DIR_EXCEL_FILE);
+        //SmartStore smartStore = new SmartStore(baseItemList, CATEGORY_ID_SMARTSTORE, BRAND_NAME_KOR);
+        //smartStore.createExcelMode(DIR_EXCEL_FILE);
         
-        //CoupangApi CoupangApi = new CoupangApi();
-        //CoupangApi.createProducts(baseItemList, GrobalDefined.categoryCodeCoopang.get(COUPANG_CATEGORY_CODE), DIR_FILEUPLOADER, ITEM_SIZE_COUPANG_WOMEN);
+        CoupangApi CoupangApi = new CoupangApi();
+        CoupangApi.createProducts(baseItemList, GrobalDefined.categoryCodeCoopang.get(COUPANG_CATEGORY_CODE), DIR_FILEUPLOADER, ITEM_SIZE_EU_MEN_LIST_COUPANG);
         LOGGER.info("A mission end <<<=== ");
     }
     

@@ -15,6 +15,7 @@ public class MassItemBirken extends BaseItem  {
     private static final Logger LOGGER = LogManager.getLogger(MassItemBirken.class);
 
     private int priceWon;
+    private int priceWonCoupang;
     private int priceSaleWon;
     private int priceSubstractWon;
     private MassItem massItem;
@@ -27,6 +28,7 @@ public class MassItemBirken extends BaseItem  {
             this.priceSaleWon = super.calculatePriceCommisionVATWon(massItem.getItemSalePriceEuro(), massItem.getModeDeiveryFee());
             this.priceSubstractWon = priceWon - priceSaleWon;
         }
+        this.priceWonCoupang = super.calculatePriceCommisionVATWonCoupang(massItem.getItemPriceEuro());
     }
 
     @Override
@@ -233,5 +235,10 @@ public class MassItemBirken extends BaseItem  {
     @Override
     public String getPriceSaleWonString() {
         return String.valueOf(priceSaleWon);
+    }
+
+    @Override
+    public String getPriceWonCoupangString() {
+        return String.valueOf(priceWonCoupang);
     }
 }

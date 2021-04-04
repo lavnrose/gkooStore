@@ -10,6 +10,7 @@ import util.GrobalDefined.Gender;
 public class Agent {
     public String brandNameDe;
     public String brandNameKor;
+    public String itemCategory;
     public String homepageUrl;
     public String dirMainImages;
     List<String> itemSizeList;
@@ -32,9 +33,10 @@ public class Agent {
         this.deliveryFee = deliveryFee;
     }
     
-    public Agent(String brandNameDe, String brandNameKor, String dirMainImages, String dirFileUploader) {
+    public Agent(String brandNameDe, String brandNameKor, String itemCategory, String dirMainImages, String dirFileUploader) {
         this.brandNameDe = brandNameDe;
         this.brandNameKor = brandNameKor;
+        this.itemCategory = itemCategory;
         this.dirMainImages = dirMainImages;
         this.dirFileUploader = dirFileUploader;
     }
@@ -45,6 +47,14 @@ public class Agent {
 
     public void setBrandNameDe(String brandNameDe) {
         this.brandNameDe = brandNameDe;
+    }
+    
+    public String getItemCategory() {
+        return itemCategory;
+    }
+
+    public void setItemCategory(String itemCategory) {
+        this.itemCategory = itemCategory;
     }
 
     public String getBrandNameKor() {

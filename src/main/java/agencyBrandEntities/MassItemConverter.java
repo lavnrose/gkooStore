@@ -6,13 +6,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import agencyEntities.BaseItemCosmetic;
 import agencyEntities.MassItem;
-import gkooAgency.AgentEco;
 import translator.TranslateApi;
 import util.Formatter;
 import util.GrobalDefined;
 
 public class MassItemConverter extends BaseItemCosmetic {
-    private static final Logger LOGGER = LogManager.getLogger(AgentEco.class);
+    private static final Logger LOGGER = LogManager.getLogger(MassItemConverter.class);
 
     private MassItem massItem;
     private String companyLogo;
@@ -24,7 +23,7 @@ public class MassItemConverter extends BaseItemCosmetic {
     
     public MassItemConverter(MassItem massItem) {
         this.massItem = massItem;
-        this.priceWon = super.calculatePriceWonWithExtraFee(massItem.getItemPriceEuro(), massItem.getExtraDeliveryFee());
+        this.priceWon = super.calculatePriceCommisionSectionWon(massItem.getItemPriceEuro());
     }
     
     private void invokeTranslateApi(MassItem massItem) {
@@ -86,16 +85,6 @@ public class MassItemConverter extends BaseItemCosmetic {
         return massItem.getCategoryId();
     }
 
-    //@Override
-    public String getItemFullname() {
-        StringBuilder fullnameBd = new StringBuilder();
-        //fullnameBd.append(massItem.getBrandName());
-        fullnameBd.append(massItem.getItemTitleDE());
-        fullnameBd.append(" ");
-        fullnameBd.append(massItem.getItemVolume());
-        return fullnameBd.toString();
-    }
-
     @Override
     public String getPriceWonString() {
         return String.valueOf(priceWon);
@@ -140,7 +129,7 @@ public class MassItemConverter extends BaseItemCosmetic {
       String brandNameDE = massItem.getBrandNameDE();
       boolean hasOverview = GrobalDefined.brandOverview.containsKey(brandNameDE);
       StringBuilder result = new StringBuilder();
-      result.append(getItemFullNameHtml(getItemFullname()));
+      result.append(getItemFullNameHtml(getItemFullnameKor()));
       result.append(getItemBrandNameHtml(massItem.getBrandNameDE()));
       result.append(getEmptyLineHtml());
       result.append(hasOverview ? getItemBrandOverview(GrobalDefined.brandOverview.get(brandNameDE)) : "");
@@ -162,8 +151,8 @@ public class MassItemConverter extends BaseItemCosmetic {
       String brandNameDE = massItem.getBrandNameDE();
       boolean hasOverview = GrobalDefined.brandOverview.containsKey(brandNameDE);
       StringBuilder result = new StringBuilder();
-      result.append(getItemFullNameHtml(getItemFullname()));
-      result.append(getItemBrandNameHtml(massItem.getBrandNameDE()));
+      result.append(getItemFullNameHtml(getItemFullnameKor()));
+      //result.append(getItemBrandNameHtml(massItem.getBrandNameDE()));
       result.append(getEmptyLineHtml());
       result.append(hasOverview ? getItemBrandOverview(GrobalDefined.brandOverview.get(brandNameDE)) : "");
       result.append(getEmptyLineHtml());
@@ -185,8 +174,8 @@ public class MassItemConverter extends BaseItemCosmetic {
       boolean hasOverview = GrobalDefined.brandOverview.containsKey(brandNameDE);
       invokeTranslateDescriptionApi(massItem);
       StringBuilder result = new StringBuilder();
-      result.append(getItemFullNameHtml(getItemFullname()));
-      result.append(getItemBrandNameHtml(massItem.getBrandNameDE()));
+      result.append(getItemFullNameHtml(getItemFullnameKor()));
+      //result.append(getItemBrandNameHtml(massItem.getBrandNameDE()));
       result.append(getEmptyLineHtml());
       result.append(hasOverview ? getItemBrandOverview(GrobalDefined.brandOverview.get(brandNameDE)) : "");
       result.append(getEmptyLineHtml());
@@ -211,7 +200,7 @@ public class MassItemConverter extends BaseItemCosmetic {
 
     @Override
     public String getItemFullnameWithPrefix() {
-        return "[" + massItem.getBrandNameDE() + "]" + " " + getItemFullname();
+        return "[" + massItem.getBrandNameDE() + "]" + " " + getItemFullnameKor();
     }
 
     public String getItemDescriptionKor() {
@@ -243,8 +232,7 @@ public class MassItemConverter extends BaseItemCosmetic {
 
     @Override
     public String getItemFullnameKor() {
-        // TODO Auto-generated method stub
-        return null;
+        return massItem.getItemTitleKor() + " " + massItem.getItemVolume();
     }
 
     @Override

@@ -14,7 +14,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import agencyEntities.BaseItemCosmetic;
-import gkooAgency.AgentEco;
 
 //deprecated use api
 public class Coopang {
@@ -42,89 +41,6 @@ public class Coopang {
     public Coopang(String brandName, List<BaseItemCosmetic> massItemCosmeticList) {
         this.setBrandName(brandName);
         this.massItemCosmeticList = massItemCosmeticList;
-    }
-    
-    //cosmetic
-    public void createExcelEcoverde() {
-        LOGGER.info("Creating the excel for coopang starts...");
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet(itemTitlePrefix);
-        
-        Map<String, Object[]> data = new TreeMap<String, Object[]>();
-        
-        for (int i=0;i<massItemCosmeticList.size();i++) {
-            Object createdItemRow[] = createItemRow(massItemCosmeticList.get(i));
-            data.put(String.valueOf(i+1), createdItemRow);
-        }
-        
-        Set<String> keyset = data.keySet();
-        int rownum = 0;
-        for (String key : keyset)
-        {
-            Row row = sheet.createRow(rownum++);
-            Object [] objArr = data.get(key);
-            int cellnum = 0;
-            for (Object obj : objArr)
-            {
-               Cell cell = row.createCell(cellnum++);
-               if(obj instanceof String)
-                    cell.setCellValue((String)obj);
-                else if(obj instanceof Integer)
-                    cell.setCellValue((Integer)obj);
-            }
-        }
-
-        try {
-            FileOutputStream outputStream = new FileOutputStream(AgentEco.DIR_EXCEL_FILE + itemTitlePrefix + "_coopang_ready.xlsx");
-            workbook.write(outputStream);
-            workbook.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        LOGGER.info("the excel for coopang is created");
-    }
-    
-    public void createExcelBlockEcoverde() {
-        LOGGER.info("Creating the excel for coopang starts...");
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet(brandName);
-        
-        Map<String, Object[]> data = new TreeMap<String, Object[]>();
-        
-        for (int i=0;i<massItemCosmeticList.size();i++) {
-            Object createdItemRow[] = createBlockItemRow(massItemCosmeticList.get(i));
-            data.put(String.valueOf(i+1), createdItemRow);
-        }
-        
-        Set<String> keyset = data.keySet();
-        int rownum = 0;
-        for (String key : keyset)
-        {
-            Row row = sheet.createRow(rownum++);
-            Object [] objArr = data.get(key);
-            int cellnum = 0;
-            for (Object obj : objArr)
-            {
-               Cell cell = row.createCell(cellnum++);
-               if(obj instanceof String)
-                    cell.setCellValue((String)obj);
-                else if(obj instanceof Integer)
-                    cell.setCellValue((Integer)obj);
-            }
-        }
-
-        try {
-            FileOutputStream outputStream = new FileOutputStream(AgentEco.DIR_EXCEL_FILE + brandName + "_coopang_ready.xlsx");
-            workbook.write(outputStream);
-            workbook.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        LOGGER.info("the excel for coopang is created");
     }
     
     public void createExcelBlock(String dirExcelFile) {

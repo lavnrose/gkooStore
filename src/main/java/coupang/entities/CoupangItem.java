@@ -51,10 +51,11 @@ public class CoupangItem extends Item {
     }
     
     private void setMainImage(String sellerProductName) {
+        String mainImageName = Formatter.replaceEmptySymbol(Formatter.replaceSymbols(sellerProductName));
         CoupangImage coupangImage = new CoupangImage();
         coupangImage.setImageOrder(0);
         coupangImage.setImageType("REPRESENTATION");
-        coupangImage.setVendorPath(Formatter.convertMainImageUrlCosmetic(dirFileUploader, sellerProductName));
+        coupangImage.setVendorPath(Formatter.convertMainImageUrlCosmetic(dirFileUploader, mainImageName));
         this.images.add(coupangImage);
     }
     

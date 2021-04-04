@@ -17,7 +17,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import agencyEntities.BaseItem;
 import agencyEntities.BaseItemCosmetic;
-import gkooAgency.AgentEco;
 import gkooAgency.AgentZal;
 import util.Formatter;
 import util.GrobalDefined;
@@ -198,57 +197,6 @@ public class SmartStore {
 
         try {
             FileOutputStream outputStream = new FileOutputStream(dirExcelFile + itemTitlePrefix + "_smartstore_test.xlsx");
-            workbook.write(outputStream);
-            workbook.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        LOGGER.info("the excel for smartstore is created");
-    }
-    
-    //cosmetic
-    public void createExcelEcoverde() {
-        LOGGER.info("Creating the excel for smartstore starts...");
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet(itemTitlePrefix);
-        
-        Map<String, Object[]> data = new TreeMap<String, Object[]>();     
-        for (int i=0;i<massItemCosmeticList.size();i++) {
-            Object createdItemRow[] = createItemRow(massItemCosmeticList.get(i));
-            data.put(String.valueOf(i+1), createdItemRow);
-        }
-        
-        Object[][] datatypes = {
-                {"상품상태", "카테고리ID", "상품명", "판매가", "재고수량", "AS안내", "AS전화", "대표이미지", "추가이미지", "상세정보", "상품코드", "바코드", "제조사", "브랜드", "제조일자", "유효일자", 
-                        "부가세", "미성년자", "구매평 노출여부", "원산지 코드",  "수입사",   "복수원산지 여부",    "원산지 직접입력",    "배송방법",    "배송비 유형",   "기본배송비",   "배송비 결제방식", 
-                        "조건부무료-상품판매가합계",   "수량별부과-수량",    "반품배송비 ",  "교환배송비", "지역별 차등배송비 정보",   "별도설치비",   "판매자 특이사항",    "즉시할인 값", "즉시할인 단위", 
-                        "복수구매할인 조건 값",  "복수구매할인 조건 단위",    "복수구매할인 값",     "복수구매할인 단위",   "상품구매시 포인트 지급 값", "상품구매시 포인트 지급 단위",  "텍스트리뷰 작성시 지급 포인트", "포토/동영상 리뷰 작성시 지급 포인트 ", "한달사용텍스트리뷰 작성시 지급 포인트",
-                        "한달사용 포토/동영상리뷰 작성시 지급 포인트", "톡톡친구/스토어찜고객", "리뷰 작성시 지급 포인트",  "무이자 할부 개월 ", "사은품", "옵션형태 ", "옵션명", "옵션값", "옵션가", "옵션 재고수량", 
-                        "추가상품명",  "추가상품값",  "추가상품가",   "추가상품 재고수량",   "상품정보제공고시 품명", "상품정보제공고시 모델명",  "상품정보제공고시 인증허가사항",  "상품정보제공고시 제조자",    "스토어찜회원 전용여부", "문화비 소득공제", "ISBN", "독립출판"
-                },
-        };
-
-        Set<String> keyset = data.keySet();
-        int rownum = 0;
-        for (String key : keyset)
-        {
-            Row row = sheet.createRow(rownum++);
-            Object [] objArr = data.get(key);
-            int cellnum = 0;
-            for (Object obj : objArr)
-            {
-               Cell cell = row.createCell(cellnum++);
-               if(obj instanceof String)
-                    cell.setCellValue((String)obj);
-                else if(obj instanceof Integer)
-                    cell.setCellValue((Integer)obj);
-            }
-        }
-
-        try {
-            FileOutputStream outputStream = new FileOutputStream(AgentEco.DIR_EXCEL_FILE + itemTitlePrefix + "_smartstore_ready.xlsx");
             workbook.write(outputStream);
             workbook.close();
         } catch (FileNotFoundException e) {

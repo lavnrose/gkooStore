@@ -1,8 +1,12 @@
 package coupang;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import org.apache.http.HttpEntity;
@@ -20,12 +24,16 @@ import org.json.JSONObject;
 import com.coupang.openapi.sdk.Hmac;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import agencyEntities.BaseItem;
 import coupang.entities.CategoryPredict;
 import coupang.entities.CoupangItem;
 import coupang.entities.CoupangItemShoes;
 import coupang.entities.SellerProduct;
 import coupang.entities.SellerProductShoes;
+import gkooModeAgency.AgentBirkenStarter;
+import util.GrobalDefined;
 
 public class CoupangApi {
     private static final Logger LOGGER = LogManager.getLogger(CoupangApi.class);
@@ -41,8 +49,33 @@ public class CoupangApi {
     private static final String userDir = System.getProperty("user.dir");
     private static final String configPath = userDir + "/src/main/resources/config.properties";
 
-    public static void main(String[] args) {
-        initCoupangApi();
+    public static void main(String[] args) throws FileNotFoundException, IOException, CsvValidationException {
+        String fileName = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/ecoverde/weleda/벨레다_cafe24.csv";
+        List<List<String>> records = new ArrayList<List<String>>();
+        try (CSVReader csvReader = new CSVReader(new FileReader(fileName));) {
+            String[] values = null;
+            while ((values = csvReader.readNext()) != null) {
+                records.add(Arrays.asList(values));
+            }
+        }
+        
+//        for(List<String> cosmetic : records) {
+//            
+//        }
+        
+        for(int i=1; i< 2; i++) {
+            List<String> cosmetic = records.get(i);
+            int originalPrice = Integer.valueOf(cosmetic.get(22));
+            int salePrice = Integer.valueOf("0");
+            String contentHtml = cosmetic.get(14);
+            String mainImageName = cosmetic.get(10);
+            String displayProductName = cosmetic.get(7);
+            String brand = "weleda";
+//            CoupangApi.createProductCosmetic(GrobalDefined.categoryCodeCoopang.get(""), 
+//                    originalPrice, salePrice, contentHtml, mainImageName, displayProductName, brand, DIR_FILEUPLOADER);
+        }
+        
+        //initCoupangApi();
         
         //CoupangApi coupangApi = new CoupangApi();
         //coupangApi.getDeliveryStartPlace();
@@ -54,11 +87,11 @@ public class CoupangApi {
     
     public void createProducts(List<BaseItem> baseItemList, int categoryCode, String dirFileUploader, String itemSizeList) {
         for(BaseItem baseItem : baseItemList) {
-            int originalPrice = Integer.valueOf(baseItem.getPriceWonString());
-            int salePrice = Integer.valueOf(baseItem.getPriceWonString());
+            int originalPrice = Integer.valueOf(baseItem.getPriceWonCoupangString());
+            int salePrice = Integer.valueOf(baseItem.getPriceWonCoupangString());
             String contentHtml = baseItem.getDetailPageSmart();
             String mainImageName = baseItem.getMainImageFileName();
-            String displayProductName = "[" + baseItem.getMassItem().getBrandNameKor() + "] " + baseItem.getMassItem().getItemTitleDE();
+            String displayProductName = "[" + baseItem.getMassItem().getBrandNameKor() + " " + AgentBirkenStarter.ITEM_CATEGORY + "] " + baseItem.getMassItem().getItemTitleDE();
             String brand = baseItem.getMassItem().getBrandNameDE();
             String color = baseItem.getMassItem().getItemColors().get(0);
             readyCreatProduct(categoryCode, originalPrice, salePrice, 
@@ -67,8 +100,9 @@ public class CoupangApi {
         }
     }
     
-    private void readyCreatProduct(int categoryCode, int originalPrice, int salePrice, String contentHtml, 
-            String sellerProductName, String displayProductName, String brand, String dirFileUploader, String itemSizeList, String color) {
+    private void readyCreatProduct(int categoryCode, int originalPrice, int salePrice, 
+            String contentHtml, String sellerProductName, String displayProductName, 
+            String brand, String dirFileUploader, String itemSizeList, String color) {
         initCoupangApi();
         int categoryCodeCoupang;
         CoupangItemShoes coupangItem = new CoupangItemShoes(originalPrice, salePrice, contentHtml, sellerProductName, dirFileUploader, itemSizeList, color);
@@ -78,6 +112,7 @@ public class CoupangApi {
         } else {
             categoryCodeCoupang = categoryCode;
         }
+        
         SellerProductShoes sellerProduct = new SellerProductShoes(categoryCodeCoupang, sellerProductName, displayProductName, brand, displayProductName, coupangItem);
         String sellerProductJjsonStr = getSellerProductShoesJson(sellerProduct);
         createProduct(sellerProductJjsonStr);
@@ -286,8 +321,6 @@ public class CoupangApi {
         try (InputStream input = new FileInputStream(configPath)) {
 
             Properties prop = new Properties();
-
-            prop.load(input);
 
             //load a properties file from class path, inside static method
             prop.load(input);

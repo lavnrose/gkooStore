@@ -46,10 +46,10 @@ public class AgentEccoExtractor implements IAgentCosmeticExtractor {
 //            extractUrl(unitElements.get(i));
 //        }
         
-        extractItemTitle(unitElements.get(number));
-//        for (int i=0; i<unitElements.size(); i++) {
-//            extractItemTitle(unitElements.get(i));
-//        }
+        //extractItemTitle(unitElements.get(number));
+        for (int i=0; i<unitElements.size(); i++) {
+            extractItemTitle(unitElements.get(i));
+        }
         
         //extractMainImage(unitElements.get(number));
         for (int i=0; i<unitElements.size(); i++) {
@@ -70,8 +70,8 @@ public class AgentEccoExtractor implements IAgentCosmeticExtractor {
         //System.out.println(itemTitle);
         Element itemVolume =  unitElement.getElementsByClass("product__title").get(0);
         
-        System.out.println(itemVolume);
-        System.out.println(itemVolume.getAllElements().hasClass("productVariants"));
+        //System.out.println(itemVolume);
+        //System.out.println(itemVolume.getAllElements().hasClass("productVariants"));
         if(itemVolume.getAllElements().hasClass("productVariants")) {
             System.out.println(itemVolume.getElementsByClass("productVariants").text());
         }
@@ -85,7 +85,7 @@ public class AgentEccoExtractor implements IAgentCosmeticExtractor {
     @Test
     @Override
     public void createMassItemTest() {
-        String itemUrl = "https://www.ecco-verde.de/weleda/hautcreme-skin-food";
+        String itemUrl = "https://www.ecco-verde.de/weleda/arnika-massageol";
         Document doc = null;
         try {
             doc = Jsoup.connect(itemUrl).userAgent("Chrome").get();
@@ -97,7 +97,7 @@ public class AgentEccoExtractor implements IAgentCosmeticExtractor {
         
         //extractItemDescription(doc);
         
-        extractItemIngredients(doc);
+        //extractItemIngredients(doc);
     }
 
     @Override
@@ -112,8 +112,11 @@ public class AgentEccoExtractor implements IAgentCosmeticExtractor {
         Elements priceElements = body.getElementsByClass("main-price");
         
         boolean saledPrice = priceElements.get(0).getElementsByClass("price").get(0).hasClass("price instead-price");
-        System.out.println(priceElements.get(0).getElementsByClass("price").size());
-        System.out.println(priceElements.get(0).getElementsByClass("price").get(1).text());
+        System.out.println(saledPrice);
+        Elements variousPrice = priceElements.get(0).getElementsByClass("price-box");
+        System.out.println(variousPrice);
+        //System.out.println(priceElements.get(0).getElementsByClass("price").size());
+        //System.out.println(priceElements.get(0).getElementsByClass("price").get(1).text());
         
         //not formatted euro, comma
         String price = priceElements.get(0).getElementsByClass("price").text();

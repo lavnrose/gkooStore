@@ -18,6 +18,12 @@ public class BaseItemTest {
     @Test
     public void calculatePriceCommisionVATWon() {
         baseItem = Mockito.mock(BaseItem.class, Mockito.CALLS_REAL_METHODS);
-        System.out.println("commision: " + baseItem.calculatePriceCommisionVATWon(120, 8000));
+        System.out.println("cafe24 price with delivery fee: " + baseItem.calculatePriceCommisionVATWon(100, 8000));
+    }
+    
+    @Test
+    public void calculatePriceCommisionVATWonCoupangTest() {
+        baseItem = Mockito.mock(BaseItem.class, Mockito.CALLS_REAL_METHODS);
+        System.out.println("coupang price without delivery fee: " + baseItem.calculatePriceCommisionVATWonCoupang(100));
     }
 }

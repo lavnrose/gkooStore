@@ -17,6 +17,17 @@ import com.google.cloud.translate.v3.LocationName;
 import com.google.cloud.translate.v3.TranslationServiceClient;
 import com.google.cloud.translate.v3.TranslationServiceSettings;
 
+/**
+ * 
+ * 1. modify the glossary
+ * 2. upload glossary file with new version in cloud
+ * 3. check the property file
+ * 4. run createGlossary-method
+ * 
+ * @version 4 in cloud
+ * @author sanghuncho
+ *
+ */
 public class GlossaryManager {
     public static void main(String args[]) throws IOException, ExecutionException, InterruptedException {
         

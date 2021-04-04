@@ -40,8 +40,8 @@ public class SellerProduct {
     
     public SellerProduct(int displayCategoryCode, String sellerProductName, String displayProductName, String brand, String generalProductName, CoupangItem coupangItem) {
         this.displayCategoryCode = displayCategoryCode;
-        this.sellerProductName = sellerProductName;
-        this.displayProductName = displayProductName;
+        this.sellerProductName = displayProductName + " / " + sellerProductName;
+        this.displayProductName = displayProductName + " / " + sellerProductName;
         this.brand = brand;
         this.saleStartedAt = DateUtil.getStartedAt();
         this.items.add(coupangItem);

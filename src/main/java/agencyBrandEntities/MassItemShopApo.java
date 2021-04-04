@@ -11,25 +11,17 @@ import util.CosmeticUtil;
 import util.Formatter;
 import util.GrobalDefined;
 
-public class MassItemEcco extends BaseItemCosmetic {
-    private static final Logger LOGGER = LogManager.getLogger(MassItemBirken.class);
+public class MassItemShopApo extends BaseItemCosmetic {
+    private static final Logger LOGGER = LogManager.getLogger(MassItemShopApo.class);
 
     private int priceWon;
     private int priceSaleWon;
-    private int priceSubstractWon;
     private MassItem massItem;
     
-    public MassItemEcco(double priceEuro) {
-        this.priceWon = super.calculatePriceCommisionVATWon(priceEuro, 0);
-    }
-    
-    public MassItemEcco(MassItem massItem) {
+    public MassItemShopApo(MassItem massItem) {
         this.massItem = massItem;
-        this.priceWon = super.calculatePriceCommisionSectionWon(massItem.getItemPriceEuro());
-//        if(massItem.isItemSale()) {
-//            this.priceSaleWon = super.calculatePriceCommisionVATWon(massItem.getItemSalePriceEuro(), 0);
-//            this.priceSubstractWon = priceWon - priceSaleWon;
-//        }
+        this.priceWon =  super.calculatePriceCommisionSectionWon(massItem.getItemPriceEuro());
+        this.priceSaleWon =  super.calculatePriceCommisionSectionWon(massItem.getItemSalePriceEuro());
         if(GrobalDefined.TRANSLATE) {
             //invokeTranslateDescription(massItem);
             invokeTranslateItemTitleKor(massItem);
@@ -88,8 +80,8 @@ public class MassItemEcco extends BaseItemCosmetic {
     }
 
     @Override
-    public MassItem getMassItem() {
-        return massItem;
+    public String getItemFullnameWithPrefix() {
+        return "[" + massItem.getBrandNameDE() + " " + massItem.getItemCategory() + "] " + getItemFullnameKor();
     }
 
     @Override
@@ -98,38 +90,8 @@ public class MassItemEcco extends BaseItemCosmetic {
     }
 
     @Override
-    public String getPriceSaleWonString() {
-        return null;
-    }
-
-    @Override
     public String getMainImageFileName() {
         return massItem.getMainImageFileName();
-    }
-
-    @Override
-    public String getItemFullDescriptionKOR() {
-        StringBuilder result = new StringBuilder();
-        //result.append(getItemFullNameHtml(getItemFullnameKor()));
-        result.append(getItemBrandOverview(CosmeticUtil.convertItemOverviewCosmetic(massItem.getBrandNameDE())));
-        result.append(getEmptyLineHtml());
-        result.append(getItemBrandNameHtml(massItem.getBrandNameDE()));
-        result.append(getEmptyLineHtml());
-        result.append(getItemDescriptionHtml(Formatter.setLinebreakAfterPunctHtml(massItem.getItemDescriptionKor())));
-        result.append(getEmptyLineHtml());
-        //result.append(getItemUsageHtml(Formatter.setLinebreakAfterPunctHtml(massItem.getItemUsage())));
-        //https://www.ecco-verde.de/avril/organic-moisturizing-face-mask
-        //result.append(getEmptyLineHtml());
-        result.append(getItemIngredientHtml(massItem.getItemIngredients()));
-        result.append(getEmptyLineHtml());
-        result.append(getTranslateInfoHtml());
-        return addTopBottomInfo(result.toString());
-    }
-
-    @Override
-    public String getItemFullnameWithPrefix() {
-        return "[" + massItem.getBrandNameDE() + " " + massItem.getItemCategory() + "] " + getItemFullnameKor();
-
     }
 
     @Override
@@ -140,18 +102,52 @@ public class MassItemEcco extends BaseItemCosmetic {
     @Override
     public String getItemFullDescriptionDE() {
         StringBuilder result = new StringBuilder();
-        //result.append(getItemFullNameHtml(getItemFullnameKor()));
         result.append(getItemBrandOverview(CosmeticUtil.convertItemOverviewCosmetic(massItem.getBrandNameDE())));
         result.append(getEmptyLineHtml());
         result.append(getItemBrandNameHtml(massItem.getBrandNameDE()));
         result.append(getEmptyLineHtml());
         result.append(getItemDescriptionHtml(Formatter.setLinebreakAfterPunctHtml(massItem.getItemDescription())));
         result.append(getEmptyLineHtml());
-        //result.append(getItemUsageHtml(Formatter.setLinebreakAfterPunctHtml(massItem.getItemUsage())));
-        //result.append(getEmptyLineHtml());
         result.append(getItemIngredientHtml(massItem.getItemIngredients()));
         result.append(getEmptyLineHtml());
         result.append(getTranslateInfoHtml());
         return addTopBottomInfo(result.toString());
+    }
+
+    @Override
+    public String getItemFullDescriptionKOR() {
+        StringBuilder result = new StringBuilder();
+        result.append(getItemBrandOverview(CosmeticUtil.convertItemOverviewCosmetic(massItem.getBrandNameDE())));
+        result.append(getEmptyLineHtml());
+        result.append(getItemBrandNameHtml(massItem.getBrandNameDE()));
+        result.append(getEmptyLineHtml());
+        result.append(getItemDescriptionHtml(Formatter.setLinebreakAfterPunctHtml(massItem.getItemDescriptionKor())));
+        result.append(getEmptyLineHtml());
+        result.append(getItemIngredientHtml(massItem.getItemIngredients()));
+        result.append(getEmptyLineHtml());
+        result.append(getTranslateInfoHtml());
+        return addTopBottomInfo(result.toString());
+    }
+
+    @Override
+    public MassItem getMassItem() {
+        return massItem;
+    }
+
+    @Override
+    public String getPriceSaleWonString() {
+        return String.valueOf(priceSaleWon);
+    }
+
+    public int getPriceWon() {
+        return priceWon;
+    }
+
+    public void setPriceWon(int priceWon) {
+        this.priceWon = priceWon;
+    }
+
+    public void setMassItem(MassItem massItem) {
+        this.massItem = massItem;
     }
 }

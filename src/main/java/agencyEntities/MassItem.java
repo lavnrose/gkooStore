@@ -14,7 +14,6 @@ public class MassItem {
     private String brandNameKor;
     private String itemCategory;
     private String categoryId;
-    //private String itemTitle;
     private String itemTitleKor;
     private String itemTitleDE;
     private String itemTitleEN;
@@ -22,7 +21,9 @@ public class MassItem {
     private double itemPriceEuro;
     private double itemSalePriceEuro;
     private boolean isItemSale = false;
+    //cafe24
     private double itemPriceWon;
+    private double itemPriceWonCoupang;
     private String mainImageName;
     private String dirFileUploader;
     private List<String> itemDetailImages;
@@ -39,7 +40,8 @@ public class MassItem {
     
     /** cosmetic proeprties */
     private String itemVolume;
-    private String itemDescription;
+    private String itemDescription; //de
+    private String itemDescriptionKor;
     private String itemUsage;
     private boolean grobalUsage;
     private String itemIngredients;
@@ -88,14 +90,15 @@ public class MassItem {
      * @param extraDeliveryFee
      * @param usage
      */
-    public MassItem(String pureItemTitle, String itemTitleDE, String itemVolume, int extraDeliveryFee, String usage) {
+    public MassItem(String itemTitleKor,String mainImageName, String itemVolume, int extraDeliveryFee, String usage, String dirFileUploader) {
         this.brandNameDE =  AgentManual.BRAND_NAME_DE;
-        //this.itemTitle = AgentManual.BRAND_NAME_KOR + " " + pureItemTitle;
+        this.itemTitleKor = itemTitleKor;
+        this.dirFileUploader = dirFileUploader;
         this.itemVolume = itemVolume;
         this.extraDeliveryFee = extraDeliveryFee;
         this.itemUsage = NumberUtils.isParsable(usage) ? GrobalDefined.categoryUsageManual.get(usage).getUsage() : usage;
-        this.itemTitleDE = itemTitleDE;
-        this.mainImageName = itemTitleDE;
+        this.itemTitleDE = mainImageName;
+        this.mainImageName = mainImageName;
     }
     
     public MassItem(String itemcategory) {
@@ -359,5 +362,21 @@ public class MassItem {
 
     public void setDirFileUploader(String dirFileUploader) {
         this.dirFileUploader = dirFileUploader;
+    }
+
+    public String getItemDescriptionKor() {
+        return itemDescriptionKor;
+    }
+
+    public void setItemDescriptionKor(String itemDescriptionKor) {
+        this.itemDescriptionKor = itemDescriptionKor;
+    }
+
+    public double getItemPriceWonCoupang() {
+        return itemPriceWonCoupang;
+    }
+
+    public void setItemPriceWonCoupang(double itemPriceWonCoupang) {
+        this.itemPriceWonCoupang = itemPriceWonCoupang;
     }
 }

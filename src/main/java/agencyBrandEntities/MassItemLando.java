@@ -202,4 +202,10 @@ public class MassItemLando extends BaseItem {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public String getPriceWonCoupangString() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
