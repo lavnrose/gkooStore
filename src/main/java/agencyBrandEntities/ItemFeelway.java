@@ -29,6 +29,7 @@ public class ItemFeelway {
 
     //상품사진
     private List<String> itemImageUrl = new ArrayList<>();
+    private List<String> imageUploadUrl = new ArrayList<>();
     
     //기타정보
     
@@ -44,6 +45,7 @@ public class ItemFeelway {
     private final String sellerPhoneNumber = "010-7348-1193";
     
     private String itemIntroductionHtml;
+    private final String gkooLogo = "https://moondrive81.cafe24.com/GKoo/mode/gkoo_comany_logo.png";
     private final String gkooFeelwayInfo = "https://moondrive81.cafe24.com/GKoo/mode/gkooFeelwayInfo.jpg";
     
     public ItemFeelway() { }
@@ -262,5 +264,17 @@ public class ItemFeelway {
 
     public String getGkooFeelwayInfo() {
         return gkooFeelwayInfo;
+    }
+
+    public List<String> getImageUploadUrl() {
+        return imageUploadUrl;
+    }
+
+    public void setImageUploadUrl(List<String> imageUploadUrl) {
+        this.imageUploadUrl = imageUploadUrl;
+    }
+
+    public String getGkooLogo() {
+        return gkooLogo;
     }
 }

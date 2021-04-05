@@ -15,17 +15,17 @@ import gkooModeAgency.AgentFeelwayStarter;
 public class AgentMoncExtractor {
     @Test
     public void createMassItemTest() {
-        File input = new File(AgentFeelwayStarter.HTML_BRAND);
-        Document doc = null;
-        try {
-            doc = Jsoup.parse(input, "UTF-8", "");
-        } catch (IOException e) {
-           
-        }
+//        File input = new File(AgentFeelwayStarter.HTML_BRAND);
+//        Document doc = null;
+//        try {
+//            doc = Jsoup.parse(input, "UTF-8", "");
+//        } catch (IOException e) {
+//           
+//        }
         
         //extractDetailImages(doc);
         
-        extractItemDescription(doc);
+        //extractItemDescription(doc);
     }
     
     public void extractDetailImages(Document doc) {

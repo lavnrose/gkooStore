@@ -18,6 +18,6 @@ public class PriceCalcTest {
     @Test
     public void calculatePriceCommisionVATWonTest() {
         priceCalc = Mockito.mock(PriceCalc.class, Mockito.CALLS_REAL_METHODS);
-        System.out.println(priceCalc.calculatePriceCommisionVATWon(395, 10000));
+        System.out.println(priceCalc.calculatePriceCommisionVATWon(170, 10000));
     }
 }

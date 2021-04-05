@@ -14,6 +14,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import agencyBrandEntities.ItemFeelway;
+import gkooModeAgency.AgentFeelwayStarter;
+import util.Formatter;
 import util.ImageDownloader;
 
 public class FeelwayController extends PriceCalc {
@@ -51,7 +53,8 @@ public class FeelwayController extends PriceCalc {
         registerData.append(___LINE_BREAKER);
         registerData.append(itemFeelway.getItemModelNumber());
         registerData.append(___LINE_BREAKER);
-        registerData.append(itemFeelway.getItemOriginCountry());
+        String origConuntry = itemFeelway.getItemOriginCountry();
+        registerData.append(origConuntry == null ? "원산지(제조국): " : origConuntry);
         registerData.append(___LINE_BREAKER);
         registerData.append(itemFeelway.getItemColor());
         registerData.append(___LINE_BREAKER);
@@ -62,9 +65,12 @@ public class FeelwayController extends PriceCalc {
         registerData.append(___LINE_BREAKER);
         registerData.append(itemFeelway.getItemColor());
         registerData.append(___LINE_BREAKER);
-        registerData.append(itemFeelway.getItemProductCompany());
+        String prdCompanay = itemFeelway.getItemProductCompany();
+        registerData.append(prdCompanay == null ? "제조사/수입사: " : prdCompanay);
         registerData.append(___LINE_BREAKER);
         registerData.append(itemFeelway.getDirBrandItem());
+        registerData.append(___LINE_BREAKER);
+        registerData.append("보증서 없음/택");
         registerData.append(___LINE_BREAKER);
         registerData.append(itemFeelway.getItemPriceWon());
         registerData.append(___LINE_BREAKER);
@@ -74,16 +80,22 @@ public class FeelwayController extends PriceCalc {
         registerData.append(___LINE_BREAKER);
         registerData.append(itemFeelway.getSellerPhoneNumber());
         registerData.append(___LINE_BREAKER);
-        //registerData.append(getIntroductionHtml());
+        registerData.append(getIntroductionHtml());
         System.out.println(registerData.toString());
     }
     
     public void doImageDownloading() {
         List<String> itemImageUrl = itemFeelway.getItemImageUrl();
         for (int i=0; i<itemImageUrl.size(); i++) {
-            String imageName = itemTitleEng + "_" + Integer.valueOf(i);
+            String imageName = Formatter.replaceEmptySymbol(itemTitleEng) + "_" + Integer.valueOf(i);
+            setImageUploadUrl(imageName);
             imageDownload(imageName, dirBrandItem, itemImageUrl.get(i));
         }
+    }
+    
+    private void setImageUploadUrl(String imageName) {
+        String imageUploadUrl = AgentFeelwayStarter.DIR_CAFE24_UPLOAD + "/" + imageName + ".jpg";
+        itemFeelway.getImageUploadUrl().add(imageUploadUrl);
     }
     
     public void imageDownload(final String imageName, final String imageDir, final String imageUrl) {
@@ -92,18 +104,27 @@ public class FeelwayController extends PriceCalc {
     
     public String getIntroductionHtml() {
         StringBuilder htmlBulder = new StringBuilder();
-        htmlBulder.append("<p style=\"text-align: center;\"><span style=\"font-size: 12pt;\"><strong>명품 셀렉트샵 지쿠</strong></span></p>");
-        htmlBulder.append("<p style=\"text-align: center;\"><span style=\"font-size: 12pt;\"><strong>유럽바잉, 유럽 직배송</strong></span></p>");
-        htmlBulder.append("<p style=\"text-align: center;\">");
-        htmlBulder.append("&#11208 상품명 :" + itemFeelway.getItemBrandKor() + " " + itemFeelway.getItemTitleKor() + "<br>");
-        htmlBulder.append("&#11208 상품명(Eng) : " + itemFeelway.getItemBrandEng() + itemFeelway.getItemTitleEng() + "<br>");
-        htmlBulder.append("&#11208 모델명 : " + itemFeelway.getItemModelNumber() + "<br>");
-        htmlBulder.append("&#11208 소재 : " + itemFeelway.getItemMaterial() + "<br>");
-        htmlBulder.append("&#11208 사이즈 : " + itemFeelway.getItemSizeList() + "<br>");
-        htmlBulder.append("&#11208 컬러 : " + itemFeelway.getItemColor() + "<br>");
-        htmlBulder.append("<p style=\"text-align:center;\"><img style=\"padding-bottom: 30px;\" src=\"" + itemFeelway.getGkooFeelwayInfo() + "\"/></p>");
+        htmlBulder.append(getImageUrlHtml());
+        htmlBulder.append("<p style=\"text-align: center;\"><span style=\"font-size: 14pt;\"><strong>명품 셀렉트샵 지쿠</strong></span><br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\"><span style=\"font-size: 14pt;\"><strong>유럽바잉, 유럽 직배송</strong></span><br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">&#11208 상품명 : " + itemFeelway.getItemBrandKor() + " " + itemFeelway.getItemTitleKor() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">&#11208 상품명(Eng) : " + itemFeelway.getItemBrandEng() + " " + itemFeelway.getItemTitleEng() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">&#11208 모델명 : " + itemFeelway.getItemModelNumber() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">&#11208 소재 : " + itemFeelway.getItemMaterial() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">&#11208 사이즈 : " + itemFeelway.getItemSizeList() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">&#11208 컬러 : " + itemFeelway.getItemColor() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align:center;\"><img style=\"padding-bottom: 30px;\" src=\"" + itemFeelway.getGkooFeelwayInfo() + "\"></p>");
         htmlBulder.append("<br>");
         htmlBulder.append("</p>");
+        return htmlBulder.toString();
+    }
+    
+    private String getImageUrlHtml() {
+        StringBuilder htmlBulder = new StringBuilder();
+        for (String imageUrl : itemFeelway.getImageUploadUrl()) {
+            htmlBulder.append("<p style=\"text-align:center;\"><img style=\"padding-bottom: 30px;\" src=\"" + imageUrl + "\"></p>");
+            htmlBulder.append("<p style=\"text-align:center;\"><img style=\"padding-bottom: 30px;\" src=\"" + itemFeelway.getGkooLogo() + "\"></p>");
+        }
         return htmlBulder.toString();
     }
 
