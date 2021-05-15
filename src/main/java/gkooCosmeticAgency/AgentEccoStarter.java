@@ -31,17 +31,17 @@ public class AgentEccoStarter {
     public static final String BRAND_NAME_KOR = "라베라";
     public static final String BRAND_NAME_DE = "lavera";
     public static final String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/ecoverde/" + BRAND_NAME_DE;
-    public final static String ITEM_CATEGORY = "face";
+    public final static String ITEM_CATEGORY = "hair";
     public final static String DIR_ITEM_CATETOTY = "/" + ITEM_CATEGORY + "/";
     public static final String DIR_BRAND_CATEGORY = DIR_BRAND + DIR_ITEM_CATETOTY;
-    public static final String HTML_BRAND = DIR_BRAND_CATEGORY + "lavera_face_3.html";
+    public static final String HTML_BRAND = DIR_BRAND_CATEGORY + "lavera_hair.html";
     
     public static String DIR_FILEUPLOADER = BRAND_NAME_DE + DIR_ITEM_CATETOTY;
     public static String DIR_MAIN_IMAGES = DIR_BRAND_CATEGORY + "main_images/";
     public static String DIR_EXCEL_FILE = DIR_BRAND_CATEGORY;
 
     public static final String CATEGORY_ID_COOPANG = "";
-    public static final String CATEGORY_NUMBER_CAFE24 = "144";
+    public static final String CATEGORY_NUMBER_CAFE24 = "306";
     
     public static void main(String[] args) throws Exception {
         //1.
@@ -98,7 +98,7 @@ public class AgentEccoStarter {
     
     private static void createCoupang() throws FileNotFoundException, IOException, CsvValidationException {
         LOGGER.info("Coupang API starts ===>>> " + BRAND_NAME_KOR);
-        String fileName = DIR_BRAND_CATEGORY + "/라베라_face_2_cafe24.csv";
+        String fileName = DIR_BRAND_CATEGORY + "/라베라_hair_cafe24.csv";
         List<List<String>> records = new ArrayList<List<String>>();
         try (CSVReader csvReader = new CSVReader(new FileReader(fileName));) {
             String[] values = null;

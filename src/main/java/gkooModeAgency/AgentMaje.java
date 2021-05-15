@@ -26,10 +26,11 @@ public class AgentMaje {
     public final static String BRAND_HOMEPAGE_URL = "https://eu.maje.com/";
     public final static String BRAND_NAME_KOR = "마쥬";
     public final static String BRAND_NAME_DE = "maje";
-    public final static String ITEM_CATETOTY = "/t-shirt/";
+    public final static String ITEM_CATETOTY = "/top/";
+    public final static String ITEM_CATETOTY_KOR = "블라우스";
     public static String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/의류/" + BRAND_NAME_DE;
     public static String DIR_BRAND_CATEGORY = DIR_BRAND + ITEM_CATETOTY;
-    public static String HTML_BRAND = DIR_BRAND_CATEGORY + "/women_t-shirt.html";
+    public static String HTML_BRAND = DIR_BRAND_CATEGORY + "/women_top.html";
     
     public static String DIR_FILEUPLOADER = BRAND_NAME_DE + ITEM_CATETOTY;
     public static String DIR_MAIN_IMAGES = DIR_BRAND_CATEGORY + "main_images/";
@@ -37,8 +38,8 @@ public class AgentMaje {
     
     public static final int DELIVERY_FEE= 10000;
     public static Gender CATEGORY_GENDER = Gender.FEMALE;
-    public static final String CATEGORY_ID_SMARTSTORE = "50000810";
-    public static final String CATEGORY_NUMBER_CAFE24 = "273";
+    public static final String CATEGORY_ID_SMARTSTORE = "50000804";
+    public static final String CATEGORY_NUMBER_CAFE24 = "271";
 
     private static final String [] ITEM_SIZE_US = {"XS", "S", "M", "L", "XL"};
     private static final String [] ITEM_SIZE_UK = {"UK8", "UK10", "UK12", "UK14", "UK16"};
@@ -81,8 +82,8 @@ public class AgentMaje {
         Cafe24 cafe24 = new Cafe24(baseItemList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24, DIR_FILEUPLOADER);
         cafe24.createCsvFileMode(DIR_EXCEL_FILE);
         
-//        SmartStore smartStore = new SmartStore(baseItemList, CATEGORY_ID_SMARTSTORE, BRAND_NAME_KOR);
-//        smartStore.createExcelMode(DIR_EXCEL_FILE);
+        SmartStore smartStore = new SmartStore(baseItemList, CATEGORY_ID_SMARTSTORE, BRAND_NAME_KOR + " " + ITEM_CATETOTY_KOR);
+        smartStore.createExcelMode(DIR_EXCEL_FILE);
         
         LOGGER.info("A mission end <<<=== ");
     }

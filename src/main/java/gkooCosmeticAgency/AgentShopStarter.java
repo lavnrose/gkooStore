@@ -26,7 +26,7 @@ public class AgentShopStarter {
     public static final String BRAND_NAME_KOR = "유세린";
     public static final String BRAND_NAME_DE = "eucerin";
     public static final String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/shopApo/" + BRAND_NAME_DE;
-    public final static String ITEM_CATEGORY = "cream";
+    public final static String ITEM_CATEGORY = "lotion";
     public final static String DIR_ITEM_CATEGORY = "/" + ITEM_CATEGORY + "/";
     public static final String DIR_BRAND_CATEGORY = DIR_BRAND + DIR_ITEM_CATEGORY;
     public static final String HTML_BRAND = DIR_BRAND + "/eucerin.html";
@@ -36,7 +36,7 @@ public class AgentShopStarter {
     public static String DIR_EXCEL_FILE = DIR_BRAND_CATEGORY;
 
     public static final String CATEGORY_ID_COOPANG = "";
-    public static final String CATEGORY_NUMBER_CAFE24 = "304";
+    public static final String CATEGORY_NUMBER_CAFE24 = "305";
     
     public static void main(String[] args) throws Exception {
         //1.
@@ -49,7 +49,7 @@ public class AgentShopStarter {
     
     private static void createCoupang() throws FileNotFoundException, IOException, CsvValidationException {
         LOGGER.info("Coupang API starts ===>>> " + BRAND_NAME_KOR);
-        String fileName = DIR_BRAND_CATEGORY + "/유세린_cream_set_2_cafe24.csv";
+        String fileName = DIR_BRAND_CATEGORY + "/유세린_cream_set_3_cafe24.csv";
         List<List<String>> records = new ArrayList<List<String>>();
         try (CSVReader csvReader = new CSVReader(new FileReader(fileName));) {
             String[] values = null;
@@ -112,16 +112,14 @@ public class AgentShopStarter {
     
     public static AgentShopApo getConfiguredAgent() {
         AgentShopApo agent = new AgentShopApo(BRAND_NAME_DE, BRAND_NAME_KOR, ITEM_CATEGORY, DIR_MAIN_IMAGES, DIR_FILEUPLOADER);
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/2399265/eucerin-hyaluron-filler-volume-lift-augenpflege.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/2398082/eucerin-hyaluron-filler-volume-lift-tagespflege-fuer-normale-bis-mischhaut.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/2398107/eucerin-hyaluron-filler-volume-lift-tagespflege-trockene-haut.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/13889073/eucerin-ph5-creme.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/13889110/eucerin-ph5-koerpercreme.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/10961404/eucerin-aquaporin-active-lsf-25-uva-schutz.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/180976/eucerin-q10-active-augenpflege.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/10961396/eucerin-aquaporin-active-trockene-haut.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/3863351/eucerin-sun-sensitive-protect-face-fluid-lsf-30.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/16015587/eucerin-sun-gel-creme-oil-control-body-lsf30.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/13889268/eucerin-ph5-leichte-textur-lotion.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/11678136/eucerin-urearepair-original-lotion-3.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/3815725/eucerin-sun-sensitive-protect-lotion-extra-light-lsf-50.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/13649400/eucerin-sun-photoaging-control-lotion-extra-light-lsf-50.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/13649392/eucerin-sun-photoaging-control-lotion-extra-light-lsf-30.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/3820169/eucerin-sun-sensitive-relief-after-lotion.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/13649423/eucerin-sensitive-protect-sun-lotion-lsf-50.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/11363467/eucerin-sun-sensitive-protect-kids-mineral-sun-lotion-lsf-30.htm");
         
         return agent;
     }
