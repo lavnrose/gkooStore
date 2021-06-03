@@ -26,8 +26,8 @@ public class CsvFile {
     }
     
     public static void main(String[] args) throws Exception {
-        String dirName = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/ecoverde/weleda/";
-        String fileName = "weleda_p4";
+        String dirName = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/ecoverde/lavera/hair/";
+        String fileName = "라베라_cosmetic";
         File myFile = new File(dirName + fileName + ".xlsx");
         int sheetIdx = 0; // 0 for first sheet
  
@@ -73,7 +73,7 @@ public class CsvFile {
                     sb.append(cell.getBooleanCellValue());
                     break;
                 case BLANK:
-                    sb.append("" + ",");
+                    sb.append(" " + ",");
                     break;
                 default:
                     sb.append(cell + ",");

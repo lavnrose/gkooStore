@@ -32,6 +32,10 @@ public class ItemFeelway {
     private List<String> imageUploadUrl = new ArrayList<>();
     
     //기타정보
+    private String smartStoreCategoryId;
+    private String dirItem;
+    private String introductionHtml;
+    private String itemMainImageName;
     
     //판매가격
     private int itemPriceEuro;
@@ -44,7 +48,6 @@ public class ItemFeelway {
     private final String sellerCallNumber = "070-4001-8993";
     private final String sellerPhoneNumber = "010-7348-1193";
     
-    private String itemIntroductionHtml;
     private final String gkooLogo = "https://moondrive81.cafe24.com/GKoo/mode/gkoo_comany_logo.png";
     private final String gkooFeelwayInfo = "https://moondrive81.cafe24.com/GKoo/mode/gkooFeelwayInfo.jpg";
     
@@ -214,14 +217,6 @@ public class ItemFeelway {
         return sellerPhoneNumber;
     }
 
-    public String getItemIntroductionHtml() {
-        return itemIntroductionHtml;
-    }
-
-    public void setItemIntroductionHtml(String itemIntroductionHtml) {
-        this.itemIntroductionHtml = itemIntroductionHtml;
-    }
-
     public String getItemBrandGender() {
         return itemBrandGender;
     }
@@ -276,5 +271,37 @@ public class ItemFeelway {
 
     public String getGkooLogo() {
         return gkooLogo;
+    }
+
+    public String getSmartStoreCategoryId() {
+        return smartStoreCategoryId;
+    }
+
+    public void setSmartStoreCategoryId(String smartStoreCategoryId) {
+        this.smartStoreCategoryId = smartStoreCategoryId;
+    }
+
+    public String getDirItem() {
+        return dirItem;
+    }
+
+    public void setDirItem(String dirItem) {
+        this.dirItem = dirItem;
+    }
+
+    public String getIntroductionHtml() {
+        return introductionHtml;
+    }
+
+    public void setIntroductionHtml(String introductionHtml) {
+        this.introductionHtml = introductionHtml;
+    }
+
+    public String getItemMainImageName() {
+        return itemMainImageName;
+    }
+
+    public void setItemMainImageName(String itemMainImageName) {
+        this.itemMainImageName = itemMainImageName;
     }
 }

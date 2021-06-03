@@ -45,10 +45,10 @@ public class AgentEccoStarter {
     
     public static void main(String[] args) throws Exception {
         //1.
-        //createCafe24();
+        createCafe24();
         
         //2. check csv file!!
-        createCoupang();
+        //createCoupang();
         
         //3. other volume with price
         //createOtherPrice();
@@ -92,7 +92,8 @@ public class AgentEccoStarter {
         }
         
         Cafe24 cafe24 = new Cafe24(BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24, baseItemCosmeticList);
-        cafe24.createCsvFileCosmetic(DIR_EXCEL_FILE);
+        //cafe24.createCsvFileCosmetic(DIR_EXCEL_FILE);
+        cafe24.createExcelFileCosmetic(DIR_EXCEL_FILE);
         LOGGER.info("the csv file for cafe24 is finished <<<=== ");
     }
     

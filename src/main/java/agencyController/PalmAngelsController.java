@@ -1,15 +1,15 @@
 package agencyController;
 
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import agencyBrandEntities.ItemFeelway;
-import gkooModeAgency.AgentFeelMustStarter;
+import factoryExcel.SmartStore;
+import gkooModeAgency.AgentPalmAngelsStarter;
 import util.Formatter;
 import util.ImageDownloader;
 
-public class FeelwayController extends PriceCalc {
+public class PalmAngelsController extends PriceCalc {
     private static final Logger LOGGER = LogManager.getLogger();
     private final String ___LINE_BREAKER = "\n";
     
@@ -17,7 +17,7 @@ public class FeelwayController extends PriceCalc {
     private String itemTitleEng;
     private String dirBrandItem; 
 
-    public FeelwayController(ItemFeelway itemFeelway) {
+    public PalmAngelsController(ItemFeelway itemFeelway) {
         this.itemFeelway = itemFeelway;
         this.itemTitleEng= itemFeelway.getItemTitleEng();
         this.dirBrandItem = itemFeelway.getDirBrandItem();
@@ -30,7 +30,7 @@ public class FeelwayController extends PriceCalc {
         
         showRegisterData();
         
-        //createExcelFile();
+        createCsvFile();
     }
     
     private void showRegisterData() {
@@ -71,21 +71,29 @@ public class FeelwayController extends PriceCalc {
         registerData.append(___LINE_BREAKER);
         registerData.append(itemFeelway.getSellerPhoneNumber());
         registerData.append(___LINE_BREAKER);
-        registerData.append(getIntroductionHtml());
+        registerData.append(getIntroductionHtml(itemFeelway));
         System.out.println(registerData.toString());
     }
     
     public void doImageDownloading() {
+        int mainImage = 0;
         List<String> itemImageUrl = itemFeelway.getItemImageUrl();
         for (int i=0; i<itemImageUrl.size(); i++) {
             String imageName = Formatter.replaceEmptySymbol(itemTitleEng) + "_" + Integer.valueOf(i);
             setImageUploadUrl(imageName);
+            if(i == mainImage) {
+                setMainImageName(imageName);
+            }
             imageDownload(imageName, dirBrandItem, itemImageUrl.get(i));
         }
     }
     
+    private void setMainImageName(String imageName) {
+        itemFeelway.setItemMainImageName(imageName + ".jpg");
+    }
+    
     private void setImageUploadUrl(String imageName) {
-        String imageUploadUrl = AgentFeelMustStarter.DIR_CAFE24_UPLOAD + "/" + imageName + ".jpg";
+        String imageUploadUrl = AgentPalmAngelsStarter.DIR_CAFE24_UPLOAD + "/" + imageName + ".jpg";
         itemFeelway.getImageUploadUrl().add(imageUploadUrl);
     }
     
@@ -93,21 +101,25 @@ public class FeelwayController extends PriceCalc {
         ImageDownloader.run(imageName, imageDir, imageUrl);
     }
     
-    public String getIntroductionHtml() {
+    public String getIntroductionHtml(ItemFeelway itemFeelway) {
         StringBuilder htmlBulder = new StringBuilder();
         htmlBulder.append(getImageUrlHtml());
         htmlBulder.append("<p style=\"text-align: center;\"><span style=\"font-size: 14pt;\"><strong>명품 셀렉트샵 지쿠</strong></span><br><br></p>");
         htmlBulder.append("<p style=\"text-align: center;\"><span style=\"font-size: 14pt;\"><strong>유럽바잉, 유럽 직배송</strong></span><br><br></p>");
-        htmlBulder.append("<p style=\"text-align: center;\">&#11208 상품명 : " + itemFeelway.getItemBrandKor() + " " + itemFeelway.getItemTitleKor() + "<br><br></p>");
-        htmlBulder.append("<p style=\"text-align: center;\">&#11208 상품명(Eng) : " + itemFeelway.getItemBrandEng() + " " + itemFeelway.getItemTitleEng() + "<br><br></p>");
-        htmlBulder.append("<p style=\"text-align: center;\">&#11208 모델명 : " + itemFeelway.getItemModelNumber() + "<br><br></p>");
-        htmlBulder.append("<p style=\"text-align: center;\">&#11208 소재 : " + itemFeelway.getItemMaterial() + "<br><br></p>");
-        htmlBulder.append("<p style=\"text-align: center;\">&#11208 사이즈 : " + itemFeelway.getItemSizeList() + "<br><br></p>");
-        htmlBulder.append("<p style=\"text-align: center;\">&#11208 컬러 : " + itemFeelway.getItemColor() + "<br><br></p>");
-        htmlBulder.append("<p style=\"text-align:center;\"><img style=\"padding-bottom: 30px;\" src=\"" + itemFeelway.getGkooFeelwayInfo() + "\"></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">상품명 : " + itemFeelway.getItemBrandKor() + " " + itemFeelway.getItemTitleKor() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">상품명(Eng) : " + itemFeelway.getItemBrandEng() + " " + itemFeelway.getItemTitleEng() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">모델명 : " + itemFeelway.getItemModelNumber() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">소재 : " + itemFeelway.getItemMaterial() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">사이즈 : " + itemFeelway.getItemSizeList() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\">컬러 : " + itemFeelway.getItemColor() + "<br><br></p>");
+        htmlBulder.append("<p style=\"text-align: center;\"><img style=\"padding-bottom: 30px;\" src=\"" + itemFeelway.getGkooFeelwayInfo() + "\"></p>");
         htmlBulder.append("<br>");
         htmlBulder.append("</p>");
-        return htmlBulder.toString();
+        
+        String htmlBulderStr = htmlBulder.toString();
+        itemFeelway.setIntroductionHtml(htmlBulderStr);
+        
+        return htmlBulderStr;
     }
     
     private String getImageUrlHtml() {
@@ -117,5 +129,10 @@ public class FeelwayController extends PriceCalc {
             htmlBulder.append("<p style=\"text-align:center;\"><img style=\"padding-bottom: 30px;\" src=\"" + itemFeelway.getGkooLogo() + "\"></p>");
         }
         return htmlBulder.toString();
+    }
+
+    public void createCsvFile() {
+        SmartStore smartStore = new SmartStore();
+        smartStore.createCsvMode(itemFeelway);
     }
 }

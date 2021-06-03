@@ -14,6 +14,7 @@ import coupang.CoupangApi;
 import factoryExcel.Cafe24;
 import util.Formatter;
 import util.GrobalDefined;
+import util.MathUtil;
 
 
 /**
@@ -32,24 +33,23 @@ public class AgentManual {
     private static final Logger LOGGER = LogManager.getLogger(AgentManual.class);
 
     //##### Brand Input
-    public final static String BRAND_NAME_KOR = "허바신";
-    public final static String BRAND_NAME_DE = "herbacin";
+    public final static String BRAND_NAME_KOR = "벨레다";
+    public final static String BRAND_NAME_DE = "weleda";
+    
     //##### Product Input
     //#####
-    private final static String PRODUCT_NAME_KOR = BRAND_NAME_KOR + " 인텐시브 크림";// 용량 X
-    public  final static String PRODUCT_IMAGE_NAME = "Kamille_Intensiv_Pflegecreme_75ml"; // name + volume
-    private final static double PRODUCT_PRICE = 3.99;
-    private final static String PRODUCT_VOLUME = "75ml";
+    private final static String PRODUCT_NAME_KOR = BRAND_NAME_KOR + " 베이비 칼렌듈라 바디크림";// 용량 X
+    public  final static String PRODUCT_IMAGE_NAME = "Pflegemilch_Babykoerpercreme_200ml"; // name + volume
+    private final static double PRODUCT_PRICE = 8;
+    private final static String PRODUCT_VOLUME = "200ml";
     private final static int    PRODUCT_EXTRA_FEE = 0;
-    private final static String PRODUCT_USAGE = "15"; //GrobalDefined.categoryUsageManual
-    private final static String PRODUCT_HIDDEN_URL = "https://www.pharmeo.de/10345220-herbacin-kamille-intensiv-pflegecreme-tube.html";
-    private final static String COUPANG_CATEGORY_CODE = "데이크림"; //GrobalDefined.categoryCodeCoopang
+    private final static String PRODUCT_USAGE = "16"; //GrobalDefined.categoryUsageManual
+    private final static String COUPANG_CATEGORY_CODE = "유아크림"; //GrobalDefined.categoryCodeCoupang
     public static final String CATEGORY_NUMBER_CAFE24 = "";
 
     //#####
     //##### Product Input   
-    
-    public static String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/" + BRAND_NAME_KOR;
+    public static String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/" + BRAND_NAME_DE;
     public static String DIR_BRAND_CATEGORY = DIR_BRAND + "/";
     public static String DIR_MAIN_IMAGES = DIR_BRAND_CATEGORY + "main_images/";
     public static String DIR_EXCEL_FILE = DIR_BRAND_CATEGORY;
@@ -69,7 +69,6 @@ public class AgentManual {
         massItem.setItemPriceEuro(PRODUCT_PRICE);
         massItem.setItemDescription(readDescriptionBoard());
         massItem.setItemIngredients(readIngredientsBoard());
-        massItem.setItemUrl(PRODUCT_HIDDEN_URL);
         
         List<BaseItemCosmetic> baseItemCosmeticList = new ArrayList<>();
         MassItemConverter massItemConverter = new MassItemConverter(massItem);
@@ -80,8 +79,8 @@ public class AgentManual {
         
         //coupang api
         for(BaseItemCosmetic itemCosmetic : baseItemCosmeticList) {
-            int originalPrice = Integer.valueOf(itemCosmetic.getPriceWonString());
-            int salePrice = Integer.valueOf(itemCosmetic.getPriceWonString());
+            int originalPrice = getCoupangPrice(Integer.valueOf(itemCosmetic.getPriceWonString()));
+            int salePrice = getCoupangPrice(Integer.valueOf(itemCosmetic.getPriceWonString()));
             String contentHtml = itemCosmetic.getItemFullDescriptionManual();
             String mainImageName = Formatter.abbreviateStringLeft(itemCosmetic.getMassItem().getItemTitleDE(), 50);
             String displayProductName = itemCosmetic.getItemFullnameWithPrefix();
@@ -93,6 +92,13 @@ public class AgentManual {
         }
         LOGGER.info("Image file: " + massItem.getItemTitleDE() + ".jpg");
         LOGGER.info("AgentManual is end <<<=== "  + BRAND_NAME_KOR);
+    }
+    
+    private static int getCoupangPrice(int gkooPrice) {
+        double margin = 1 - (7/100.0);
+        double coupangPrice = (gkooPrice/margin);
+        int ceiledProductPriceWon = MathUtil.mathCeilDigit(3, coupangPrice);
+        return ceiledProductPriceWon;
     }
     
     public static String readDescriptionBoard() {

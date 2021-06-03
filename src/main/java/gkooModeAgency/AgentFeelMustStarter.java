@@ -7,26 +7,33 @@ import org.apache.logging.log4j.Logger;
 import agencyBrandEntities.ItemFeelway;
 import agencyController.FeelwayController;
 
-public class AgentFeelwayStarter {
-    private static final Logger LOGGER = LogManager.getLogger(AgentFeelwayStarter.class);
+// Feelway and MustIt
+public class AgentFeelMustStarter {
+    private static final Logger LOGGER = LogManager.getLogger(AgentFeelMustStarter.class);
     
     //public final static String BRAND_NAME_KOR = "몽클레어";
-    public final static String BRAND_NAME_KOR = "스톤아일랜드";
+    //public final static String BRAND_NAME_KOR = "스톤아일랜드";
+    public final static String BRAND_NAME_KOR = "휴고보스";
     
     //public final static String BRAND_NAME_ENG = "moncler";
-    public final static String BRAND_NAME_ENG = "stone-island";
+    //public final static String BRAND_NAME_ENG = "stone-island";
+    public final static String BRAND_NAME_ENG = "hugoboss";
+
+
     public final static String BRAND_GENDER = "men";
-    public final static String ITEM_CATEGORY = "t-shirt";
-    
+
+    //public final static String ITEM_CATEGORY = "t-shirt";
+    public final static String ITEM_CATEGORY = "poloshirt";
+
     //product info
-    public final static String ITEM_TITLE_KOR = "SS2021 모노바나 티셔츠 올리브그린";
-    public final static String ITEM_TITLE_ENG = "archivio monovana t-shirt";
-    public final static String ITEM_MODEL_NUMBER = "0918A7060084556001";
+    public final static String ITEM_TITLE_KOR = "폴로셔츠 Paddy";
+    public final static String ITEM_TITLE_ENG = "Polo-Shirt Paddy";
+    public final static String ITEM_MODEL_NUMBER = "001251330";
     public final static String ITEM_ORIGIN_COUNTRY= "유럽";
     public final static String ITEM_MATERIAL = "100% 면";
-    public final static String ITEM_COLOR = "올리브그린";
-    public final static String ITEM_SIZE_LIST = "XS, S, M, L, XL";
-    public final static int    ITEM_PRICE_EURO = 149;
+    public final static String ITEM_COLOR = "블루";
+    public final static String ITEM_SIZE_LIST = "S, M";
+    public final static int    ITEM_PRICE_EURO = 56;
     public final static int    ITEM_DELIVERY_PRICE = 10000;
     
     //directory
@@ -44,10 +51,9 @@ public class AgentFeelwayStarter {
     private static List<String> getItemImageUrl() {
         //manual or crawler
         List<String> itemImageUrl = new ArrayList<>();
-        itemImageUrl.add("https://cdn.yoox.biz/12/12512766XG_13_f.jpg");
-        itemImageUrl.add("https://cdn.yoox.biz/12/12512766XG_13_r.jpg");
-        itemImageUrl.add("https://cdn.yoox.biz/12/12512766XG_13_d.jpg");
-        itemImageUrl.add("https://cdn.yoox.biz/12/12512766XG_13_e.jpg");
+        itemImageUrl.add("https://outletcity.freetls.fastly.net/medias/sys_master/noidx/noidx/h2c/h40/9903225110558/4021409520926-bv-1280x1920-20.jpg?width=678");
+        itemImageUrl.add("https://outletcity.freetls.fastly.net/medias/sys_master/noidx/noidx/ha8/h16/9903223668766/4021409520926-dt2-1280x1920-1.jpg?width=678%22");
+        itemImageUrl.add("https://outletcity.freetls.fastly.net/medias/sys_master/noidx/noidx/he0/hc3/9903221538846/4021409520926-br-1280x1920-20.jpg?width=678");
         return itemImageUrl;
     }
     

@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -18,6 +24,8 @@ import util.Formatter;
 import util.GrobalDefined;
 
 public class Cafe24 {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private String brandNameKor;
     private String categoryNumber;
     private static String dirFileUploader;
@@ -132,6 +140,330 @@ public class Cafe24 {
                e.printStackTrace();
            }
        }
+    }
+    
+    public void createExcelFileCosmetic(String dirExcelFile) {
+        LOGGER.info("Creating the excel for cosmetic starts...");
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("cosmetic");
+        
+        Map<String, Object[]> data = new TreeMap<String, Object[]>();
+        data.put(String.valueOf(0), createItemHeader());
+        for (int i=0;i< massItemCosmeticList.size();i++) {
+            Object createdItemRow[] = createItemRowCosmetic(massItemCosmeticList.get(i));
+            data.put(String.valueOf(i+1), createdItemRow);
+        }
+
+        Set<String> keyset = data.keySet();
+        int rownum = 1;
+        for (String key : keyset)
+        {
+            Row row = sheet.createRow(rownum++);
+            Object [] objArr = data.get(key);
+            int cellnum = 0;
+            for (Object obj : objArr)
+            {
+               Cell cell = row.createCell(cellnum++);
+               if(obj instanceof String)
+                    cell.setCellValue((String)obj);
+                else if(obj instanceof Integer)
+                    cell.setCellValue((Integer)obj);
+            }
+        }
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream(dirExcelFile + brandNameKor + "_cosmetic.xlsx");
+            workbook.write(outputStream);
+            workbook.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LOGGER.info("the excel for smartstore is created");
+    }
+    
+    private Object[] createItemHeader() {
+        String header = "상품코드,자체 상품코드,진열상태,판매상태,상품분류 번호,상품분류 신상품영역,상품분류 추천상품영역,상품명,영문 상품명,상품명(관리용),공급사 상품명,모델명,상품 요약설명,상품 간략설명,상품 상세설명,모바일 상품 상세설명 설정,모바일 상품 상세설명,검색어설정,과세구분,소비자가,공급가,상품가,판매가,판매가 대체문구 사용,판매가 대체문구,주문수량 제한 기준,최소 주문수량(이상),최대 주문수량(이하),적립금,적립금 구분,공통이벤트 정보,성인인증,옵션사용,품목 구성방식,옵션 표시방식,옵션세트명,옵션입력,옵션 스타일,버튼이미지 설정,색상 설정,필수여부,품절표시 문구,추가입력옵션,추가입력옵션 명칭,추가입력옵션 선택/필수여부,입력글자수(자),이미지등록(상세),이미지등록(목록),이미지등록(작은목록),이미지등록(축소),이미지등록(추가),제조사,공급사,브랜드,트렌드,자체분류 코드,제조일자,출시일자,유효기간 사용여부,유효기간,원산지,상품부피(cm),상품결제안내,상품배송안내,교환/반품안내,서비스문의/안내,배송정보,배송방법,국내/해외배송,배송지역,배송비 선결제 설정,배송기간,배송비 구분,배송비입력,스토어픽업 설정,상품 전체중량(kg),HS코드,상품 구분(해외통관),상품소재,영문 상품소재(해외통관),옷감(해외통관),검색엔진최적화(SEO) 검색엔진 노출 설정,검색엔진최적화(SEO) Title,검색엔진최적화(SEO) Author,검색엔진최적화(SEO) Description,검색엔진최적화(SEO) Keywords,검색엔진최적화(SEO) 상품 이미지 Alt 텍스트,개별결제수단설정,상품배송유형 코드,메모";
+        List<String> headerList= Stream.of(header.split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
+        
+        String[] stockArr = new String[headerList.size()];
+        stockArr = headerList.toArray(stockArr);
+        
+//        Object itemRow[] = new Object[90];
+        Object itemRow[] = stockArr;
+        
+        return itemRow;
+    }
+    
+    private Object[] createItemRowCosmetic(BaseItemCosmetic item) {
+        Object itemRow[] = new Object[90];
+        
+        //상품코드
+        itemRow[0] = " ";
+        
+        //자체 상품코드
+        itemRow[1] = " ";
+        
+        //진열상태
+        itemRow[2] = "Y";
+        
+        //판매상태
+        itemRow[3] = "Y";
+        
+        //상품분류 번호
+        itemRow[4] = categoryNumber;
+        
+        //상품분류 신상품영역
+        itemRow[5] = "Y";
+        
+        //상품분류 추천상품영역
+        itemRow[6] = " ";
+        
+        //상품명
+        itemRow[7] = item.getItemFullnameWithPrefix();
+        
+        //영문 상품명
+        //itemRow[0] = "";
+        itemRow[8] = Formatter.abbreviateStringLeft(item.getMassItem().getItemUrl(), 250);
+        
+        //상품명(관리용)
+        itemRow[9] = "";
+        
+        //공급사 상품명
+        itemRow[10] = item.getMassItem().getItemTitleDE();
+        
+        //모델명
+        itemRow[11] = " ";
+        
+        //상품 요약설명
+        itemRow[12] = " ";
+        
+        //상품 간략설명
+        itemRow[13] = " ";
+        
+        // 상품 상세설명
+        // comma in description bring error 
+        //String description = GrobalDefined.TRANSLATE ? item.getItemFullDescriptionKOR() : item.getItemFullDescriptionDE(;
+        String description = item.getItemFullDescriptionKOR();
+        itemRow[14] = description != "" ? Formatter.formatWithoutComma(description) : "";
+        //itemRow[0] =Formatter.formatWithoutComma(item.getMassItem().getItemDescription());
+
+        //모바일 상품 상세설명 설정
+        itemRow[15] = "A";
+        
+        //모바일 상품 상세설명
+        itemRow[16] = " ";
+        
+        //검색어설정
+        itemRow[17] = " ";
+        
+        //과세구분
+        itemRow[18] = "A|10";
+        
+        //소비자가
+        itemRow[19] =item.getPriceWonString();
+        
+        //공급가
+        itemRow[20] =Double.toString(item.getMassItem().getItemPriceEuro());
+        
+        //상품가
+        itemRow[21] = " ";
+        
+        //판매가
+        itemRow[22] =item.getMassItem().isItemSale() ? item.getPriceSaleWonString() : item.getPriceWonString();
+        
+        //판매가 대체문구 사용
+        itemRow[23] = " ";
+        
+        //판매가 대체문구
+        itemRow[24] = " ";
+        
+        //주문수량 제한 기준
+        itemRow[25] = " ";
+        
+        //최소 주문수량(이상)
+        itemRow[26] = " ";
+        
+        //최대 주문수량(이하)
+        itemRow[27] = " ";
+        
+        //적립금
+        itemRow[28] = " ";
+        
+        //적립금 구분
+        itemRow[29] = " ";
+        
+        //공통이벤트 정보
+        itemRow[30] = " ";
+        
+        //성인인증
+        itemRow[31] = " ";
+        
+        //옵션사용
+        itemRow[32] = " ";
+        
+        //품목 구성방식
+        itemRow[33] = " ";
+        
+        //옵션 표시방식
+        itemRow[34] = " ";
+        
+        //옵션세트명
+        itemRow[35] = " ";
+        
+        //옵션입력
+        itemRow[36] = " ";
+        
+        //옵션 스타일
+        itemRow[37] = " ";
+        
+        //버튼이미지 설정
+        itemRow[38] = " ";
+        
+        //색상 설정
+        itemRow[39] = " ";
+        
+        //필수여부
+        itemRow[40] = " ";
+        
+        //품절표시 문구
+        itemRow[41] = " ";
+        
+        //추가입력옵션
+        itemRow[42] = " ";
+        
+        //추가입력옵션 명칭
+        itemRow[43] = " ";
+        
+        //추가입력옵션 선택/필수여부
+        itemRow[44] = " ";
+        
+        //입력글자수(자)
+        itemRow[45] = " ";
+        
+        //before csv file upload, mainImage should be uploaded on the fileUploader in cafe24.
+        String mainImageUrl = Formatter.convertMainImageUrlCosmetic(item.getMassItem().getDirFileUploader(), item.getMassItem().getMainImageName());
+        //String mainImageUrl = "";
+        //이미지등록(상세)
+        itemRow[46] = mainImageUrl;
+        
+        //이미지등록(목록)
+        itemRow[47] = mainImageUrl;
+        
+        //이미지등록(작은목록)
+        itemRow[48] = mainImageUrl;
+        
+        //이미지등록(축소)
+        itemRow[49] = mainImageUrl;
+        
+        //이미지등록(추가)
+        itemRow[50] = " ";
+        
+        //제조사
+        itemRow[51] = " ";
+        
+        //공급사
+        itemRow[52] = " ";
+        
+        //브랜드
+        itemRow[53] = " ";
+        
+        //트렌드
+        itemRow[54] = " ";
+        
+        //자체분류 코드
+        itemRow[55] = " ";
+        
+        //제조일자
+        itemRow[56] = " ";
+        
+        //출시일자
+        itemRow[57] = " ";
+        
+        //유효기간 사용여부
+        itemRow[58] = " ";
+        
+        //유효기간
+        itemRow[59] = " ";
+        
+        //원산지
+        itemRow[60] = " ";
+        
+        //상품부피(cm)
+        itemRow[61] = " ";
+        
+        //상품결제안내
+        itemRow[62] = " ";
+        
+        //상품배송안내
+        itemRow[63] = " ";
+        
+        //교환/반품안내
+        itemRow[64] = " ";
+        
+        //서비스문의/안내
+        itemRow[65] = " ";
+        
+        //배송정보
+        itemRow[66] = "F";
+        
+        //배송방법
+        itemRow[67] = "B";
+        
+        //국내/해외배송
+        itemRow[68] = "B";
+        
+        //배송지역
+        itemRow[69] = "전국";
+        
+        //배송비 선결제 설정
+        itemRow[70] = "C";
+        
+        //배송기간
+        itemRow[71] = "10";
+        
+        //배송비 구분
+        itemRow[72] = "D";
+        
+        //배송비입력
+        itemRow[73] = "8000";
+        //스토어픽업 설정
+        itemRow[74] = " ";
+        //상품 전체중량(kg)
+        itemRow[75] = " ";
+        //HS코드
+        itemRow[76] = " ";
+        //상품 구분(해외통관)
+        itemRow[77] = " ";
+        //상품소재
+        itemRow[78] = " ";
+        //영문 상품소재(해외통관)
+        itemRow[79] = " ";
+        //옷감(해외통관)
+        itemRow[80] = " ";
+        //검색엔진최적화(SEO) 검색엔진 노출 설정
+        itemRow[81] = " ";
+        //검색엔진최적화(SEO) Title
+        itemRow[82] = " ";
+        //검색엔진최적화(SEO) Author
+        itemRow[83] = " ";
+        //검색엔진최적화(SEO) Description
+        itemRow[84] = " ";
+        //검색엔진최적화(SEO) Keywords
+        itemRow[85] = " ";
+        //검색엔진최적화(SEO) 상품 이미지 Alt 텍스트
+        itemRow[86] = " ";
+        //개별결제수단설정
+        itemRow[87] = " ";
+        //상품배송유형 코드
+        itemRow[88] = " ";
+        //메모
+        itemRow[89] = " ";
+        
+        return itemRow;
     }
     
     private void createCsvFileCosmeticTest(String dirCsvFile) {

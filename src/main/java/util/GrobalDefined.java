@@ -51,6 +51,7 @@ public class GrobalDefined {
             
             put("14", new CategoryUsage("풋케어", "아침, 저녁으로 발 전체에 마사지 하듯이 골고루 발라줍니다. 한번에 소량만 덜어 사용하셔도 됩니다."));
             put("15", new CategoryUsage("페이스크림", "세안후 또는 아침 저녁으로 기초단계 이후에 적당량을 덜어서 얼굴에 펴 발라 흡수시켜줍니다."));
+            put("16", new CategoryUsage("유아크림", "기저귀 차는 부위에 건조한 상태에서 넓게 펴 발라줍니다."));
         }
     };
     
@@ -86,16 +87,9 @@ public class GrobalDefined {
     //Coopang
     public static final HashMap<String, CategoryUsage> categoryUsageCoopang = new HashMap<>() {
         {
-            put("56163", new CategoryUsage("샴푸", ""));
-            put("56288", new CategoryUsage("기능성샴푸", ""));
-            
-            put("56174", new CategoryUsage("일반오일", ""));
-
-            put("56163", new CategoryUsage("데이크림", ""));
-            put("56166", new CategoryUsage("나이트크림", ""));
-            
             put("56127", new CategoryUsage("클렌징비누", ""));
             put("56140", new CategoryUsage("클렌지워터", ""));
+            put("56125", new CategoryUsage("클렌징 젤", ""));
             put("56185", new CategoryUsage("워시오프 마스크팩", ""));
             
             put("56213", new CategoryUsage("바디워시", ""));
@@ -113,6 +107,12 @@ public class GrobalDefined {
             put("여성샌들", 69471);
             put("남성샌들", 69721);
             put("데이크림", 56163);
+            put("클렌지워터", 56140);
+            put("클렌징비누", 56127);
+            put("샴푸", 56163);
+            put("기능성샴푸", 56288);
+            put("일반오일", 56174);
+            put("유아크림", 77018);
         }
     };
     

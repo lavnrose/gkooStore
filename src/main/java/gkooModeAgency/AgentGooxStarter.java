@@ -3,6 +3,7 @@ package gkooModeAgency;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,28 +12,27 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import agencyBrandEntities.ItemFeelway;
-import agencyController.FeelwayController;
-import agencyController.PalmAngelsController;
+import agencyController.GooxController;
 import util.Formatter;
-import util.ImageDownloader;
 
-public class AgentPalmAngelsStarter {
-    private static final Logger LOGGER = LogManager.getLogger(AgentPalmAngelsStarter.class);
+public class AgentGooxStarter {
+    private static final Logger LOGGER = LogManager.getLogger(AgentGooxStarter.class);
+    public final static String BRAND_NAME_KOR = "돌체앤가바나";
+    public final static String BRAND_NAME_ENG = "dolce&gabbana";
+    public final static String BRAND_GENDER   = "women";
     
-    public final static String BRAND_NAME_KOR = "팜엔젤스";
-    public final static String BRAND_NAME_ENG = "palm-angels";
-    public final static String BRAND_GENDER = "men";
     public final static String ITEM_CATEGORY = "t-shirt";
+    //public final static String ITEM_CATEGORY = "poloshirt";
     
     //product info
-    public final static String ITEM_TITLE_KOR = "SS2021 LOGO T-SHIRT";
-    public final static String ITEM_TITLE_ENG = "LOGO T-SHIRT";
-    public final static String ITEM_MODEL_NUMBER = "0918A706008455600";//random number
-    public final static String ITEM_ORIGIN_COUNTRY= "유럽";
-    public final static String ITEM_MATERIAL = "100% COTTON";
-    public final static String ITEM_COLOR = "black white";
-    public final static String ITEM_SIZE_LIST = "XS, S, M, L, XL";
-    public final static int    ITEM_PRICE_EURO = 200;
+    public final static String ITEM_TITLE_KOR      = "티셔츠 12465335KI";
+    public final static String ITEM_TITLE_ENG      = "t-shirt 12465335KI";
+    public final static String ITEM_MODEL_NUMBER   = "12465335KI";//random number
+    public final static String ITEM_ORIGIN_COUNTRY = "유럽";
+    public final static String ITEM_MATERIAL       = "100% Cotton, Polyester, Elastan";
+    public final static String ITEM_COLOR          = "Pink";
+    public final static String ITEM_SIZE_LIST      = "XS, S, M, L, XL";
+    public final static int    ITEM_PRICE_EURO     = 212;
     public final static int    ITEM_DELIVERY_PRICE = 10000;
     
     //directory
@@ -44,37 +44,32 @@ public class AgentPalmAngelsStarter {
     public static final String HTML_BRAND = DIR_BRAND_ITEM + "/" + ITEM_TITLE_ENG + ".html";
     
     public static final String CATEGORY_ID_SMARTSTORE = "50000830";
-
+    
     public static void main(String[] args) throws Exception {
         ItemFeelway itemFeelway = getConfiguredItem();
-        PalmAngelsController controller = new PalmAngelsController(itemFeelway);
+        GooxController controller = new GooxController(itemFeelway);
         controller.createProductData();
     }
     
     private static List<String> getItemImageUrl() {
-        File input = new File(AgentPalmAngelsStarter.HTML_BRAND);
+        File input = new File(AgentGooxStarter.HTML_BRAND);
         Document document = null;
         try {
             document = Jsoup.parse(input, "UTF-8", "");
         } catch (IOException e) {
         }
         Element body = document.body();
-        Elements rawUnitElements = body.getElementsByClass("css-mvwbxu").get(0).getElementsByClass("css-1ls2yxv");
+        Elements rawUnitElements = body.getElementsByClass("jss1").get(0).getElementsByTag("img");
         
         List<String> itemImageUrl = new ArrayList<>();
         
         for (int i=0; i<rawUnitElements.size(); i++) {
             Element unit = rawUnitElements.get(i);
-            String rawImageUrl = unit.getElementsByTag("img").attr("srcset");
-            String imageUrl = Formatter.splitAfterWord(rawImageUrl, "_200").get(0) + "_400.jpg";
+            String rawImageUrl = unit.attr("src");
+            String imageUrl = Formatter.splitAfterWord(rawImageUrl, ".jpg").get(0) + ".jpg";
             itemImageUrl.add(imageUrl);
         }
 
-          //manual or crawler
-//        itemImageUrl.add("https://cdn.yoox.biz/12/12512766XG_13_f.jpg");
-//        itemImageUrl.add("https://cdn.yoox.biz/12/12512766XG_13_r.jpg");
-//        itemImageUrl.add("https://cdn.yoox.biz/12/12512766XG_13_d.jpg");
-//        itemImageUrl.add("https://cdn.yoox.biz/12/12512766XG_13_e.jpg");
         return itemImageUrl;
     }
     
@@ -100,4 +95,11 @@ public class AgentPalmAngelsStarter {
         return item;
     }
     
+    public static final HashMap<String, String> brandNames = new HashMap<>() {
+        {
+            put("버버리", "burberry");
+            put("디스퀘어드", "dsquared2");
+            put("돌체앤가바나", "dolce&gabbana");
+        }
+    };
 }

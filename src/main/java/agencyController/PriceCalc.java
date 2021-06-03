@@ -1,6 +1,7 @@
 package agencyController;
 
 import java.util.Objects;
+import java.util.function.Predicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.MathUtil;
@@ -13,7 +14,7 @@ public class PriceCalc {
     
     private final static int FEELWAY_COMMISION_PERCENT = 6;
     private final int GKOO_COMMISION_PERCENT = 10;
-    private static double minimumCommision = 13000;
+    private static double minimumCommision = 20000;
 
     //2자리리 내림 ex. 10511원? -> 10500원?
     private final int ROUNDED_DIGIT = 3;
@@ -45,6 +46,38 @@ public class PriceCalc {
         double feelwayPriceWon = getFeelwayPrice(gkooPriceWon);
         return mathCeilDigit(ROUNDED_DIGIT, feelwayPriceWon);
     }
+
+    public int calculatePriceGooxWon(double totalPriceEuro, int deliveryPrice) {
+        Objects.nonNull(totalPriceEuro);
+        Objects.nonNull(deliveryPrice);
+        if(totalPriceEuro == 0) {
+            LOGGER.error("Price must not 0");
+        }
+        
+        double commision = 0;
+        double taxVat = 0;
+        double productPriceWon = excahgeRateEuro*totalPriceEuro;
+        
+        //if (productPriceWon >= TAX_LIMIT) {
+        if (isOverTexLimit.test(productPriceWon)) {
+            double priceWonMinusVat = productPriceWon*0.81;
+            //통관시 부가세
+            taxVat = (priceWonMinusVat + deliveryPrice)*(0.1);
+        } 
+        
+        if(isMinimumCommision(excahgeRateEuro, totalPriceEuro, GKOO_COMMISION_PERCENT)) {
+            commision = productPriceWon*(GKOO_COMMISION_PERCENT/100.0);
+        } else {
+            commision = minimumCommision;
+        }
+        
+        double gkooPriceWon = productPriceWon + commision + taxVat + deliveryPrice;
+        double feelwayPriceWon = getFeelwayPrice(gkooPriceWon);
+        return mathCeilDigit(ROUNDED_DIGIT, feelwayPriceWon);
+    }
+    
+    static Predicate<Double> isOverTexLimit = 
+                productPriceWon -> productPriceWon >= TAX_LIMIT;
     
     private static int getFeelwayPrice(double gkooPrice) {
         double margin = 1 - (FEELWAY_COMMISION_PERCENT/100.0);
