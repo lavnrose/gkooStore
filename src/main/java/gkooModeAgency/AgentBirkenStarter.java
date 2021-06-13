@@ -76,8 +76,8 @@ public class AgentBirkenStarter {
             baseItemList.add(massItemLando);
         }
         
-        //Cafe24 cafe24 = new Cafe24(baseItemList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24, DIR_FILEUPLOADER);
-        //cafe24.createCsvFileMode(DIR_EXCEL_FILE);
+        Cafe24 cafe24 = new Cafe24(baseItemList, BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24, DIR_FILEUPLOADER);
+        cafe24.createCsvFileMode(DIR_EXCEL_FILE);
         
         //SmartStore smartStore = new SmartStore(baseItemList, CATEGORY_ID_SMARTSTORE, BRAND_NAME_KOR);
         //smartStore.createExcelMode(DIR_EXCEL_FILE);

@@ -28,7 +28,7 @@ public class Cafe24 {
 
     private String brandNameKor;
     private String categoryNumber;
-    private static String dirFileUploader;
+    private String dirFileUploader;
     private List<BaseItemCosmetic> massItemCosmeticList;
     private List<BaseItem> massItemList;
     
@@ -654,7 +654,10 @@ public class Cafe24 {
         fileWriter.append(COMMA_DELIMITER);
         
         //before csv file upload, mainImage should be uploaded on the fileUploader in cafe24.
-        String mainImageUrl = Formatter.convertMainImageUrlMode(item.getMassItem().getDirFileUploader(), item.getMassItem().getMainImageName());
+        //mainImage-directory is not used any more. Let modify the path for mainImage
+        //String mainImageUrl = Formatter.convertMainImageUrlMode(item.getMassItem().getDirFileUploader(), item.getMassItem().getMainImageName());
+        String mainImageUrl = Formatter.convertMainImageUrlMode(dirFileUploader, item.getMassItem().getMainImageName());
+        
         //String mainImageUrl = "";
         //이미지등록(상세)
         fileWriter.append(mainImageUrl);

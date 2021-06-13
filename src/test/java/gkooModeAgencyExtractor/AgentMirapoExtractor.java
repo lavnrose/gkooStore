@@ -36,10 +36,9 @@ public class AgentMirapoExtractor implements IAgentModeExtractor {
                 Elements elements = new Elements();
                 elements.add(item);
                 //System.out.println(item);
-                System.out.println("");
                 String rawItemUrl = item.getElementsByClass("prod-tile__link").get(0).attr("data-base64");
                 //Element rawItemUrl = item;
-                System.out.println(rawItemUrl);
+                //System.out.println(rawItemUrl);
 
                 //String originalInput = "dGVzdCBpbnB1dA==";
                 byte[] result = Base64.getDecoder().decode(rawItemUrl);
@@ -49,7 +48,7 @@ public class AgentMirapoExtractor implements IAgentModeExtractor {
                 String rawImageUrl = item.getElementsByClass("prod-tile__img").get(0).getElementsByTag("img").get(0).attr("data-src");
                 
                 String imageUrl = Formatter.splitAfterWord(rawImageUrl, ".jpg").get(0) + ".jpg";
-                System.out.println(imageUrl);
+                //System.out.println(imageUrl);
             }
           }
         //Elements rawUnitElements = result.getElementsByClass("product-tile-wrapper");
@@ -75,7 +74,8 @@ public class AgentMirapoExtractor implements IAgentModeExtractor {
     public void createMassItemTest() {
         //String itemUrl = "https://www.mirapodo.de/puma-smash-v2-l-sneakers-low-weiss-kombi-16163477.html";
         //String itemUrl = "https://www.mirapodo.de/gabor-klassische-sandalen-weiss-8348463.html";
-        String itemUrl = "https://www.mirapodo.de/adidas-performance-fluidstreet-laufschuhe-schwarz-14747217.html";
+        //String itemUrl = "https://www.mirapodo.de/adidas-performance-fluidstreet-laufschuhe-schwarz-14747217.html";
+        String itemUrl = "https://www.mirapodo.de/gabor-sandalen-klassische-sandalen-blau-12218656.html";
         
         Document doc = null;
         try {
@@ -94,11 +94,11 @@ public class AgentMirapoExtractor implements IAgentModeExtractor {
         //extractDetailImages(doc);
         
         //ok
-        //extractItemPrice(doc);
+        extractItemPrice(doc);
         
-        extractItemColor(doc);
+        //extractItemColor(doc);
         
-        extractItemMaterials(doc);
+        //extractItemMaterials(doc);
         
     }
     
@@ -111,12 +111,16 @@ public class AgentMirapoExtractor implements IAgentModeExtractor {
         String rawColor = colorElement.text();
         String itemColor = Formatter.splitAfterWord(rawColor, ": ").get(1);
         System.out.println(itemColor);
-        
-        
     }
 
     public void extractItemTitle(Document doc) {
         Element body = doc.body();
+        
+        Elements itemName = body.getElementsByClass("prod-info__header");
+        Elements h1class = itemName.get(0).getElementsByTag("h1");
+        System.out.println(h1class.text());
+        //System.out.println(itemName);
+        
         Element modelName = body.getElementById("prod-details");
         //System.out.println(modelName.getElementsByTag("p").get(0).text());
         String rawTitle = modelName.getElementsByTag("p").get(0).text();
@@ -213,5 +217,4 @@ public class AgentMirapoExtractor implements IAgentModeExtractor {
         // TODO Auto-generated method stub
         
     }
-
 }

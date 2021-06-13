@@ -79,7 +79,7 @@ public class Formatter {
      * @return
      */
     public static String convertMainImageUrlMode(String dirName, String mainaImageName) {
-        return "https://moondrive81.cafe24.com/GKoo/mode/" + dirName + "main_images/" + mainaImageName + ".jpg";
+        return "https://moondrive81.cafe24.com/GKoo/mode/" + dirName + mainaImageName + ".jpg";
     }
     
     //use CosmeticUtil

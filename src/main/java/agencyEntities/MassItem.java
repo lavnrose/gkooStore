@@ -21,6 +21,8 @@ public class MassItem {
     private double itemPriceEuro;
     private double itemSalePriceEuro;
     private boolean isItemSale = false;
+    private boolean isPriceVariable = false;
+
     //cafe24
     private double itemPriceWon;
     private double itemPriceWonCoupang;
@@ -378,5 +380,13 @@ public class MassItem {
 
     public void setItemPriceWonCoupang(double itemPriceWonCoupang) {
         this.itemPriceWonCoupang = itemPriceWonCoupang;
+    }
+
+    public boolean isPriceVariable() {
+        return isPriceVariable;
+    }
+
+    public void setPriceVariable(boolean isPriceVariable) {
+        this.isPriceVariable = isPriceVariable;
     }
 }

@@ -276,9 +276,9 @@ public class ImageDownloader {
         String imageFullnameResized = imageName + ".jpg";
         String imageAddrResized = imageDir + imageFullnameResized;
         try {
-            //URL url = new URL(imageUrl);
-            //resizeMe = ImageIO.read(url);
-            resizeMe = ImageIO.read(new File(imageAddrResized));
+            URL url = new URL(imageUrl);
+            resizeMe = ImageIO.read(url);
+            //resizeMe = ImageIO.read(new File(imageAddrResized));
         } catch (IOException e) {
         }
         Dimension newMaxSize = new Dimension(width, height);
