@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import agencyBrandEntities.ItemFeelway;
+import factoryExcel.ExcelFile;
 import gkooModeAgency.AgentFeelMustStarter;
 import util.Formatter;
 import util.ImageDownloader;
@@ -30,7 +31,7 @@ public class FeelwayController extends PriceCalc {
         
         showRegisterData();
         
-        //createExcelFile();
+        ExcelFile.createExcelFeelMust(itemFeelway);
     }
     
     private void showRegisterData() {
@@ -107,7 +108,9 @@ public class FeelwayController extends PriceCalc {
         htmlBulder.append("<p style=\"text-align:center;\"><img style=\"padding-bottom: 30px;\" src=\"" + itemFeelway.getGkooFeelwayInfo() + "\"></p>");
         htmlBulder.append("<br>");
         htmlBulder.append("</p>");
-        return htmlBulder.toString();
+        String introductionHtml = htmlBulder.toString(); 
+        itemFeelway.setIntroductionHtml(introductionHtml);
+        return introductionHtml;
     }
     
     private String getImageUrlHtml() {

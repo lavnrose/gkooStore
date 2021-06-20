@@ -63,6 +63,7 @@ public class AgentFeelMustStarter {
         item.setItemBrandEng(BRAND_NAME_ENG);
         item.setItemBrandGender(BRAND_GENDER);
         item.setItemCategory(ITEM_CATEGORY);
+        item.setItemCategory(ITEM_CATEGORY);
         item.setItemTitleKor(ITEM_TITLE_KOR);
         item.setItemTitleEng(ITEM_TITLE_ENG);
         item.setItemModelNumber(ITEM_MODEL_NUMBER);
