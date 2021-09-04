@@ -82,7 +82,7 @@ public class CoupangItem extends Item {
         CoupangNotice CoupangNotice5 = new CoupangNotice(NOTICE_CATEGORY_NAME, "화장품제조업자 및 화장품책임판매업자", "상품상세페이지참조");
         CoupangNotice CoupangNotice6 = new CoupangNotice(NOTICE_CATEGORY_NAME, "제조국", "상품상세페이지참조");
         CoupangNotice CoupangNotice7 = new CoupangNotice(NOTICE_CATEGORY_NAME, "화장품법에 따라 기재, 표시하여야 하는 모든 성분", "상품상세페이지참조");
-        CoupangNotice CoupangNotice8 = new CoupangNotice(NOTICE_CATEGORY_NAME, "식품의약품안전처 심사 필 유무", "상품상세페이지참조");
+        //CoupangNotice CoupangNotice8 = new CoupangNotice(NOTICE_CATEGORY_NAME, "식품의약품안전처 심사필 유무  (기능성 화장품)", "상품상세페이지참조");
         CoupangNotice CoupangNotice9 = new CoupangNotice(NOTICE_CATEGORY_NAME, "사용할 때 주의사항", "상품상세페이지참조");
         CoupangNotice CoupangNotice10 = new CoupangNotice(NOTICE_CATEGORY_NAME, "품질보증기준", "상품상세페이지참조");
         CoupangNotice CoupangNotice11 = new CoupangNotice(NOTICE_CATEGORY_NAME, "소비자상담관련 전화번호", "070-4001-8993");
@@ -93,10 +93,11 @@ public class CoupangItem extends Item {
         notices.add(CoupangNotice5);
         notices.add(CoupangNotice6);
         notices.add(CoupangNotice7);
-        notices.add(CoupangNotice8);
+        //notices.add(CoupangNotice8);
         notices.add(CoupangNotice9);
         notices.add(CoupangNotice10);
         notices.add(CoupangNotice11);
+
     }
     
     private void setCertifications() {

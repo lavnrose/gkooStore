@@ -119,12 +119,14 @@ public class MassItemMode extends BaseItem {
         StringBuilder bd = new StringBuilder();
         bd.append(itemImagesHtml);
         bd.append(getEmptyLineHtml());
-        bd.append("<p style=\"text-align: center;\"><span style=\"font-size: 12pt;\"><strong>소재</strong></span></p>");
-        bd.append(getEmptyLineHtml());
-        bd.append("<p style=\"text-align: center;\">");
-        bd.append(Formatter.formatWithoutComma(massItem.getMaterials()));
-        bd.append("</p>");
-        bd.append(getEmptyLineHtml());
+        if(massItem.getMaterials() != null) {
+            bd.append("<p style=\"text-align: center;\"><span style=\"font-size: 12pt;\"><strong>소재</strong></span></p>");
+            bd.append(getEmptyLineHtml());
+            bd.append("<p style=\"text-align: center;\">");
+            bd.append(Formatter.formatWithoutComma(massItem.getMaterials()));
+            bd.append("</p>");
+            bd.append(getEmptyLineHtml());
+        }
         return bd.toString();
     }
 

@@ -26,7 +26,6 @@ public class MassItem {
     //cafe24
     private double itemPriceWon;
     private double itemPriceWonCoupang;
-    private String mainImageName;
     private String dirFileUploader;
     private List<String> itemDetailImages;
     private List<String> baseImages;
@@ -39,6 +38,8 @@ public class MassItem {
     private List<String> itemOptions;
     private String materials;
     private int modeDeiveryFee;
+    private String mainImageName;
+    private String mainImageUrl;
     
     /** cosmetic proeprties */
     private String itemVolume;
@@ -388,5 +389,13 @@ public class MassItem {
 
     public void setPriceVariable(boolean isPriceVariable) {
         this.isPriceVariable = isPriceVariable;
+    }
+
+    public String getMainImageUrl() {
+        return mainImageUrl;
+    }
+
+    public void setMainImageUrl(String mainImageUrl) {
+        this.mainImageUrl = mainImageUrl;
     }
 }

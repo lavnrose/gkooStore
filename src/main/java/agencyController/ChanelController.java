@@ -1,24 +1,24 @@
 package agencyController;
 
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import agencyBrandEntities.ItemFeelway;
 import factoryExcel.ExcelFile;
+import gkooModeAgency.AgentChanelStarter;
 import gkooModeAgency.AgentFeelMustStarter;
 import util.Formatter;
 import util.ImageDownloader;
 
-public class FeelwayController extends PriceCalc {
+public class ChanelController extends PriceCalc {
     private static final Logger LOGGER = LogManager.getLogger();
     private final String ___LINE_BREAKER = "\n";
     
     private ItemFeelway itemFeelway;
     private String itemTitleEng;
-    private String dirBrandItem; 
-
-    public FeelwayController(ItemFeelway itemFeelway) {
+    private String dirBrandItem;
+    
+    public ChanelController(ItemFeelway itemFeelway) {
         this.itemFeelway = itemFeelway;
         this.itemTitleEng= itemFeelway.getItemTitleEng();
         this.dirBrandItem = itemFeelway.getDirBrandItem();
@@ -86,7 +86,7 @@ public class FeelwayController extends PriceCalc {
     }
     
     private void setImageUploadUrl(String imageName) {
-        String imageUploadUrl = AgentFeelMustStarter.DIR_CAFE24_UPLOAD + "/" + imageName + ".jpg";
+        String imageUploadUrl = AgentChanelStarter.DIR_CAFE24_UPLOAD + "/" + imageName + ".jpg";
         itemFeelway.getImageUploadUrl().add(imageUploadUrl);
     }
     

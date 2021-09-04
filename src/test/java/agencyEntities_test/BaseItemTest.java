@@ -15,15 +15,21 @@ public class BaseItemTest {
     @Rule 
     public MockitoRule mockitoRule = MockitoJUnit.rule();
     
-    @Test
+    //@Test
     public void calculatePriceCommisionVATWon() {
         baseItem = Mockito.mock(BaseItem.class, Mockito.CALLS_REAL_METHODS);
         System.out.println("cafe24 price with delivery fee: " + baseItem.calculatePriceCommisionVATWon(100, 8000));
     }
     
-    @Test
+    //@Test
     public void calculatePriceCommisionVATWonCoupangTest() {
         baseItem = Mockito.mock(BaseItem.class, Mockito.CALLS_REAL_METHODS);
         System.out.println("coupang price without delivery fee: " + baseItem.calculatePriceCommisionVATWonCoupang(100));
+    }
+    
+    @Test
+    public void calculatePriceCommisionVATWonTest() {
+       baseItem = Mockito.mock(BaseItem.class, Mockito.CALLS_REAL_METHODS);
+       System.out.println("Price: "+ baseItem.calculatePriceCommisionVATWon(200, 10000));
     }
 }

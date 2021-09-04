@@ -14,29 +14,13 @@ public abstract class BaseItemCosmetic {
     private static final double TAX_LIMIT= 150000;
     
     private static int feePercent = 10;
-    private static double minimumCommision = 2000;
+    private static double minimumCommision = 5000;
     //2자리리 내림 ex. 10511원? -> 10500원?
     private final int ROUNDED_DIGIT = 3;
-    
+    private final static int OPEN_MARKET_COMMISION_PERCENT = 9;
+
     protected String getCompanyLogoUrl() {
         return COMPANY_LOGO;
-    }
-    
-    public int calculatePriceCommisionWon(double totalPriceEuro) {
-        Objects.nonNull(totalPriceEuro);
-        if(totalPriceEuro == 0) {
-            LOGGER.error("Price must not 0");
-        }
-        double commision = 0;
-        double productPriceWon = excahgeRateEuro*totalPriceEuro;
-        if(isMinimumCommision(excahgeRateEuro, totalPriceEuro)) {
-            commision = productPriceWon*(feePercent/100.0);
-        } else {
-            commision = minimumCommision;
-        }
-        int ceiledFeeResult = mathCeilDigit(ROUNDED_DIGIT, commision);
-        int ceiledProductResult = mathCeilDigit(ROUNDED_DIGIT, productPriceWon);
-        return ceiledFeeResult + ceiledProductResult;
     }
     
     public int calculatePriceCommisionVATWon(double totalPriceEuro, int deliveryFee) {
@@ -59,11 +43,15 @@ public abstract class BaseItemCosmetic {
             commision = minimumCommision;
         }
         
-        int ceiledCommision = mathCeilDigit(ROUNDED_DIGIT, commision);
-        int ceiledProductPriceWon = mathCeilDigit(ROUNDED_DIGIT, productPriceWon);
-        int ceiledTaxVat = taxVat != 0 ? mathCeilDigit(ROUNDED_DIGIT, taxVat) : 0;
+        double basePrice = commision + productPriceWon + taxVat + deliveryFee;
+        double openMarketPrice = basePrice*(1+ (OPEN_MARKET_COMMISION_PERCENT/100.0)); 
+        int ceiledOpenMarketPrice = mathCeilDigit(ROUNDED_DIGIT, openMarketPrice);
         
-        return (ceiledProductPriceWon + ceiledCommision + ceiledTaxVat + deliveryFee);
+//        int ceiledCommision = mathCeilDigit(ROUNDED_DIGIT, commision);
+//        int ceiledProductPriceWon = mathCeilDigit(ROUNDED_DIGIT, productPriceWon);
+//        int ceiledTaxVat = taxVat != 0 ? mathCeilDigit(ROUNDED_DIGIT, taxVat) : 0;
+        
+        return ceiledOpenMarketPrice;
     }
     
     public int calculatePriceCommisionSectionWon(double totalPriceEuro) {
@@ -124,20 +112,6 @@ public abstract class BaseItemCosmetic {
         }
         
         return commision;
-    }
-    
-    public int calculatePriceWon(double totalPriceEuro) {
-        Objects.nonNull(totalPriceEuro);
-        double commision = 0;
-        final double productPriceWon = excahgeRateEuro*totalPriceEuro;
-        if(isMinimumCommision(excahgeRateEuro, totalPriceEuro)) {
-            commision = productPriceWon*(feePercent/100.0);
-        } else {
-            commision = minimumCommision;
-        }
-        int ceiledFeeResult = mathCeilDigit(ROUNDED_DIGIT, commision);
-        int ceiledProductResult = mathCeilDigit(ROUNDED_DIGIT, productPriceWon);
-        return ceiledFeeResult + ceiledProductResult;
     }
     
     public int calculatePriceWonWithExtraFee(double totalPriceEuro, int extraFee) {

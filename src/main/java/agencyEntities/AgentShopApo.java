@@ -49,7 +49,8 @@ public class AgentShopApo extends Agent implements ICosmeticAgent {
         Elements itemTitleElements = body.getElementsByClass("l-grid__item");
         String rawTitle1 = itemTitleElements.get(0).getElementsByTag("h1").text();
         String rawTitle2 = rawTitle1.replaceAll("®", "");
-        String itemTitle = rawTitle2.replaceAll("/", "");
+        String rawTitle3 = rawTitle2.replaceAll("&", "");
+        String itemTitle = rawTitle3.replaceAll("/", "");
         
         Elements itemVolumeElements = body.getElementsByClass("m-ProductVariant__checkbox");
         massItem.setItemVolume(itemVolumeElements.get(0).getElementsByClass("o-ProductVariant--units").text());
@@ -75,8 +76,8 @@ public class AgentShopApo extends Agent implements ICosmeticAgent {
             LOGGER.error("Error connection itemUrl:" + itemUrl);
         } 
         Element body = doc.body();
-        Elements itemMainImageElements = body.getElementsByClass("o-ProductImageGallery__list");
-        String mainImageUrl = itemMainImageElements.get(0).getElementsByTag("img").attr("src");
+        Elements itemMainImageElements = body.getElementsByClass("o-ProductImageGallery__main-image");
+        String mainImageUrl = itemMainImageElements.get(0).getElementsByTag("li").get(0).getElementsByTag("a").attr("href");
         savingMainImage(massItem.getMainImageName(), getDirMainImages(), mainImageUrl);
     }
 

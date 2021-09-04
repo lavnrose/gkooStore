@@ -48,7 +48,7 @@ public class AgentEccoStarter {
         createCafe24();
         
         //2. check csv file!!
-        //createCoupang();
+        createCoupang();
         
         //3. other volume with price
         //createOtherPrice();

@@ -10,9 +10,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import agencyBrandEntities.ItemFeelway;
-import agencyController.FeelwayController;
+import agencyController.ChanelController;
+import agencyController.FeelMustController;
 
-public class AgentChannelStarter {
+public class AgentChanelStarter {
 private static final Logger LOGGER = LogManager.getLogger(AgentFeelMustStarter.class);
     
     public static String ITEM_URL = "https://www.chanel.com/de/mode/p/AB6210B05630NC343/haarspange-metall-lammleder/";
@@ -21,7 +22,7 @@ private static final Logger LOGGER = LogManager.getLogger(AgentFeelMustStarter.c
 
     public final static String BRAND_NAME_KOR = "샤넬";
     
-    public final static String BRAND_NAME_ENG = "channel";
+    public final static String BRAND_NAME_ENG = "chanel";
 
     //public final static String ITEM_CATEGORY = "t-shirt";
     public final static String ITEM_CATEGORY = "hair-accessoiry";
@@ -45,7 +46,7 @@ private static final Logger LOGGER = LogManager.getLogger(AgentFeelMustStarter.c
     
     public static void main(String[] args) throws Exception {
         ItemFeelway itemFeelway = getConfiguredItem();
-        FeelwayController controller = new FeelwayController(itemFeelway);
+        ChanelController controller = new ChanelController(itemFeelway);
         controller.createProductData();
     }
     

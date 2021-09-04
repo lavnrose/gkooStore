@@ -84,7 +84,7 @@ public class AgentBirkenExtractor implements IAgentModeExtractor {
     @Test
     @Override
     public void createMassItemTest() {
-        String itemUrl = "https://www.birkenstock.com/de-en/zermatt-wool-felt/zermatt-cozyhome-woolfelt-0-latex-u_4369.html";
+        String itemUrl = "https://www.birkenstock.com/de-en/milano-birko-flor/milano-core-birkoflor-0-eva-u_79.html";
         Document doc = null;
         try {
             doc = Jsoup.connect(itemUrl).userAgent("Chrome").get();
@@ -94,9 +94,9 @@ public class AgentBirkenExtractor implements IAgentModeExtractor {
         
         extractDetailImages(doc);
         
-        extractItemPrice(doc);
+        //extractItemPrice(doc);
         
-        extractItemMaterials(doc);
+        //extractItemMaterials(doc);
     }
 
     @Override
@@ -106,21 +106,24 @@ public class AgentBirkenExtractor implements IAgentModeExtractor {
         for(int i=0; i<elementsDetaiImage.size(); i++) {
             Element detailImageElement = elementsDetaiImage.get(i);
             String imageUrl = extractDetailImageUrl(detailImageElement);
-            //System.out.println(imageUrl);
+            System.out.println("imageUrl: " + imageUrl);
         }
     }
 
     @Override
     public Elements extractDetailElements(Element body) {
-        Elements galleryElements = body.getElementsByClass("product-image-slick").get(0).getElementsByClass("grid-tile thumb");
-        //System.out.println(galleryElements.get(0).getElementsByClass("grid-tile thumb"));
+        //Elements galleryElements = body.getElementsByClass("product-image-slick").get(0).getElementsByClass("grid-tile thumb");
+        Elements galleryElements = body.getElementsByClass("thumbnail-container-slider").get(0).getElementsByClass("product-image-slick").get(0).getElementsByClass("grid-tile thumb");
+        System.out.println(galleryElements);
         return galleryElements;
     }
 
     @Override
     public String extractDetailImageUrl(Element detailImageElement) {
-        String rawDeTailImageUrl = detailImageElement.getElementsByTag("img").attr("src");
-        String imageUrl = Formatter.splitAfterWord(rawDeTailImageUrl, ".jpg").get(0) + ".jpg";
+        //String rawDeTailImageUrl = detailImageElement.getElementsByTag("img").attr("src");
+        String rawDeTailImageUrl = detailImageElement.getElementsByTag("a").attr("href");
+        //String imageUrl = Formatter.splitAfterWord(rawDeTailImageUrl, ".jpg").get(0) + ".jpg";
+        String imageUrl = "https://www.birkenstock.com" + rawDeTailImageUrl;
         return imageUrl;
     }
 

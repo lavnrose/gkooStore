@@ -62,7 +62,7 @@ public class Formatter {
     }
     
     public static String replaceSymbols(String str) {
-        return str.replaceAll("[\\,\\.]", "_");
+        return str.replaceAll("[\\,\\.\\/]", "_");
     }
     
     public static String removeEmptySymbol(String str) {

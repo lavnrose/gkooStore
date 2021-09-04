@@ -1,6 +1,7 @@
 package agencyEntities;
 
 import java.util.List;
+import gkooAgentConfig.IAgentConfig;
 import util.GrobalDefined.Gender;
 
 /**
@@ -33,6 +34,18 @@ public class Agent {
         this.deliveryFee = deliveryFee;
     }
     
+    public Agent(IAgentConfig config) {
+        this.brandNameDe = config.getBrandName();
+        this.brandNameKor = config.getBrandNameKor();
+        this.homepageUrl = config.getHomepageUrl();
+        this.dirMainImages = config.getMainImagesLocation();
+        this.itemSizeList = config.getItemSizeList();
+        this.itemSizePriceList = config.getItemSizePriceList();
+        this.itemSizeStockist = config.getItemStockList();
+        this.deliveryFee = config.getDeliveryFee();
+    }
+    
+    //Cosmetic
     public Agent(String brandNameDe, String brandNameKor, String itemCategory, String dirMainImages, String dirFileUploader) {
         this.brandNameDe = brandNameDe;
         this.brandNameKor = brandNameKor;

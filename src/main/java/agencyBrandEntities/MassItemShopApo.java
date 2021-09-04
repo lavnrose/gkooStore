@@ -20,8 +20,8 @@ public class MassItemShopApo extends BaseItemCosmetic {
     
     public MassItemShopApo(MassItem massItem) {
         this.massItem = massItem;
-        this.priceWon =  super.calculatePriceCommisionSectionWon(massItem.getItemPriceEuro());
-        this.priceSaleWon =  super.calculatePriceCommisionSectionWon(massItem.getItemSalePriceEuro());
+        this.priceWon =  super.calculatePriceCommisionVATWon(massItem.getItemPriceEuro(), 0);
+        this.priceSaleWon =  super.calculatePriceCommisionVATWon(massItem.getItemSalePriceEuro(), 0);
         if(GrobalDefined.TRANSLATE) {
             //invokeTranslateDescription(massItem);
             invokeTranslateItemTitleKor(massItem);

@@ -26,8 +26,8 @@ public class CsvFile {
     }
     
     public static void main(String[] args) throws Exception {
-        String dirName = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/ecoverde/lavera/hair/";
-        String fileName = "라베라_cosmetic";
+        String dirName = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/shopApo/eubos/cream/";
+        String fileName = "오이보스_cosmetic_cafe24";
         File myFile = new File(dirName + fileName + ".xlsx");
         int sheetIdx = 0; // 0 for first sheet
  

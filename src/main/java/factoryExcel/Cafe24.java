@@ -172,7 +172,7 @@ public class Cafe24 {
         }
 
         try {
-            FileOutputStream outputStream = new FileOutputStream(dirExcelFile + brandNameKor + "_cosmetic.xlsx");
+            FileOutputStream outputStream = new FileOutputStream(dirExcelFile + brandNameKor + "_cosmetic_cafe24.xlsx");
             workbook.write(outputStream);
             workbook.close();
         } catch (FileNotFoundException e) {

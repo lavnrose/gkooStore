@@ -87,20 +87,20 @@ public class AgentShopExtractor implements IAgentCosmeticExtractor {
     public void createMassItemTest() {
         //https://www.shop-apotheke.com/beauty/16620590/eubos-sensitive-hand-repair-schutz.htm
         //String itemUrl = "https://www.shop-apotheke.com/beauty/16620590/eubos-sensitive-hand-repair-schutz.htm";
-        String itemUrl = "https://www.shop-apotheke.com/beauty/14297073/eucerin-urearepair-plus-urea-creme-intensivpflege-30.htm";
+        String itemUrl = "https://www.shop-apotheke.com/beauty/4891958/eubos-creme-intensivpflege.htm";
         Document doc = null;
         try {
             doc = Jsoup.connect(itemUrl).userAgent("Chrome").get();
         } catch (IOException e) {
             return;
         }
-        extractItemTitle(doc);
+        //extractItemTitle(doc);
 
-        extractItemVolume(doc);
+        //extractItemVolume(doc);
 
         extractItemMainImage(doc);
         
-        extractItemPrice(doc);
+        //extractItemPrice(doc);
         
         //extractItemDescription(doc);
         
@@ -123,8 +123,9 @@ public class AgentShopExtractor implements IAgentCosmeticExtractor {
     
     public void extractItemMainImage(Document doc) {
         Element body = doc.body();
-        Elements itemMainImageElements = body.getElementsByClass("o-ProductImageGallery__list");
-        System.out.println(itemMainImageElements.get(0).getElementsByTag("img").attr("src"));
+        Elements itemMainImageElements = body.getElementsByClass("o-ProductImageGallery__main-image");
+        //System.out.println(itemMainImageElements.get(0).getElementsByTag("img").attr("src"));
+        System.out.println(itemMainImageElements.get(0).getElementsByTag("li").get(0).getElementsByTag("a").attr("href"));
     }
 
     @Override

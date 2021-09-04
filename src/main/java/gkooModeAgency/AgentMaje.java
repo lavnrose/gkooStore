@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
@@ -39,6 +40,7 @@ public class AgentMaje {
     public static final int DELIVERY_FEE= 10000;
     public static Gender CATEGORY_GENDER = Gender.FEMALE;
     public static final String CATEGORY_ID_SMARTSTORE = "50000804";
+    
     public static final String CATEGORY_NUMBER_CAFE24 = "271";
 
     private static final String [] ITEM_SIZE_US = {"XS", "S", "M", "L", "XL"};

@@ -16,6 +16,7 @@ import agencyEntities.BaseItemCosmetic;
 import agencyEntities.MassItem;
 import coupang.CoupangApi;
 import factoryExcel.Cafe24;
+import factoryExcel.SmartStore;
 import util.GrobalDefined;
 import util.MathUtil;
 
@@ -23,62 +24,43 @@ public class AgentShopStarter {
     private static final Logger LOGGER = LogManager.getLogger(AgentShopStarter.class);
     
     public final static String BRAND_HOMEPAGE_URL = "https://www.shop-apotheke.com/";
-    public static final String BRAND_NAME_KOR = "유세린";
-    public static final String BRAND_NAME_DE = "eucerin";
+    public static final String BRAND_NAME_KOR = "오이보스";
+    public static final String BRAND_NAME_DE = "eubos";
     public static final String DIR_BRAND = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/shopApo/" + BRAND_NAME_DE;
-    public final static String ITEM_CATEGORY = "lotion";
+    public final static String ITEM_CATEGORY = "cream";
     public final static String DIR_ITEM_CATEGORY = "/" + ITEM_CATEGORY + "/";
     public static final String DIR_BRAND_CATEGORY = DIR_BRAND + DIR_ITEM_CATEGORY;
-    public static final String HTML_BRAND = DIR_BRAND + "/eucerin.html";
+    public static final String HTML_BRAND = DIR_BRAND + "/eubos.html";
     
     public static String DIR_FILEUPLOADER = BRAND_NAME_DE + DIR_ITEM_CATEGORY;
     public static String DIR_MAIN_IMAGES = DIR_BRAND_CATEGORY + "main_images/";
     public static String DIR_EXCEL_FILE = DIR_BRAND_CATEGORY;
 
     public static final String CATEGORY_ID_COOPANG = "";
-    public static final String CATEGORY_NUMBER_CAFE24 = "305";
+    public static final String CATEGORY_ID_SMARTSTORE = "50000440";
+    public static final String CATEGORY_NUMBER_CAFE24 = "181";
     
     public static void main(String[] args) throws Exception {
         //1.
-        createCafe24();
+        //createCafe24();
         
-        //2. after 1
+        //2. Coupang API
         //createCoupang();
         
-    }
-    
-    private static void createCoupang() throws FileNotFoundException, IOException, CsvValidationException {
-        LOGGER.info("Coupang API starts ===>>> " + BRAND_NAME_KOR);
-        String fileName = DIR_BRAND_CATEGORY + "/유세린_cream_set_3_cafe24.csv";
-        List<List<String>> records = new ArrayList<List<String>>();
-        try (CSVReader csvReader = new CSVReader(new FileReader(fileName));) {
-            String[] values = null;
-            while ((values = csvReader.readNext()) != null) {
-                records.add(Arrays.asList(values));
-            }
-        }
+        //3. smartStore
+        createSmartStore();
         
-        int start = 1;
-        int size = records.size();
-        for(int i=start; i< size; i++) {
-            List<String> cosmetic = records.get(i);
-            int originalPrice = getCoupangPrice(cosmetic.get(19));
-            int salePrice = getCoupangPrice(cosmetic.get(22));
-            String contentHtml = cosmetic.get(14);
-            String mainImageName = cosmetic.get(10);
-            String displayProductName = cosmetic.get(7);
-            String brand = BRAND_NAME_DE;
-            CoupangApi.createProductCosmetic(GrobalDefined.categoryCodeCoopang.get(""), 
-                    originalPrice, salePrice, contentHtml, mainImageName, displayProductName, brand, DIR_FILEUPLOADER);
-        }
-        LOGGER.info("Coupang API is finished <<<=== ");
     }
     
-    private static int getCoupangPrice(String price) {
-        double cafe24Price = Double.valueOf(price);
-        double coupangPrice = (cafe24Price/0.9);
-        int ceiledProductPriceWon = MathUtil.mathCeilDigit(3, coupangPrice);
-        return ceiledProductPriceWon;
+    public static AgentShopApo getConfiguredAgent() {
+        AgentShopApo agent = new AgentShopApo(BRAND_NAME_DE, BRAND_NAME_KOR, ITEM_CATEGORY, DIR_MAIN_IMAGES, DIR_FILEUPLOADER);
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/4891958/eubos-creme-intensivpflege.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/13649676/eubos-hyaluron-repair-filler-day-creme.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/7392492/eubos-omega-3-6-9-intensivcreme.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/9683532/eubos-10-urea-hydro-repair.htm");
+        agent.addItemUrl("https://www.shop-apotheke.com/beauty/3447718/eubos-trockene-haut-3-urea-koerperlotion.htm");
+        
+        return agent;
     }
     
     private static void createCafe24() throws IOException {
@@ -106,21 +88,57 @@ public class AgentShopStarter {
         }
         
         Cafe24 cafe24 = new Cafe24(BRAND_NAME_KOR, CATEGORY_NUMBER_CAFE24, baseItemCosmeticList);
-        cafe24.createCsvFileCosmetic(DIR_EXCEL_FILE);
+        cafe24.createExcelFileCosmetic(DIR_EXCEL_FILE);
         LOGGER.info("the csv file for cafe24 is finished <<<=== ");
     }
     
-    public static AgentShopApo getConfiguredAgent() {
-        AgentShopApo agent = new AgentShopApo(BRAND_NAME_DE, BRAND_NAME_KOR, ITEM_CATEGORY, DIR_MAIN_IMAGES, DIR_FILEUPLOADER);
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/13889268/eucerin-ph5-leichte-textur-lotion.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/11678136/eucerin-urearepair-original-lotion-3.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/3815725/eucerin-sun-sensitive-protect-lotion-extra-light-lsf-50.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/13649400/eucerin-sun-photoaging-control-lotion-extra-light-lsf-50.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/13649392/eucerin-sun-photoaging-control-lotion-extra-light-lsf-30.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/3820169/eucerin-sun-sensitive-relief-after-lotion.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/13649423/eucerin-sensitive-protect-sun-lotion-lsf-50.htm");
-        agent.addItemUrl("https://www.shop-apotheke.com/beauty/11363467/eucerin-sun-sensitive-protect-kids-mineral-sun-lotion-lsf-30.htm");
+    private static void createCoupang() throws FileNotFoundException, IOException, CsvValidationException {
+        LOGGER.info("Coupang API starts ===>>> " + BRAND_NAME_KOR);
+        String fileName = DIR_BRAND_CATEGORY + "/오이보스_cosmetic_cafe24.csv";
+        List<List<String>> records = new ArrayList<List<String>>();
+        try (CSVReader csvReader = new CSVReader(new FileReader(fileName));) {
+            String[] values = null;
+            while ((values = csvReader.readNext()) != null) {
+                records.add(Arrays.asList(values));
+            }
+        }
         
-        return agent;
+        int start = 1;
+        int size = records.size();
+        for(int i=start; i< size; i++) {
+            List<String> cosmetic = records.get(i);;
+            int originalPrice = Integer.valueOf(cosmetic.get(19));
+            int salePrice = Integer.valueOf(cosmetic.get(22));
+            String contentHtml = cosmetic.get(14);
+            String mainImageName = cosmetic.get(10);
+            String displayProductName = cosmetic.get(7);
+            String brand = BRAND_NAME_DE;
+            CoupangApi.createProductCosmetic(GrobalDefined.categoryCodeCoopang.get(""), 
+                    originalPrice, salePrice, contentHtml, mainImageName, displayProductName, brand, DIR_FILEUPLOADER);
+        }
+        LOGGER.info("Coupang API is finished <<<=== ");
+    }
+    
+    private static void createSmartStore() throws FileNotFoundException, IOException, CsvValidationException {
+        LOGGER.info("SmartStore starts ===>>> " + BRAND_NAME_KOR);
+        String fileName = DIR_BRAND_CATEGORY + "/오이보스_cosmetic_cafe24.csv";
+        List<List<String>> records = new ArrayList<List<String>>();
+        try (CSVReader csvReader = new CSVReader(new FileReader(fileName));) {
+            String[] values = null;
+            while ((values = csvReader.readNext()) != null) {
+                records.add(Arrays.asList(values));
+            }
+        }
+        
+        SmartStore sm = new SmartStore(CATEGORY_ID_SMARTSTORE, BRAND_NAME_DE);
+        sm.createExcelCosmetic(DIR_EXCEL_FILE, records);
+        LOGGER.info("Coupang API is finished <<<=== ");
+    }
+    
+    private static int getCoupangPrice(String price) {
+        double cafe24Price = Double.valueOf(price);
+        double coupangPrice = (cafe24Price/0.9);
+        int ceiledProductPriceWon = MathUtil.mathCeilDigit(3, coupangPrice);
+        return ceiledProductPriceWon;
     }
 }

@@ -15,9 +15,11 @@ public abstract class BaseItem {
     
     private static int feePercent = 7;
     private static int commisionCoupangPercent = 11;
-    private static double minimumCommision = 8000;
+    private static double minimumCommision = 15000;
     //2자리리 내림 ex. 10511원? -> 10500원?
     private final int ROUNDED_DIGIT = 3;
+    private final static int OPEN_MARKET_COMMISION_PERCENT = 7;
+
     
     protected String getCompanyLogoUrl() {
         return COMPANY_LOGO;
@@ -51,7 +53,8 @@ public abstract class BaseItem {
         
         if (productPriceWon >= TAX_LIMIT) {
             //통관시 부가세
-            taxVat = (productPriceWon + deliveryFee)*(0.1);
+            //taxVat = (productPriceWon + deliveryFee)*(0.1);
+            taxVat = (productPriceWon)*(0.1);
         } 
         
         if(isMinimumCommision(excahgeRateEuro, totalPriceEuro)) {
@@ -60,11 +63,15 @@ public abstract class BaseItem {
             commision = minimumCommision;
         }
         
-        int ceiledCommision = mathCeilDigit(ROUNDED_DIGIT, commision);
-        int ceiledProductPriceWon = mathCeilDigit(ROUNDED_DIGIT, productPriceWon);
-        int ceiledTaxVat = taxVat != 0 ? mathCeilDigit(ROUNDED_DIGIT, taxVat) : 0;
+        double basePrice = commision + productPriceWon + taxVat + deliveryFee;
+        double openMarketPrice = basePrice*(1+ (OPEN_MARKET_COMMISION_PERCENT/100.0)); 
+        int ceiledOpenMarketPrice = mathCeilDigit(ROUNDED_DIGIT, openMarketPrice);
         
-        return (ceiledProductPriceWon + ceiledCommision + ceiledTaxVat + deliveryFee);
+//        int ceiledCommision = mathCeilDigit(ROUNDED_DIGIT, commision);
+//        int ceiledProductPriceWon = mathCeilDigit(ROUNDED_DIGIT, productPriceWon);
+//        int ceiledTaxVat = taxVat != 0 ? mathCeilDigit(ROUNDED_DIGIT, taxVat) : 0;
+        
+        return ceiledOpenMarketPrice;
     }
     
     public int calculatePriceCommisionVATWonCoupang(double totalPriceEuro) {

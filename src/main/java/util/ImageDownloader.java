@@ -60,6 +60,33 @@ public class ImageDownloader {
         }
     }
     
+    public static void resizeImageScalrMode(final String imageName, final String imageDir, final String imageUrl, int width) {
+        
+        BufferedImage resizeMe = null;
+        String imageFullnameResized = imageName + ".jpg";
+        String imageAddrResized = imageDir + imageFullnameResized;
+        try {
+            URL url = new URL(imageUrl);
+            resizeMe = ImageIO.read(url);
+            //resizeMe = ImageIO.read(new File(imageAddrResized));
+        } catch (IOException e) {
+            
+        }
+        //Dimension newMaxSize = new Dimension(width, height);
+        if (resizeMe == null) {
+            LOGGER.error("Error image is not downloaded:" + imageUrl);
+        } else {
+            BufferedImage resizedImg = Scalr.resize(resizeMe, Method.QUALITY, Scalr.Mode.FIT_TO_WIDTH, width);
+            //BufferedImage resizedImgPadding = Scalr.pad(resizedImg, 50, Color.WHITE);
+            //BufferedImage rectangleImg = resizeImage(resizedImgPadding, 500, 500);
+            try {
+                ImageIO.write(resizedImg, "jpg", new File(imageAddrResized));
+            } catch (IOException e) {
+                LOGGER.error("Error resizing of ImageDownloader:" + imageUrl);
+            }
+        }
+    }
+    
     public static void resizeImageScalr(final String imageName, final String imageDir, final String imageUrl, int width) {
         
         BufferedImage resizeMe = null;

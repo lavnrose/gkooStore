@@ -14,7 +14,7 @@ public class PriceCalc {
     
     private final static int FEELWAY_COMMISION_PERCENT = 6;
     private final int GKOO_COMMISION_PERCENT = 10;
-    private static double minimumCommision = 100000;
+    private static double minimumCommision = 15000;
 
     //2자리리 내림 ex. 10511원? -> 10500원?
     private final int ROUNDED_DIGIT = 3;

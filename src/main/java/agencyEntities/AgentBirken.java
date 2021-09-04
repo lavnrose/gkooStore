@@ -90,16 +90,23 @@ public class AgentBirken extends Agent implements IModeAgent {
     @Override
     public Elements extractDetailElements(Element body) {
         Elements galleryElements = null;
-        if(body.getElementsByClass("product-image-slick").size() != 0) {
-            galleryElements = body.getElementsByClass("product-image-slick").get(0).getElementsByClass("grid-tile thumb");
-        }
+        
+        //if(body.getElementsByClass("product-image-slick").size() != 0) {
+        //    galleryElements = body.getElementsByClass("product-image-slick").get(0).getElementsByClass("grid-tile thumb");
+        //}
+        
+        galleryElements = body.getElementsByClass("thumbnail-container-slider").get(0).getElementsByClass("product-image-slick").get(0).getElementsByClass("grid-tile thumb");
+
         return galleryElements;
     }
     
     @Override
     public String extractDetailImageUrl(Element detailImageElement) {
-        String rawDeTailImageUrl = detailImageElement.getElementsByTag("img").attr("src");
-        String imageUrl = Formatter.splitAfterWord(rawDeTailImageUrl, ".jpg").get(0) + ".jpg";
+        //String rawDeTailImageUrl = detailImageElement.getElementsByTag("img").attr("src");
+        //String imageUrl = Formatter.splitAfterWord(rawDeTailImageUrl, ".jpg").get(0) + ".jpg";
+        
+        String rawDeTailImageUrl = detailImageElement.getElementsByTag("a").attr("href");
+        String imageUrl = "https://www.birkenstock.com" + rawDeTailImageUrl;
         return imageUrl;
     }
 

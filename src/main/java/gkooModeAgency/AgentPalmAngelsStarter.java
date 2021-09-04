@@ -11,10 +11,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import agencyBrandEntities.ItemFeelway;
-import agencyController.FeelwayController;
 import agencyController.PalmAngelsController;
 import util.Formatter;
-import util.ImageDownloader;
 
 public class AgentPalmAngelsStarter {
     private static final Logger LOGGER = LogManager.getLogger(AgentPalmAngelsStarter.class);

@@ -143,4 +143,8 @@ public class GrobalDefined {
     };
     
     public enum Gender { MALE, FEMALE, KIDS }
+    
+    public enum Gender2 {
+        MEN, WOMEN, KIDS;
+     }
 }
