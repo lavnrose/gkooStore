@@ -95,6 +95,10 @@ public class Formatter {
         return Formatter.splitAfterWord(rawUrl, ".jpg").get(0) + ".jpg";
     }
     
+    public static String getFormattedHtmUrl(String rawUrl) {
+        return Formatter.splitAfterWord(rawUrl, ".html").get(0) + ".html";
+    }
+    
     public static String replaceUmlaut(String input) {
         
         //replace all lower Umlauts

@@ -20,7 +20,7 @@ public class DirectoryLocationBuilder {
         this.category = category;
         this.htmlFileName = htmlFileName;
     }
-
+    
     public Supplier<String> getBrandDirectory = () -> 
         root_drectory.concat(brandName).concat(SLASH);
         
@@ -29,6 +29,9 @@ public class DirectoryLocationBuilder {
     
     public Supplier<String> getBrandGenderCategoryDirectory = 
             () -> getBrandDirectory.get().concat(gender).concat(SLASH).concat(category).concat(SLASH);
+            
+    public Supplier<String> getPreprocessFullPathXlsxFile = 
+                    () -> getBrandDirectory.get().concat(gender).concat(SLASH).concat(category).concat(SLASH).concat(category + "_preprocess.xlsx");
 
     public Supplier<String> getBrandGenderCategoryDirectoryCafe24 = 
             () -> getBrandDirectoryCafe24.get().concat(gender).concat(SLASH).concat(category).concat(SLASH);

@@ -6,22 +6,22 @@ import java.util.List;
 import java.util.function.Supplier;
 import util.GrobalDefined.Gender2;
 
-public final class MaisonConfig implements IAgentConfig {
-    public final static String BRAND_HOMEPAGE_URL = "https://maisonkitsune.com/";
-    public final static String BRAND_NAME_KOR = "메종 키츠네";
-    public final static String BRAND_NAME_DE = "maison-kitsune";
+public class FlaconiConfig implements IAgentConfig {
+    public final static String BRAND_HOMEPAGE_URL = "https://www.flaconi.de/";
+    public final static String BRAND_NAME_KOR = "닥터 하우쉬카";
+    public final static String BRAND_NAME_DE = "Dr Hauschka";
     
-    public final static String ROOT_DIR = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/의류/";
-    //public final static String CATEGORY = "t-shirt";
-    public final static String CATEGORY = "sweatshirts";
-    //public static final String HTML_FILE_NAME = "men_t-shirt.html";
-    public static final String HTML_FILE_NAME = "men_sweatshirts.html";
+    public final static String ROOT_DIR = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/flaconi/";
+    
+    public final static String CATEGORY = "gesichtspflege";
+    public static final String HTML_FILE_NAME = "gesichtspflege.html";
     
     public DirectoryLocationBuilder directoryLocationBuilder;
     
-    public static final int DELIVERY_FEE= 10000;
-    public static Gender2 GENDER = Gender2.MEN;
+    public static final int DELIVERY_FEE= 0;
+    public static Gender2 GENDER = Gender2.WOMEN;
     
+    //Smartstore
     public static final HashMap<String, String> CATEGORY_ID_SMARTSTORE_SET = new HashMap<>() {
         private static final long serialVersionUID = 1L;
 
@@ -32,6 +32,7 @@ public final class MaisonConfig implements IAgentConfig {
     };
     public static final String CATEGORY_ID_SMARTSTORE = CATEGORY_ID_SMARTSTORE_SET.get("남성의류_스웨터");
     
+    //Cafe24
     public static final HashMap<String, String> CATEGORY_NUMBER_CAFE24_SET = new HashMap<>() {
         private static final long serialVersionUID = 1L;
 
@@ -41,6 +42,17 @@ public final class MaisonConfig implements IAgentConfig {
         }
     };
     public static final String CATEGORY_NUMBER_CAFE24 = CATEGORY_NUMBER_CAFE24_SET.get("남성의류_스웨터");
+    
+    //Coupang
+    public static final HashMap<String, String> CATEGORY_NUMBER_COUPANG_SET = new HashMap<>() {
+        private static final long serialVersionUID = 1L;
+
+        {
+            put("남성의류_티셔츠", "300");
+            put("남성의류_스웨터", "308");
+        }
+    };
+    public static final String CATEGORY_NUMBER_COUPANG = CATEGORY_NUMBER_COUPANG_SET.get("남성의류_스웨터");
     
     private static final String [] ITEM_SIZE_EU_WOMEN = {"XS", "S", "M", "L", "XL"};
     private static final String [] ITEM_SIZE_EU_MEN = {"XS", "S", "M", "L", "XL"};
@@ -52,7 +64,7 @@ public final class MaisonConfig implements IAgentConfig {
     public static final List<String> ITEM_SIZE_PRICE_LIST = Arrays.asList(ITEM_SIZE_PRICE);
     public static final List<String> ITEM_SIZE_STOCK_LIST = Arrays.asList(ITEM_SIZE_STOCK);
     
-    public MaisonConfig() {
+    public FlaconiConfig() {
         this.directoryLocationBuilder = 
                 new DirectoryLocationBuilder(ROOT_DIR, BRAND_NAME_DE, GENDER, CATEGORY, HTML_FILE_NAME);
     }
@@ -87,7 +99,7 @@ public final class MaisonConfig implements IAgentConfig {
     public String getMainImagesCafe24Location() {
         return directoryLocationBuilder.getMainImagesCafe24Location.get();
     }
-
+    
     @Override
     public List<String> getItemSizeList() {
         return ITEM_SIZE_LIST;
@@ -117,7 +129,7 @@ public final class MaisonConfig implements IAgentConfig {
     public String getCategoryIdCafe24() {
         return CATEGORY_NUMBER_CAFE24;
     }
-
+    
     @Override
     public String getCategory() {
         return CATEGORY;

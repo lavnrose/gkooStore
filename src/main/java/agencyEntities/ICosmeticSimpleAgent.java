@@ -15,8 +15,8 @@ import org.jsoup.select.Elements;
 import util.Formatter;
 import util.ImageDownloader;
 
-public interface IModeSimpleAgent {
-    static final Logger LOGGER = LogManager.getLogger(IModeSimpleAgent.class);
+public interface ICosmeticSimpleAgent {
+    static final Logger LOGGER = LogManager.getLogger(ICosmeticSimpleAgent.class);
     public static List<String> itemSameTitleTester = new ArrayList<>();
     
     default List<MassItem> preprocessing(String htmlBrand) throws IOException, InterruptedException {
@@ -59,10 +59,12 @@ public interface IModeSimpleAgent {
                 setDetailImage(massItem);
                 
                 setItemPrice(massItem, unitElements.get(i));
+                setItemVolume(massItem, unitElements.get(i));
+                setItemIngredients(massItem, url);
 
                 setCommonProperties(massItem);
                 
-                TimeUnit.SECONDS.sleep(2);
+                //TimeUnit.SECONDS.sleep(2);
             }
         }
         return massItemList;
@@ -123,4 +125,6 @@ public interface IModeSimpleAgent {
     }
 
     void setItemPrice(MassItem massItem, Element unitElement);
+    void setItemVolume(MassItem massItem, Element unitElement);
+    void setItemIngredients(MassItem massItem, String validUrl);
 }

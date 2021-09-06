@@ -1,8 +1,8 @@
-package gkooModeAgencyExtractor;
+package gkooCosmeticAgencyExtractor;
 
 import org.jsoup.nodes.Element;
 
-public interface IAgentModeSimpleExtractor {
+public interface IAgentCosmeticSimpleExtractor {
     public void preprocessingTest();
     
     public void getUnitElements(Element body);

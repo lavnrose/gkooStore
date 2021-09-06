@@ -14,4 +14,5 @@ public interface IAgentConfig {
     String getCategoryIdSmartStore();
     String getCategoryIdCafe24();
     String getMainImagesCafe24Location();
+    String getCategory();
 }
