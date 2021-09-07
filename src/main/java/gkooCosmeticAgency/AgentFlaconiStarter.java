@@ -6,7 +6,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import agencyEntities.BaseItemSimpleCosmetic;
 import agencyEntities.MassItem;
+import coupang.CoupangApi;
 import factoryExcel.Cafe24;
+import factoryExcel.SmartStore;
 import factoryExcel.XlsxFile;
 import gkooAgentConfig.FlaconiConfig;
 
@@ -29,15 +31,15 @@ public class AgentFlaconiStarter {
             baseItemSimpleCosmetic.add(massItemEcco);
         }
         
-        Cafe24 cafe24 = new Cafe24(config.getBrandNameKor(), config.getCategoryIdCafe24(), config.getMainImagesCafe24Location(), baseItemSimpleCosmetic);
-        cafe24.createCsvFileSimpleCosmetic(config.getDirectoryLocationBuilder().getBrandGenderCategoryDirectory.get());
+//        Cafe24 cafe24 = new Cafe24(config.getBrandNameKor(), config.getCategoryIdCafe24(), config.getMainImagesCafe24Location(), baseItemSimpleCosmetic);
+//        cafe24.createCsvFileSimpleCosmetic(config.getDirectoryLocationBuilder().getBrandGenderCategoryDirectory.get());
         
 //        SmartStore smartStore = 
-//                new SmartStore(baseItemList, config.getCategoryIdSmartStore(), config.getBrandNameCategory.get());
-//        smartStore.createExcelMode(config.getDirectoryLocationBuilder().getBrandGenderCategoryDirectory.get());
+//                new SmartStore(config.getBrandNameKor(), config.getCategoryIdSmartStore(), baseItemSimpleCosmetic);
+//        smartStore.createExcelCosmetic(config.getDirectoryLocationBuilder().getBrandGenderCategoryDirectory.get());
         
-//        CoupangApi CoupangApi = new CoupangApi();
-//        CoupangApi.createProducts(baseItemList, GrobalDefined.categoryCodeCoopang.get(COUPANG_CATEGORY_CODE), DIR_FILEUPLOADER, ITEM_SIZE_EU_MEN_LIST_COUPANG);
+        CoupangApi CoupangApi = new CoupangApi();
+        CoupangApi.createProductsCosmetic(baseItemSimpleCosmetic, config.getMainImagesCafe24Location());
         LOGGER.info("A mission end <<<=== ");
     }
 }

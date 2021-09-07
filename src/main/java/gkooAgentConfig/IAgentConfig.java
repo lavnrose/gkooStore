@@ -3,7 +3,7 @@ package gkooAgentConfig;
 import java.util.List;
 
 public interface IAgentConfig {
-    String getBrandName();
+    String getBrandNameDe();
     String getBrandNameKor();
     String getHomepageUrl();
     String getMainImagesLocation();
@@ -15,4 +15,5 @@ public interface IAgentConfig {
     String getCategoryIdCafe24();
     String getMainImagesCafe24Location();
     String getCategory();
+    String getCategoryKor();
 }

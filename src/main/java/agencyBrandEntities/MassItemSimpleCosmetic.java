@@ -17,6 +17,7 @@ public class MassItemSimpleCosmetic extends BasePreItemCosmetic {
     
     public MassItemSimpleCosmetic(MassItem massItem) {
         this.priceWon = super.calculatePriceCommisionSectionWon(massItem.getItemPriceEuro());
+        this.massItem = massItem;
         massItem.setItemPriceWon(priceWon);
         if(GrobalDefined.TRANSLATE) {
             invokeTranslateItemTitleKor(massItem);

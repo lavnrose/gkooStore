@@ -16,8 +16,14 @@ public class BaseItemSimpleCosmetic {
     public BaseItemSimpleCosmetic(MassItem massItem, FlaconiConfig config) {
         this.massItem = massItem;
         this.setConfig(config);
+        setPropertiesConfig(massItem, config);
     }
     
+    private void setPropertiesConfig(MassItem massItem, FlaconiConfig config) {
+        massItem.setBrandNameKor(config.getBrandNameKor());
+        massItem.setBrandNameDE(config.getBrandNameDe());
+    }
+
     protected String getCompanyLogoUrl() {
         return COMPANY_LOGO;
     }
@@ -124,9 +130,9 @@ public class BaseItemSimpleCosmetic {
     
     public String getItemFullDescription() {
         StringBuilder result = new StringBuilder();
-        result.append(getItemBrandNameHtml(massItem.getBrandNameDE()));
+        result.append(getItemBrandNameHtml(massItem.getItemTitleDE()));
         result.append(getEmptyLineHtml());
-        result.append(getItemBrandNameHtml(massItem.getBrandNameKor()));
+        result.append(getItemBrandNameHtml(massItem.getItemTitleKor()));
         result.append(getEmptyLineHtml());
         result.append(getImageUrlHtml(massItem.getMainImageUrl()));
         result.append(getEmptyLineHtml());

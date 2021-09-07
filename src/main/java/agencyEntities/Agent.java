@@ -35,7 +35,7 @@ public class Agent {
     }
     
     public Agent(IAgentConfig config) {
-        this.brandNameDe = config.getBrandName();
+        this.brandNameDe = config.getBrandNameDe();
         this.brandNameKor = config.getBrandNameKor();
         this.homepageUrl = config.getHomepageUrl();
         this.dirMainImages = config.getMainImagesLocation();

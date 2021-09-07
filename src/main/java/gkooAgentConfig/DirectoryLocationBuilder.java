@@ -43,7 +43,7 @@ public class DirectoryLocationBuilder {
             getBrandGenderCategoryDirectory.get().concat("main_images").concat(SLASH);
             
     public Supplier<String> getMainImagesCafe24Location = () ->
-        getBrandGenderCategoryDirectoryCafe24.get().concat("main_images").concat(SLASH);
+        getBrandGenderCategoryDirectoryCafe24.get();
     
     public Supplier<String> getHtmlFileName = () -> htmlFileName;
     

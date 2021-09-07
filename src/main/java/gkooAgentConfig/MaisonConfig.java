@@ -14,6 +14,7 @@ public final class MaisonConfig implements IAgentConfig {
     public final static String ROOT_DIR = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/의류/";
     //public final static String CATEGORY = "t-shirt";
     public final static String CATEGORY = "sweatshirts";
+    public final static String CATEGORY_KOR = "스웨터";
     //public static final String HTML_FILE_NAME = "men_t-shirt.html";
     public static final String HTML_FILE_NAME = "men_sweatshirts.html";
     
@@ -64,7 +65,7 @@ public final class MaisonConfig implements IAgentConfig {
     public Supplier<String> getBrandNameCategory = () -> BRAND_NAME_KOR.concat(" ").concat(CATEGORY);
 
     @Override
-    public String getBrandName() {
+    public String getBrandNameDe() {
         return BRAND_NAME_DE;
     }
 
@@ -121,5 +122,10 @@ public final class MaisonConfig implements IAgentConfig {
     @Override
     public String getCategory() {
         return CATEGORY;
+    }
+
+    @Override
+    public String getCategoryKor() {
+        return CATEGORY_KOR;
     }
 }

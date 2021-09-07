@@ -65,6 +65,10 @@ public class Formatter {
         return str.replaceAll("[\\,\\.\\/]", "_");
     }
     
+    public static String replaceSymbolsToEmpty(String str) {
+        return str.replaceAll("[\\,\\.\\/]", " ");
+    }
+    
     public static String removeEmptySymbol(String str) {
         return str.replace(" ", "");
     }

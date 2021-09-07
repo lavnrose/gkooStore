@@ -79,7 +79,7 @@ public interface ICosmeticSimpleAgent {
     
     default void setValidItemTitle(MassItem massItem, String rawItemTitle) {
         String formattedItemTitle1 = Formatter.replaceUmlaut(rawItemTitle);
-        String formattedItemTitle = Formatter.replaceSymbols(formattedItemTitle1);
+        String formattedItemTitle = Formatter.replaceSymbolsToEmpty(formattedItemTitle1);
         String validItemTitle = getValidItemTitle(formattedItemTitle);
         massItem.setItemTitleDE(validItemTitle);
     };

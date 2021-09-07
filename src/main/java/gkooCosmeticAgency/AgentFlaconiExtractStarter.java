@@ -46,7 +46,6 @@ public class AgentFlaconiExtractStarter {
         }
         
         XlsxFile xlsxFile = new XlsxFile();
-        //getBrandGenderCategoryDirectory
         xlsxFile.createExcelFileCosmetic(baseItemCosmeticList, config.getCategory(), 
                 config.getDirectoryLocationBuilder().getBrandDirectory.get());
         

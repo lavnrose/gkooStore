@@ -14,6 +14,7 @@ public class FlaconiConfig implements IAgentConfig {
     public final static String ROOT_DIR = "C:/Users/sanghuncho/Documents/GKoo_Store_Project/cosmetic/flaconi/";
     
     public final static String CATEGORY = "gesichtspflege";
+    public final static String CATEGORY_KOR = "페이스";
     public static final String HTML_FILE_NAME = "gesichtspflege.html";
     
     public DirectoryLocationBuilder directoryLocationBuilder;
@@ -26,22 +27,21 @@ public class FlaconiConfig implements IAgentConfig {
         private static final long serialVersionUID = 1L;
 
         {
-            put("남성의류_티셔츠", "50000830");
-            put("남성의류_스웨터", "50000831");
+            put("스킨/토너", "50000437");
+            put("로션", "50000438");
         }
     };
-    public static final String CATEGORY_ID_SMARTSTORE = CATEGORY_ID_SMARTSTORE_SET.get("남성의류_스웨터");
+    public static final String CATEGORY_ID_SMARTSTORE = CATEGORY_ID_SMARTSTORE_SET.get("스킨/토너");
     
     //Cafe24
     public static final HashMap<String, String> CATEGORY_NUMBER_CAFE24_SET = new HashMap<>() {
         private static final long serialVersionUID = 1L;
 
         {
-            put("남성의류_티셔츠", "300");
-            put("남성의류_스웨터", "308");
+            put("닥터하우쉬카 페이스", "152");
         }
     };
-    public static final String CATEGORY_NUMBER_CAFE24 = CATEGORY_NUMBER_CAFE24_SET.get("남성의류_스웨터");
+    public static final String CATEGORY_NUMBER_CAFE24 = CATEGORY_NUMBER_CAFE24_SET.get("닥터하우쉬카 페이스");
     
     //Coupang
     public static final HashMap<String, String> CATEGORY_NUMBER_COUPANG_SET = new HashMap<>() {
@@ -49,7 +49,6 @@ public class FlaconiConfig implements IAgentConfig {
 
         {
             put("남성의류_티셔츠", "300");
-            put("남성의류_스웨터", "308");
         }
     };
     public static final String CATEGORY_NUMBER_COUPANG = CATEGORY_NUMBER_COUPANG_SET.get("남성의류_스웨터");
@@ -76,7 +75,7 @@ public class FlaconiConfig implements IAgentConfig {
     public Supplier<String> getBrandNameCategory = () -> BRAND_NAME_KOR.concat(" ").concat(CATEGORY);
 
     @Override
-    public String getBrandName() {
+    public String getBrandNameDe() {
         return BRAND_NAME_DE;
     }
 
@@ -133,5 +132,10 @@ public class FlaconiConfig implements IAgentConfig {
     @Override
     public String getCategory() {
         return CATEGORY;
+    }
+    
+    @Override
+    public String getCategoryKor() {
+        return CATEGORY_KOR;
     }
 }

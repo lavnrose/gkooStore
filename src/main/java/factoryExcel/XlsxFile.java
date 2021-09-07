@@ -139,10 +139,13 @@ public class XlsxFile {
                   massItem.setItemTitleKor(ce.getStringCellValue());
               }  
               if(j==3){
-                  massItem.setItemPriceEuro(Double.valueOf(ce.getStringCellValue()));
+                  String priceEuro = ce.getStringCellValue();
+                  massItem.setItemPriceEuro(Double.valueOf(priceEuro));
               } 
               if(j==4){
-                  massItem.setItemPriceWon(Integer.valueOf(ce.getStringCellValue()));
+                  String priceWonStr = ce.getStringCellValue();
+                  int priceWonInt = Integer.valueOf(priceWonStr);
+                  massItem.setItemPriceWon(priceWonInt);
               }
               if(j==5){
                   massItem.setItemIngredients(ce.getStringCellValue());

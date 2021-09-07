@@ -1,6 +1,7 @@
 package coupang;
 
 import agencyEntities.BaseItem;
+import agencyEntities.BaseItemSimpleCosmetic;
 import com.coupang.openapi.sdk.Hmac;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,10 +52,6 @@ public class CoupangApi {
             }
         }
         
-//        for(List<String> cosmetic : records) {
-//            
-//        }
-        
         for(int i=1; i< 2; i++) {
             List<String> cosmetic = records.get(i);
             int originalPrice = Integer.valueOf(cosmetic.get(22));
@@ -92,6 +89,20 @@ public class CoupangApi {
         }
     }
     
+    public void createProductsCosmetic(List<BaseItemSimpleCosmetic> baseItemSimpleCosmeticList, String dirFileUploader) {
+        for(BaseItemSimpleCosmetic baseItem : baseItemSimpleCosmeticList) {
+            int originalPrice = (int) baseItem.getMassItem().getItemPriceWon();
+            int salePrice = (int) baseItem.getMassItem().getItemPriceWon();
+            String contentHtml = baseItem.getItemFullDescription();
+            String mainImageName = baseItem.getMassItem().getMainImageName();
+            String displayProductName = "[" + baseItem.getMassItem().getBrandNameKor() + " " + baseItem.getConfig().getCategoryKor() + "] " + baseItem.getMassItem().getItemTitleKor();
+            String brand = baseItem.getMassItem().getBrandNameDE();
+            createProductCosmetic(0, originalPrice, salePrice, 
+                    contentHtml, mainImageName, displayProductName, brand, dirFileUploader);
+            LOGGER.info("product is create by coupang api:" + displayProductName);
+        }
+    }
+    
     private void readyCreatProduct(int categoryCode, int originalPrice, int salePrice, 
             String contentHtml, String sellerProductName, String displayProductName, 
             String brand, String dirFileUploader, String itemSizeList, String color) {
@@ -110,7 +121,8 @@ public class CoupangApi {
         createProduct(sellerProductJjsonStr);
     }
     
-    public static void createProductCosmetic(int categoryCode, int originalPrice, int salePrice, String contentHtml, String sellerProductName, String displayProductName, String brand, String dirFileUploader) {
+    public static void createProductCosmetic(int categoryCode, int originalPrice, int salePrice, String contentHtml, 
+            String sellerProductName, String displayProductName, String brand, String dirFileUploader) {
         initCoupangApi();
         CoupangApi coupangApi = new CoupangApi();
         int categoryCodeCoupang;
